@@ -1,0 +1,6 @@
+{
+    "access_token"    :"127d51f28e0b12639285df2bb2507b69d16bcecf"
+    , "client_id"     :"10967"
+    , "client_secret" :"033f716dfe02d75304b2f2328e4d809d16aa8e31"
+    , "redirect_uri"  :"http://bikes.onefast.ninja"
+}

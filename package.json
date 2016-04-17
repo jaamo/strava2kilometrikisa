@@ -1,11 +1,23 @@
 {
-  "name": "kilometrikisa",
+  "name": "stava2kilometrikisa",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "a stava2kilometrikisa integration",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sudo npm install && nodemon app.js",
+    "dev": "nodemon app.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "curlrequest": "^0.5.7",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.9.1",
+    "strava-v3": "^1.10.0"
+  }
 }

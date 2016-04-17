@@ -1,0 +1,20 @@
+<%- include header %>
+
+<div class="container">
+
+	<table class="table">
+	<% for(var i=0; i < data.length; i++) { %>
+	   <tr>
+	     <td><%= data[i].id %></td>
+	     <td><%= data[i].name %></td>
+	     <td><%= data[i].start_date %></td>
+	     <td><%= data[i].distance %></td>
+	   </tr>
+	<% } %>
+	</table>
+
+	<pre><code><%= JSON.stringify(data, null, 2) %></code></pre>
+
+</div>
+
+<%- include footer %>
