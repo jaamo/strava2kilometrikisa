@@ -5,9 +5,16 @@ An application to fill the gap between Strava and Kilometrikisa.
 ## Installation
 
 1. clone this project
-2. npm run build
-3. Visit your localhost/dev environment on port 3000
-3. enjoy.
+2. Create data/strava_config file:
+   ```{
+     "access_token": "",
+     "client_id": "",
+     "client_secret": "",
+     "redirect_uri": ""
+  }```
+3. npm run build
+4. Visit your localhost/dev environment on port 3000
+5. enjoy.
 
 ## Usage
 
