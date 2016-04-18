@@ -53,8 +53,7 @@ var KilometrikisaController = {
 			},
 			function() {
 
-				res.redirect('/kilometrikisa/auth?fail=true');
-				console.log("Login failed!");
+				res.render('kilometrikisa-error');
 
 			}
 		);

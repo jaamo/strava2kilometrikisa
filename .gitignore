@@ -34,3 +34,5 @@ Thumbs.db
 
 #random stuff
 node_modules
+data/strava_config
+.idea

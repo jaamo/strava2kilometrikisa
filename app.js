@@ -5,14 +5,22 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const config = require('./config')();
 const session = require('express-session');
+const mongoose = require('mongoose');
 
-//controllers
+// Connect to MongoDB.
+mongoose.connect('mongodb://localhost/strava2kilometrikisa');
+
+// Controllers
 const Home = require('./controllers/Home');
 const Friends = require('./controllers/Friends');
 const Activities = require('./controllers/Activities');
 const Stats = require('./controllers/Stats');
 const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
+
+// Models.
+require('./models/User')(mongoose);
+
 //set out template engine
 app.set('view engine', 'ejs');
 

@@ -8,6 +8,7 @@ var strava = require('strava-v3');
 var StravaAuthController = {
 
 
+
 	/**
 	 * Display login button.
 	 *
@@ -26,22 +27,51 @@ var StravaAuthController = {
 
 	},
 
+
+
+	/**
+	 * Handle response form Strava Oauth2 flow. Redirect to Kilometrikisa login on success.
+	 *
+	 * @param req
+	 * @param res
+	 * @param next
+     */
 	authComplete: function(req, res, next) {
 
 		// Not get access token from Strava.
 		strava.oauth.getToken(req.query.code, function(err, payload) {
 
-			// Save token to session.
-			req.session.stravaToken = payload.access_token;
+			console.log(err);
+			console.log(payload);
 
-			// Redirect to Kilometrikisa login.
-			res.redirect('/kilometrikisa/auth');
+			// If error is set, show error message.
+			if (typeof(req.query.error) != 'undefined') {
 
-			// Error template.
-			// res.render('strava-authcomplete', {});
+				res.render('strava-autherror', {});
+
+			}
+			// Otherwise save token and continue.
+			else {
+
+				// Save token to session.
+				req.session.stravaToken = payload.access_token;
+				req.session.stravaUserId = payload.athlete.id;
+
+				// Update session token to database.
+				//var user = mongoose
+
+				// Redirect to Kilometrikisa login.
+				res.redirect('/kilometrikisa/auth');
+
+
+			}
+
 		})
 
 	}
+
+
+
 
 };
 module.exports = StravaAuthController;
