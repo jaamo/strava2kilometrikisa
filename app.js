@@ -87,7 +87,7 @@ app.get('/kilometrikisa/authhandler', (req, res, next) => {
 });
 
 // 5. Success page!
-app.get('/success', (req, res, next) => {
+app.get('/account', (req, res, next) => {
    Sync.index(req, res, next);
 });
 
@@ -95,6 +95,13 @@ app.get('/success', (req, res, next) => {
 app.get('/dosync', (req, res, next) => {
    Sync.doSync(req, res, next);
 });
+
+// Log out.
+app.get('/logout', (req, res, next) => {
+   Home.logout(req, res, next);
+});
+
+
 
 
 // catch 404 and forward to error handler

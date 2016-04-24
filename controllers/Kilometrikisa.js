@@ -49,7 +49,7 @@ var KilometrikisaController = {
 				req.session.kilometrikisaToken = token;
 				req.session.kilometrikisaSessionId = sessionId;
 
-				res.redirect('/success');
+				res.redirect('/account');
 
 			},
 			function() {

@@ -1,33 +1,54 @@
 var strava = require('strava-v3');
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var Sync = require('./Sync.js');
+var Helpers = require('../helpers/Helpers.js');
 
 var HomeController = {
-	index: function(req, res, next) {
-        // Sync.getStravaActivities();
-
-        // if (typeof(req.session.parsa) == "undefined") {
-        //     req.session.parsa = Math.random();
-        // }
-        // console.log(req.session.parsa);
-
-		res.render('index', {});
-
-        // Kilometrikisa.mergeWithStrava();
 
 
 
+    /**
+     * Render home page.
+     *
+     * @param  {[type]}   req  [description]
+     * @param  {[type]}   res  [description]
+     * @param  {Function} next [description]
+     * @return {[type]}        [description]
+     */
+    index: function(req, res, next) {
+
+        if (Helpers.isLoggedIn(req)) {
+
+            res.redirect('/account');
+
+        } else {
+
+            res.render('index', {});
+
+        }
+
+    },
 
 
-		// strava.athlete.get({},function(err,payload) {
-		// 	if(!err) {
-		// 		res.render('index', {data: payload});
-		// 	}
-		// 	else {
-		// 		res.render('index', {data: err});
-		// 	}
-		// });
 
-	}
+    /**
+     * Logout.
+     *
+     * @param  {[type]}   req  [description]
+     * @param  {[type]}   res  [description]
+     * @param  {Function} next [description]
+     * @return {[type]}        [description]
+     */
+    logout: function(req, res, next) {
+
+        req.session.stravaToken = false;
+        req.session.kilometrikisaToken = false;
+        req.session.kilometrikisaSessionId = false;
+        res.redirect('/');
+
+    }
+
+
+
 };
 module.exports = HomeController;

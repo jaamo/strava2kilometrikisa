@@ -20,16 +20,6 @@ var SyncController = {
      */
     index:  function(req, res, next) {
 
-        // Kilometrikisa.getLog(req.session.kilometrikisaToken, req.session.kilometrikisaSessionId);
-        //
-        // strava.athlete.listActivities({access_token: req.session.stravaToken},function(err,payload) {
-        //     if(!err) {
-        //         console.log(payload);
-        //     }
-        //     else {
-        //         console.log(payload);
-        //     }
-        // });
 
         SyncModel.getStravaActivities(
             req.session.stravaToken,
