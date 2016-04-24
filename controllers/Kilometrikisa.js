@@ -1,4 +1,5 @@
 var Kilometrikisa = require('../lib/kilometrikisa.js');
+var strava = require('strava-v3');
 
 /**
  * Handle Kilometrikisa login flow.
@@ -57,28 +58,9 @@ var KilometrikisaController = {
 
 			}
 		);
-	},
+	}
 
 
-
-
-	/**
-	 * Success.
-	 *
-	 * @param  {[type]}   req  [description]
-	 * @param  {[type]}   res  [description]
-	 * @param  {Function} next [description]
-	 * @return {[type]}        [description]
-	 */
-	success: function(req, res, next) {
-
-		res.render('kilometrikisa-success', {
-			stravaToken: req.session.stravaToken,
-			kilometrikisaToken: req.session.kilometrikisaToken,
-			kilometrikisaSessionId: req.session.kilometrikisaSessionId,
-		});
-
-	},
 
 
 

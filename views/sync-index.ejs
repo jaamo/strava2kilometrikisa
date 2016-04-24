@@ -9,6 +9,14 @@
 		Kilometrikisa token: <%= kilometrikisaToken %><br />
 		Kilometrikisa session id: <%= kilometrikisaSessionId %><br />
 
+        <% for (var i in activities) { %>
+
+            <%= i + ": " + activities[i] %><br />
+
+        <% } %>
+
+        <a class="btn btn-success" href="/dosync">Manual sync</a>
+
 	</p>
 
 

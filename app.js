@@ -4,8 +4,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const config = require('./config')();
-const session = require('express-session');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 // Connect to MongoDB.
 mongoose.connect('mongodb://localhost/strava2kilometrikisa');
@@ -17,9 +18,7 @@ const Activities = require('./controllers/Activities');
 const Stats = require('./controllers/Stats');
 const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
-
-// Models.
-require('./models/User')(mongoose);
+const Sync = require('./controllers/Sync');
 
 //set out template engine
 app.set('view engine', 'ejs');
@@ -33,7 +32,8 @@ app.use(logger('dev'));
 app.use(session({
     secret: 'mAs03dfsfokdqpFsd34sdfq0dqjlknmae',
     saveUninitialized: true,
-    resave: false
+    resave: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 //lets start a server and listens on port 3000 for connections
@@ -88,7 +88,12 @@ app.get('/kilometrikisa/authhandler', (req, res, next) => {
 
 // 5. Success page!
 app.get('/success', (req, res, next) => {
-   Kilometrikisa.success(req, res, next);
+   Sync.index(req, res, next);
+});
+
+// Manual sync.
+app.get('/dosync', (req, res, next) => {
+   Sync.doSync(req, res, next);
 });
 
 
