@@ -1,6 +1,7 @@
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var SyncModel = require('../models/SyncModel.js');
 var strava = require('strava-v3');
+var User = require('../models/UserModel.js');
 
 /**
  * Handle syncing from Stara to Kilometrikisa.
@@ -20,30 +21,46 @@ var SyncController = {
      */
     index:  function(req, res, next) {
 
+        // Load user.
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
-        SyncModel.getStravaActivities(
-            req.session.stravaToken,
-            function(activities) {
-
-                res.render('sync-index', {
-                    activities: activities,
-                    stravaToken: req.session.stravaToken,
-                    kilometrikisaToken: req.session.kilometrikisaToken,
-                    kilometrikisaSessionId: req.session.kilometrikisaSessionId,
-                });
-
-            },
-            function() {
-
-                res.render('sync-index', {
-                    activities: false,
-                    stravaToken: req.session.stravaToken,
-                    kilometrikisaToken: req.session.kilometrikisaToken,
-                    kilometrikisaSessionId: req.session.kilometrikisaSessionId,
-                });
-
+            if (err) {
+                res.redirect('/error?code=DATABASE_CONNECTION_FAILED');
+                return;
             }
-        )
+
+            if (!user) {
+                res.redirect('/error?code=USER_NOT_FOUND');
+                return;
+            }
+
+            SyncModel.getStravaActivities(
+                user.stravaToken,
+                function(activities) {
+
+                    res.render('sync-index', {
+                        activities: activities,
+                        stravaToken: user.stravaToken,
+                        kilometrikisaToken: user.kilometrikisaToken,
+                        kilometrikisaSessionId: user.kilometrikisaSessionId,
+                    });
+
+                },
+                function() {
+
+                    res.render('sync-index', {
+                        activities: false,
+                        stravaToken: user.stravaToken,
+                        kilometrikisaToken: user.kilometrikisaToken,
+                        kilometrikisaSessionId: user.kilometrikisaSessionId,
+                    });
+
+                }
+            )
+
+
+        })
+
 
 
     },
