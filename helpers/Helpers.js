@@ -10,9 +10,7 @@ module.exports = {
      */
     isLoggedIn: function(req) {
 
-        if (req.session.stravaToken
-            && req.session.kilometrikisaToken
-            && req.session.kilometrikisaSessionId) {
+        if (req.session.stravaUserId) {
             return true;
         } else {
             return false;

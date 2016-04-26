@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const logger = require('morgan');
+const morgan = require('morgan');
 const config = require('./config')();
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -20,15 +20,14 @@ const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
 const Sync = require('./controllers/Sync');
 
+// Logger.
+app.use(morgan('combined'));
+// app.use(morgan('dev'));
+
 //set out template engine
 app.set('view engine', 'ejs');
 
-//lets use morgan to HTTP request logging
-app.use(logger('dev'));
-
 // Init sessions.
-// TODO: In memory session are used for default, but it's not production ready!
-// Read more from: https://github.com/expressjs/session
 app.use(session({
     secret: 'mAs03dfsfokdqpFsd34sdfq0dqjlknmae',
     saveUninitialized: true,

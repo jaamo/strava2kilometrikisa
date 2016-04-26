@@ -2,6 +2,7 @@ var strava = require('strava-v3');
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var Sync = require('./Sync.js');
 var Helpers = require('../helpers/Helpers.js');
+var Log = require('../models/LogModel.js');
 
 var HomeController = {
 
@@ -41,6 +42,7 @@ var HomeController = {
      */
     logout: function(req, res, next) {
 
+        req.session.stravaUserId = false;
         req.session.stravaToken = false;
         req.session.kilometrikisaToken = false;
         req.session.kilometrikisaSessionId = false;

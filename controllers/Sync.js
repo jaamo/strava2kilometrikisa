@@ -2,6 +2,7 @@ var Kilometrikisa = require('../lib/kilometrikisa.js');
 var SyncModel = require('../models/SyncModel.js');
 var strava = require('strava-v3');
 var User = require('../models/UserModel.js');
+var Log = require('../models/LogModel.js');
 
 /**
  * Handle syncing from Stara to Kilometrikisa.
@@ -76,25 +77,41 @@ var SyncController = {
      */
     doSync: function(req, res, next) {
 
-        SyncModel.doSync(
-            req.session.stravaToken,
-            req.session.kilometrikisaToken,
-            req.session.kilometrikisaSessionId,
-            function(activities) {
+        // Load user.
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
-                res.render('sync-dosync', {
-                    success: true
-                });
+            SyncModel.doSync(
+                req.session.stravaUserId,
+                user.stravaToken,
+                user.kilometrikisaToken,
+                user.kilometrikisaSessionId,
+                function(activities) {
 
-            },
-            function() {
+                    Log.log("Activities synced.", JSON.stringify(activities), user.stravaUserId);
 
-                res.render('sync-dosync', {
-                    success: false
-                });
+                    res.render('sync-dosync', {
+                        success: true
+                    });
 
-            }
-        )
+                },
+                function(error) {
+
+                    Log.log(
+                        "Activity sync failed!",
+                        "stravaToken " + user.stravaToken + ", " +
+                        "stravaToken " + user.kilometrikisaToken + ", " +
+                        "stravaToken " + user.kilometrikisaSessionId + ", message: " + error,
+                        user.stravaUserId
+                    );
+
+                    res.render('sync-dosync', {
+                        success: false
+                    });
+
+                }
+            )
+
+        });
 
     }
 

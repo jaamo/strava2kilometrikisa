@@ -73,9 +73,9 @@ var SyncModel = {
         //     workout_type: 10 } ];
 
 
-        strava.athlete.listActivities({access_token: stravaToken},function(err, activities) {
+        strava.athlete.listActivities({access_token: stravaToken}, function(err, activities) {
 
-            if(!err) {
+            if(!err && typeof(activities.errors) == "undefined") {
 
                 var response = {};
                 for (var i in activities) {
@@ -112,7 +112,7 @@ var SyncModel = {
             }
             else {
 
-                errorCallback();
+                errorCallback(JSON.stringify(activities));
 
             }
         });
@@ -124,13 +124,19 @@ var SyncModel = {
     /**
      * Sync items from Strava to Kilometrikisa.
      *
+     * @param  {[type]} stravaUserId           Strava user id.
+     * @param  {[type]} stravaToken            Kilometrikisa token.
      * @param  {[type]} stravaToken            Kilometrikisa token.
      * @param  {[type]} kilometrikisaToken     Kilometrikisa token.
      * @param  {[type]} kilometrikisaSessionId Kilometrikisa session id.
      * @param  {[type]} successCallback        Success callback.
      * @param  {[type]} errorCallback          Connection to Strava failed.
      */
-    doSync: function(stravaToken, kilometrikisaToken, kilometrikisaSessionId, successCallback, errorCallback) {
+    doSync: function(stravaUserId, stravaToken, kilometrikisaToken, kilometrikisaSessionId, successCallback, errorCallback) {
+
+        if (!stravaToken) { errorCallback("SyncModel.doSync: stravaToken is not set"); return; }
+        if (!kilometrikisaToken) { errorCallback("SyncModel.doSync: kilometrikisaToken is not set"); return; }
+        if (!kilometrikisaSessionId) { errorCallback("SyncModel.doSync: kilometrikisaSessionId is not set"); return; }
 
         // Get activities from Strava.
         SyncModel.getStravaActivities(
@@ -155,7 +161,7 @@ var SyncModel = {
 
                             // All done.
                             if (count == amount - 1) {
-                                successCallback();
+                                successCallback(activities);
                             }
 
                         });
@@ -163,9 +169,9 @@ var SyncModel = {
                 }
 
             },
-            function() {
+            function(error) {
 
-                errorCallback();
+                errorCallback("SyncModel.doSync: Cannot get activities: " + error);
 
             }
         );
