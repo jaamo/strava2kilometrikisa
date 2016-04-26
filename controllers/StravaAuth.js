@@ -42,8 +42,8 @@ var StravaAuthController = {
         // Not get access token from Strava.
         strava.oauth.getToken(req.query.code, function(err, payload) {
 
-            console.log(err);
-            console.log(payload);
+            // console.log(err);
+            // console.log(payload);
 
             // If error is set, show error message.
             if (typeof(req.query.error) != 'undefined') {
@@ -77,6 +77,8 @@ var StravaAuthController = {
                     // Save details.
                     user.set("stravaUserId", req.session.stravaUserId);
                     user.set("stravaToken", payload.access_token);
+                    user.set("notifiedByEmail", false);
+
                     user.save(function() {
 
                         // Redirect to Kilometrikisa login.

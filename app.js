@@ -95,6 +95,17 @@ app.get('/dosync', (req, res, next) => {
    Sync.doSync(req, res, next);
 });
 
+// Disable autosync.
+app.get('/enableautosync', (req, res, next) => {
+   Sync.enableAutosync(req, res, next);
+});
+// Disable autosync.
+app.get('/disableautosync', (req, res, next) => {
+   Sync.disableAutosync(req, res, next);
+});
+
+
+
 // Log out.
 app.get('/logout', (req, res, next) => {
    Home.logout(req, res, next);

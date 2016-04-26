@@ -25,46 +25,15 @@ var SyncController = {
         // Load user.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
-            if (err) {
-                res.redirect('/error?code=DATABASE_CONNECTION_FAILED');
-                return;
-            }
-
-            if (!user) {
-                res.redirect('/error?code=USER_NOT_FOUND');
-                return;
-            }
-
-            SyncModel.getStravaActivities(
-                user.stravaToken,
-                function(activities) {
-
-                    res.render('sync-index', {
-                        activities: activities,
-                        stravaToken: user.stravaToken,
-                        kilometrikisaToken: user.kilometrikisaToken,
-                        kilometrikisaSessionId: user.kilometrikisaSessionId,
-                    });
-
-                },
-                function() {
-
-                    res.render('sync-index', {
-                        activities: false,
-                        stravaToken: user.stravaToken,
-                        kilometrikisaToken: user.kilometrikisaToken,
-                        kilometrikisaSessionId: user.kilometrikisaSessionId,
-                    });
-
-                }
-            )
-
+            // Render template.
+            res.render('sync-index', {
+                autosync: user.autosync
+            });
 
         })
 
-
-
     },
+
 
 
     /**
@@ -90,7 +59,7 @@ var SyncController = {
                 // Sync success.
                 function(activities) {
 
-                    Log.log("Activities synced.", JSON.stringify(activities), user.stravaUserId);
+                    Log.log("Activities synced manually.", JSON.stringify(activities), user.stravaUserId);
 
                     res.render('sync-dosync', {
                         success: true
@@ -102,7 +71,7 @@ var SyncController = {
                 function(error) {
 
                     Log.log(
-                        "Activity sync failed!",
+                        "Manual activity sync failed!",
                         "stravaToken " + user.stravaToken + ", " +
                         "stravaToken " + user.kilometrikisaToken + ", " +
                         "stravaToken " + user.kilometrikisaSessionId + ", message: " + error,
@@ -118,7 +87,48 @@ var SyncController = {
 
         });
 
+    },
+
+
+
+    /**
+     * Set autosync to true and redirect to account page.
+     * @param  {[type]}   req  [description]
+     * @param  {[type]}   res  [description]
+     * @param  {Function} next [description]
+     * @return {[type]}        [description]
+     */
+    enableAutosync: function(req, res, next) {
+
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+            user.set("autosync", true);
+            user.save(function() {
+                res.redirect("/account");
+            });
+        });
+
+    },
+
+
+
+    /**
+     * Set autosync to false and redirect to account page.
+     * @param  {[type]}   req  [description]
+     * @param  {[type]}   res  [description]
+     * @param  {Function} next [description]
+     * @return {[type]}        [description]
+     */
+    disableAutosync: function(req, res, next) {
+
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+            user.set("autosync", false);
+            user.save(function() {
+                res.redirect("/account");
+            });
+        });
+
     }
+
 
 
 };
