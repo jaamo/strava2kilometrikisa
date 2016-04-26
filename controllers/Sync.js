@@ -80,11 +80,14 @@ var SyncController = {
         // Load user.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
+            // Sync all activities.
             SyncModel.doSync(
                 req.session.stravaUserId,
                 user.stravaToken,
                 user.kilometrikisaToken,
                 user.kilometrikisaSessionId,
+
+                // Sync success.
                 function(activities) {
 
                     Log.log("Activities synced.", JSON.stringify(activities), user.stravaUserId);
@@ -94,6 +97,8 @@ var SyncController = {
                     });
 
                 },
+
+                // Sync failed.
                 function(error) {
 
                     Log.log(

@@ -134,6 +134,7 @@ var SyncModel = {
      */
     doSync: function(stravaUserId, stravaToken, kilometrikisaToken, kilometrikisaSessionId, successCallback, errorCallback) {
 
+        // Check that tokens are set.
         if (!stravaToken) { errorCallback("SyncModel.doSync: stravaToken is not set"); return; }
         if (!kilometrikisaToken) { errorCallback("SyncModel.doSync: kilometrikisaToken is not set"); return; }
         if (!kilometrikisaSessionId) { errorCallback("SyncModel.doSync: kilometrikisaSessionId is not set"); return; }
@@ -143,12 +144,17 @@ var SyncModel = {
             stravaToken,
             function(activities) {
 
+                // Counters.
                 var amount = Object.keys(activities).length;
                 var count = 0;
 
-                // Add each to Kilometrikisa.
+                // List of failed activities.
+                var failedActivities = {};
+
+                // Add each activity to Kilometrikisa.
                 for (var date in activities) {
 
+                    // Update distance to kilometrikisa.
                     Kilometrikisa.updateLog(
                         kilometrikisaToken,
                         kilometrikisaSessionId,
@@ -156,15 +162,31 @@ var SyncModel = {
                         activities[date],
                         date,
                         function() {
-
-                            count++;
-
-                            // All done.
-                            if (count == amount - 1) {
-                                successCallback(activities);
-                            }
-
+                            cb();
+                        },
+                        function(error) {
+                            failedActivities[date] = activities[date];
+                            cb();
                         });
+
+                    // Inline callback function to handle kilometrikisa response.
+                    function cb() {
+
+                        // Increase counter.
+                        count++;
+
+                        // All activities synced.
+                        if (count == amount - 1) {
+
+                            // No errors!
+                            if (Object.keys(failedActivities).length == 0) {
+                                successCallback(activities);
+                            } else {
+                                errorCallback("SyncModel.doSync: Failed to sync following activities: " + JSON.stringify(failedActivities));
+                            }
+                        }
+
+                    }
 
                 }
 
