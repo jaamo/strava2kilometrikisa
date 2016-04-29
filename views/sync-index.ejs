@@ -1,29 +1,44 @@
 <%- include header %>
 
+<div class="overlay-image"></div>
+<div class="overlay"></div>
+
 <div class="container">
 
-    <h1>strava2kilometrikisa</h1>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="sub">Enable synchronization</h1>
+        </div>
+    </div>
 
-    <h2>Option 1: Automatic sync</h1>
+    <div class="row">
+        <div class="col-xs-6 col-sm-offset-3">
 
-    <% if (autosync) { %>
-        <p>
-            Your activities are synchronized automatically from Strava to Kilometrikisa. Automatic update happens daily at 4am. Warning! Sync will overwrite all kilometers you have manually added to Kilometrikisa! If you need to add manual entries, do that on Strava.
-        </p>
-        <a class="btn btn-success" href="/disableautosync">Disable automatic sync</a>
-    <% } else { %>
-        <p>
-            Automatic sync copies your activities from Stava to Kilometetrikisa once in a day. Warning! Sync will overwrite all kilometers you have manually added to Kilometrikisa! If you need to add manual entries, do that on Strava.
-        </p>
-        <a class="btn btn-success" href="/enableautosync">Enable automatic sync</a>
-    <% } %>
+            <div class="container-box text-xs-center">
 
-    <h2>Option 2: Manual sync</h1>
+                <p>
+                    Synchronization is <b class="js-autosync-status"><% if (autosync) { %>enabled<% } else { %>disabled<% } %></b>.
+                </p>
 
-	<p>sdada</p>
-    <a class="btn btn-success" href="/dosync">Manual sync</a>
+                <div class="switch">
+                  <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (autosync) { %>checked<% } %>>
+                  <label for="cmn-toggle-1"></label>
+                </div>
 
+            </div>
+            <div class="container-box container-box--grey">
+                <p>
+                    Automatic synchronization will copy your activites from last seven days from Strava to Kilometrikisa. Synchronization will occur once in a day. Please note that if you have entered kilometers manually at Kilometrikisa <b class="warning">they will be overwritten!</b>
+                </p>
+                <p>
+                    Done? Feel free to <a href="/logout">log out</a>.
+                </p>
+            </div>
 
+        </div>
+    </div>
 </div>
+
+
 
 <%- include footer %>

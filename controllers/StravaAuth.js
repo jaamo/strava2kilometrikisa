@@ -24,7 +24,7 @@ var StravaAuthController = {
         var url = strava.oauth.getRequestAccessURL({
             scope: "view_private"
         });
-        res.render('strava-auth', { url: url });
+        res.render('index', { url: url });
 
     },
 

@@ -1,13 +1,19 @@
 <%- include header %>
 
-<div class="container">
+<div class="overlay-image"></div>
+<div class="overlay"></div>
 
-	<p>
-		Welcome to Strava to Kilometrikisa sync!
-	</p>
-
-	<a class="btn btn-primary" href="strava/auth">Let's get started!</a>
-
+<div class="hero">
+    <h1 class="hero__title">Strava to Kilometrikisa</h1>
+    <p class="hero__intro">
+        Synchronize your activities automatically from Strava to Kilometrikisa with one button click!
+    </p>
+    <a class="" href="<%= url %>">
+        <img src="/img/LogInWithStrava@2x.png" />
+    </a>
+    <p class="hero__smallprint">
+        Wait what?! <a href="/faq">How does this work?</a>
+    </p>
 </div>
 
 <%- include footer %>

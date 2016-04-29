@@ -20,6 +20,9 @@ const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
 const Sync = require('./controllers/Sync');
 
+// Serve static files.
+app.use(express.static('assets/dist'));
+
 // Logger.
 app.use(morgan('combined'));
 // app.use(morgan('dev'));
@@ -42,7 +45,8 @@ app.listen(config.port, () => {
 
 //some basic routes to controllers
 app.get('/', (req, res, next) => {
-   Home.index(req, res, next);
+   // Home.index(req, res, next);
+   StravaAuth.auth(req, res, next);
 });
 
 app.get('/friends', (req, res, next) => {
