@@ -4,9 +4,11 @@ RUN mkdir -p /srv/www/app
 
 WORKDIR /srv/www/app
 
-COPY ./app /srv/www/app
+COPY ./app/package.json /srv/www/app
 RUN npm install
 
 EXPOSE 3000
 
-CMD [ "node", "app.js" ]
+#CMD [ "nodemon", "app.js" ]
+
+CMD ping localhost

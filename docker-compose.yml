@@ -6,8 +6,11 @@ nginx:
         - "80:80"
 node:
     build: ./node
+    restart: always
     ports:
         - 3000
+    volumes:
+        - ./node/app:/srv/www/app
     environment:
         db: 'stava2kilometrikisa'
         dbuser: 'stava2kilometrikisa'
