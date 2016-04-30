@@ -1,11 +1,32 @@
 <%- include header %>
 
+<div class="overlay-image"></div>
+<div class="overlay"></div>
+
+
 <div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="sub">Strava connect failed</h1>
+        </div>
+    </div>
 
-	<p>
-		Failed to connect with Strava!
-	</p>
+    <div class="row">
+        <div class="col-xs-6 col-sm-offset-3">
 
+            <div class="container-box">
+
+                <div class="alert alert-danger" role="alert">
+                    Something went wrong while authenticating with Strava.
+                </div>
+
+                <a href="/">Try again</a>
+
+            </div>
+
+        </div>
+    </div>
 </div>
+
 
 <%- include footer %>
