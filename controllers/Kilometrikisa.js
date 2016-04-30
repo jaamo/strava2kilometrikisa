@@ -20,7 +20,7 @@ var KilometrikisaController = {
      */
     auth:  function(req, res, next) {
 
-        res.render('kilometrikisa-auth');
+        res.render('kilometrikisa-auth', { error: req.query.error });
 
     },
 
@@ -75,7 +75,7 @@ var KilometrikisaController = {
             },
             function() {
 
-                res.render('kilometrikisa-error');
+                res.redirect('/kilometrikisa/auth?error=true');
 
             }
         );
