@@ -2,6 +2,8 @@ nginx:
     build: ./nginx
     links:
         - node
+    volumes_from:
+        - node
     ports:
         - "80:80"
 node:
@@ -10,7 +12,7 @@ node:
     ports:
         - 3000
     volumes:
-        - ./node/app:/srv/www/app
+        - ./node/app-simple:/srv/www/app
     environment:
         db: 'stava2kilometrikisa'
         dbuser: 'stava2kilometrikisa'
