@@ -7,8 +7,8 @@ RUN mkdir -p /srv/www/app
 WORKDIR /srv/www/app
 
 #copy over packages.json and npm install
-COPY ./app-simple/package.json /srv/www/app
-RUN npm install
+COPY ./app/package.json /srv/www/app
+#RUN npm install
 
 #install nodemon globally
 RUN bash -c "npm install -g nodemon"

@@ -17,7 +17,7 @@ var paths = {
     dist: 'assets/dist/css/'
   },
   js: {
-    src: ['assets/js/*.js'],
+    src: ['assets/js/*.js', 'assets/js/components/*.js'],
     dist: 'assets/dist/js/'
   }
 }

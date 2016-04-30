@@ -30,6 +30,20 @@ var HomeController = {
 
     },
 
+    styleguide: function(req, res, next) {
+
+        //need to put these behind http auth or something
+        res.render('styleguide', {});
+
+    },
+
+    dev: function(req, res, next) {
+
+        //need to put these behind http auth or something
+        res.render('dev', {});
+
+    },
+
 
 
     /**

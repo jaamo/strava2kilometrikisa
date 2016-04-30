@@ -57,6 +57,14 @@ app.get('/activities', (req, res, next) => {
    Activities.index(req, res, next);
 });
 
+app.get('/dev', (req, res, next) => {
+   Home.dev(req, res, next);
+});
+
+app.get('/styleguide', (req, res, next) => {
+   Home.styleguide(req, res, next);
+});
+
 // app.get('/kilometrikisa', (req, res, next) => {
 //    Kilometrikisa.index(req, res, next);
 // });

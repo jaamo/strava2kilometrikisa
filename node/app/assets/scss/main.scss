@@ -6,15 +6,62 @@ $color-superlight-grey: rgb(200,200,200);
 $color-light-grey: rgb(120,120,120);
 $color-almost-white: rgb(220,220,220);
 $color-black-transparent: rgba(20,20,20,0.8);
+$brand-color: $color-almost-black;
 
 $font-heading: 'Exo 2', sans-serif;
 $font-paragraph: 'Open Sans', sans-serif;
 
+/**
+ * Vendors
+ */  
+@import "vendor/bootstrap";
+@import "vendor/animate-css";
+
+/**
+ * Mixins
+ */
+@import "mixins/bgimg";
+@import "mixins/full-cover";
+@import "mixins/helpers";
+@import "mixins/overlay";
+@import "mixins/section";
+@import "mixins/typography";
+@import "mixins/wysiwyg-html";
+
+/**
+ * Layouts
+ */
+
+/**
+ * Components
+ */
+@import "components/jumbo";
+@import "components/background-image";
+
+html {
+    font-size: 13px;
+
+     /* Small Devices, Tablets */
+    @include media-breakpoint-up(sm) {
+      font-size: 13px;
+    }
+
+    /* Medium Devices, Desktops */
+    @include media-breakpoint-up(md) {
+      font-size: 14px;
+    }
+
+    /* Large Devices, Wide Screens */
+    @include media-breakpoint-up(lg){
+      font-size: 16px;
+    }
+}
 
 /* Body */
 
 body {
     font-family: $font-paragraph;
+    //font-size: 16px;
 }
 
 
@@ -25,7 +72,7 @@ h1 {
     font-family: $font-heading;
     font-weight: 100;
     text-align: center;
-    font-size: 5rem;
+    font-size: 4rem;
     color: white;
 }
 

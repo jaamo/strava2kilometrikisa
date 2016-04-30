@@ -12,7 +12,7 @@ node:
     ports:
         - 3000
     volumes:
-        - ./node/app-simple:/srv/www/app
+        - ./node/app:/srv/www/app
     environment:
         db: 'stava2kilometrikisa'
         dbuser: 'stava2kilometrikisa'

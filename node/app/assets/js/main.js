@@ -1,25 +1,22 @@
-$(document).ready(function() {
+var em = {}; //global var for all evermade modules
 
-    $("#cmn-toggle-1").change(function(e) {
-        var value = $(e.target).is(":checked");
-        var url = "";
-        var status = "";
-        if (value) {
-            url = "enableautosync";
-            status = "enabled";
-        } else {
-            url = "disableautosync";
-            status = "disabled";
-        }
-        $.ajax({
-            url: url,
-            success: function() {
-                $(".js-autosync-status").html(status);
-            },
-            error: function() {
-                alert("Couldn't save status!");
-            }
-        })
-    });
+$(document).ready(function(){
+
+	// Let's loop the em object for keys are call their init functions.
+	for(var key in em){
+
+		// Check if init function exists.
+		if (typeof(em[key].init) === "function") {
+
+			// Run init function.
+			em[key].init();
+
+		} else {
+
+			console.error("Your block " + key + " doesn't define init-method.");
+
+		}
+
+	}
 
 });
