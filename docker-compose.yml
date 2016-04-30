@@ -1,0 +1,9 @@
+node:
+    build: ./
+    ports:
+        - 80:3000
+    environment:
+        db: 'stava2kilometrikisa'
+        dbuser: 'stava2kilometrikisa'
+        dbpassword: 'CHsEkhov5Iz6'
+        dbhost: 'ds035975.mlab.com:35975'

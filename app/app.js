@@ -9,7 +9,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 // Connect to MongoDB.
-mongoose.connect('mongodb://localhost/strava2kilometrikisa');
+mongoose.connect('mongodb://'+process.env.dbuser+':'+process.env.dbpassword+'@'+process.env.dbhost+'/'+process.env.db);
 
 // Controllers
 const Home = require('./controllers/Home');
