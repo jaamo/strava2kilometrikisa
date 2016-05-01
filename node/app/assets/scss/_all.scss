@@ -72,6 +72,10 @@ h1.sub {
         background-color: $color-superlight-grey;
         box-shadow: none
     }
+
+    label {
+      color: $text-color;
+    }
 }
 
 

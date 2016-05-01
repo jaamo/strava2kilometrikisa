@@ -6,6 +6,9 @@ cd /srv/www/app
 #install node packages
 npm install
 
+#install our bower deps
+bower install --allow-root
+
 #build dist css and js
 gulp build
 

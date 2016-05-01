@@ -13,6 +13,7 @@ COPY ./app/package.json /srv/www/app
 #install nodemon globally
 RUN bash -c "npm install -g nodemon"
 RUN bash -c "npm install -g gulp"
+RUN bash -c "npm install -g bower"
 
 #expose port 3000 as stated from the node app, maybe should be dynamic to play nicely with the node config
 EXPOSE 3000

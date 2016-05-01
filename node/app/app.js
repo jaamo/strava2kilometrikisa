@@ -49,19 +49,19 @@ app.get('/', (req, res, next) => {
    StravaAuth.auth(req, res, next);
 });
 
-app.get('/friends', (req, res, next) => {
+app.get('/admin/friends', (req, res, next) => {
    Friends.index(req, res, next);
 });
 
-app.get('/activities', (req, res, next) => {
+app.get('/admin/activities', (req, res, next) => {
    Activities.index(req, res, next);
 });
 
-app.get('/dev', (req, res, next) => {
+app.get('/admin/dev', (req, res, next) => {
    Home.dev(req, res, next);
 });
 
-app.get('/styleguide', (req, res, next) => {
+app.get('/admin/styleguide', (req, res, next) => {
    Home.styleguide(req, res, next);
 });
 
@@ -73,7 +73,7 @@ app.get('/faq', (req, res, next) => {
 //    Kilometrikisa.index(req, res, next);
 // });
 
-app.get('/stats/:id', (req, res, next) => {
+app.get('/admin/stats/:id', (req, res, next) => {
    Stats.index(req, res, next);
 });
 

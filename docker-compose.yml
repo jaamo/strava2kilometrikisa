@@ -8,6 +8,7 @@ nginx:
         - "80:80"
 node:
     build: ./node
+    container_name: node
     restart: always
     ports:
         - 3000

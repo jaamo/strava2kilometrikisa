@@ -1,14 +1,18 @@
 <%- include header %>
 
-<div class="container">
+<section>
+    <div class="jumbo jumbo--full-screen">
 
-	<p>
-		Failed to connect with Kilometrikisa!
-	</p>
+        <div data-animate="animated fadeIn animatedsuperslow animateddelay2" class="background-image" style=" background-image:url(http://source.unsplash.com/SJWPKMb9u-k/1600x900);"></div>
 
-	<p>
-	    <a href="/kilometrikisa/auth" class="btn">Try again</a>
+        <div class="jumbo__overlay"></div>
 
-</div>
+        <div class="jumbo__content">
+            <h1 class="headline">Failed to connect with Kilometrikisa!</h1>
+            <a href="/kilometrikisa/auth" class="btn btn-primary">Try again</a>
+        </div>
+
+    </div><!-- end of jumbo -->
+</section>
 
 <%- include footer %>
