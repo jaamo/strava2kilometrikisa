@@ -27,7 +27,7 @@
 	            error: function() {
 	                alert("Couldn't save status!");
 	            }
-	        })
+	        });
 	    });
 
 	};

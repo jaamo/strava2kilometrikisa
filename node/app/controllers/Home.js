@@ -44,7 +44,12 @@ var HomeController = {
 
     },
 
+    faq: function(req, res, next) {
 
+        //need to put these behind http auth or something
+        res.render('faq', {});
+
+    },
 
     /**
      * Logout.

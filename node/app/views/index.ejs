@@ -1,19 +1,21 @@
 <%- include header %>
 
-<div class="overlay-image"></div>
-<div class="overlay"></div>
+<section>
+    <div class="jumbo jumbo--full-screen">
 
-<div class="hero">
-    <h1 class="hero__title" data-animate="animated fadeIn animateddelay3">Strava to Kilometrikisa</h1>
-    <p class="hero__intro" data-animate="animated fadeIn animateddelay4">
-        Synchronize your activities automatically from Strava to Kilometrikisa with one button click!
-    </p>
-    <a class="" href="<%= url %>">
-        <img src="/img/LogInWithStrava@2x.png" data-animate="animated bounceIn animateddelay9"/>
-    </a>
-    <p class="hero__smallprint" data-animate="animated fadeIn animateddelay7">
-        Wait what?! <a href="/faq">How does this work?</a>
-    </p>
-</div>
+        <div data-animate="animated fadeIn animatedsuperslow animateddelay2" class="background-image" style=" background-image:url(http://source.unsplash.com/SJWPKMb9u-k/1600x900);"></div>
+
+        <div class="jumbo__overlay"></div>
+
+        <div class="jumbo__content">
+            <h1 class="headline">Strava to Kilometrikisa</h1>
+            <p>Synchronize your activities automatically from Strava to Kilometrikisa with one button click!</p>
+            <div class="margin-top--lg"><a href="<%= url %>"><img src="/img/LogInWithStrava@2x.png" data-animate="animated bounceIn animateddelay10"/></a>
+            <p><small>Wait what?! <a href="/faq">How does this work?</a></small></p>
+            </div>
+        </div>
+
+    </div><!-- end of jumbo -->
+</section>
 
 <%- include footer %>

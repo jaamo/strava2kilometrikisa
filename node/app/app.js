@@ -65,6 +65,10 @@ app.get('/styleguide', (req, res, next) => {
    Home.styleguide(req, res, next);
 });
 
+app.get('/faq', (req, res, next) => {
+   Home.faq(req, res, next);
+});
+
 // app.get('/kilometrikisa', (req, res, next) => {
 //    Kilometrikisa.index(req, res, next);
 // });
