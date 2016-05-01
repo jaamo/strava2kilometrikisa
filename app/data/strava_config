@@ -1,0 +1,6 @@
+{
+"access_token" :"789faf128313108de8afb1899d80551a31c3c454"
+, "client_id" :"11370"
+, "client_secret" :"c3c3ff2cf065bd192b65694b4a9ba588767a231a"
+, "redirect_uri" :"http://strava2kilometrikisa.com/strava/authcomplete"
+}
