@@ -1,4 +1,9 @@
-FROM node:5.11.0-wheezy
+FROM phusion/baseimage:latest
+
+RUN apt-get update && \
+    apt-get -y install curl && \
+    curl -sL https://deb.nodesource.com/setup_5.x | sudo bash - && \
+    apt-get -y install python build-essential nodejs
 
 #make a app dir
 RUN mkdir -p /srv/www/app
