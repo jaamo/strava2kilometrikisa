@@ -16,6 +16,12 @@
 
                         <div class="container-box">
 
+                            <% if (error) { %>
+                                <div class="alert alert-danger" role="alert">
+                                        Incorrect username or password.
+                                    </div>
+                            <% } %>
+
                             <form action="/kilometrikisa/authhandler">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Username</label>
