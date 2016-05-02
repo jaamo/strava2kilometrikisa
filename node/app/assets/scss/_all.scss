@@ -16,25 +16,6 @@ h1.sub {
 
 /* Hero */
 
-.overlay-image {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-image: url("http://source.unsplash.com/SJWPKMb9u-k/1600x900");
-    background-size: cover;
-}
-
-.overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(20,20,20,0.4);
-}
-
 .hero {
     position: absolute;
     top: 50%;
@@ -59,28 +40,6 @@ h1.sub {
         }
     }
 }
-
-
-
-/* Container box. */
-
-.container-box {
-    padding: 2rem;
-    background: white;
-    box-shadow: 0rem 0rem 4rem black;
-    &--grey {
-        background-color: $color-superlight-grey;
-        box-shadow: none
-    }
-    
-    color: $text-color;
-    
-    label {
-      color: $text-color;
-    }
-}
-
-
 
 
 /* Footer */

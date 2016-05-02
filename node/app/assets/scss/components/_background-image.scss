@@ -2,3 +2,14 @@
     @include full-cover;
     @include bgimg;
 }
+
+
+.overlay-image {
+    background-image: url("http://source.unsplash.com/SJWPKMb9u-k/1600x900");
+    background-size: cover;
+}
+
+.overlay {
+    background: rgba(20,20,20,0.4);
+    padding-bottom: 10rem;
+}

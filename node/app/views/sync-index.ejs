@@ -3,16 +3,19 @@
 <section>
     <div class="jumbo jumbo--full-screen">
 
-        <div data-animate="animated fadeIn animatedsuperslow animateddelay2" class="background-image" style=" background-image:url(/img/bikes.jpeg);"></div>
+        <div data-animate="animated fadeIn animatedsuperslow animateddelay2" class="background-image" style=" background-image:url(http://source.unsplash.com/SJWPKMb9u-k/1600x900);"></div>
 
         <div class="jumbo__overlay"></div>
 
-        <div class="jumbo__content text-xs-center">
-            <h1 class="headline">Enable synchronization</h1>
-            
+        <div class="jumbo__content">
+
             <div class="container">
+
+                <h1 class="headline margin-bottom--md">Enable synchronization</h1>
+
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                    <div class="col-xs-6 col-sm-offset-3">
+
                         <div class="container-box text-xs-center">
 
                             <p>
@@ -20,27 +23,26 @@
                             </p>
 
                             <div class="switch">
-                              <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (autosync) { %>checked<% } %>>
-                              <label for="cmn-toggle-1"></label>
+                                <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (autosync) { %>checked<% } %>>
+                                <label for="cmn-toggle-1"></label>
                             </div>
 
                         </div>
                         <div class="container-box container-box--grey">
                             <p>
-                                Automatic synchronization will copy your activites from last seven days from Strava to Kilometrikisa. Synchronization will occur once in a day. Please note that if you have entered kilometers manually at Kilometrikisa <b class="warning">they will be overwritten!</b>
-                            </p>
-                            <p>
-                                Done? Feel free to <a href="/logout">log out</a>.
+                                Automatic synchronization will copy your activites from last few days from Strava to Kilometrikisa. Synchronization will occur once in a day. Please note that if you have entered kilometers manually at Kilometrikisa <b class="warning">they will be overwritten!</b>
                             </p>
                         </div>
+
                     </div>
                 </div>
             </div>
-        </div>
+
 
         </div>
 
     </div><!-- end of jumbo -->
 </section>
+
 
 <%- include footer %>
