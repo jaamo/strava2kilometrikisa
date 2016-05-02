@@ -73,7 +73,7 @@ var SyncModel = {
         //     workout_type: 10 } ];
 
 
-        strava.athlete.listActivities({access_token: stravaToken}, function(err, activities) {
+        strava.athlete.listActivities({access_token: stravaToken, after: 1462060800}, function(err, activities) {
 
             if(!err && typeof(activities.errors) == "undefined") {
 
@@ -158,7 +158,7 @@ var SyncModel = {
                     Kilometrikisa.updateLog(
                         kilometrikisaToken,
                         kilometrikisaSessionId,
-                        17,
+                        16,
                         activities[date],
                         date,
                         function() {

@@ -8,10 +8,10 @@ var curl = require('curlrequest');
 var kilometrikisa = {
 
     // CSRF token set by Kilometrikisa python application.
-    token: "",
+    // token: "",
 
     // Session id.
-    sessionId: "",
+    // sessionId: "",
 
     /**
      * Authenticate.
@@ -36,6 +36,8 @@ var kilometrikisa = {
      */
     login: function(username, password, successCallback, errorCallback) {
 
+        var token = "";
+
         // First request a login page to get CSRF token.
         var options = {
             url: 'https://www.kilometrikisa.fi/accounts/login/',
@@ -48,13 +50,13 @@ var kilometrikisa = {
             var rows = stdout.split("\n");
             for (var i in rows) {
                 if (rows[i].indexOf("Set-Cookie") != -1) {
-                    this.token = rows[i].replace(/.*csrftoken=/, "").replace(/;.*/, "").replace(/\W/g, '');
+                    token = rows[i].replace(/.*csrftoken=/, "").replace(/;.*/, "").replace(/\W/g, '');
                 }
             }
 
-            console.log("Token is: '" + this.token + "'");
+            console.log("Token is: '" + token + "'");
 
-            this.loginStep2(username, password, successCallback, errorCallback);
+            this.loginStep2(username, password, token, successCallback, errorCallback);
 
         }.bind(this));
 
@@ -64,8 +66,9 @@ var kilometrikisa = {
     /**
      * Submit username and password.
      */
-    loginStep2: function(username, password, successCallback, errorCallback) {
+    loginStep2: function(username, password, token, successCallback, errorCallback) {
 
+        var sessionId;
 
         // curl
         //     —X POST
@@ -82,12 +85,12 @@ var kilometrikisa = {
             referer: "https://www.kilometrikisa.fi/accounts/login/", // referer
             headers: {
                 // "Referer": "https://www.kilometrikisa.fi/accounts/login/",
-                "Cookie": "csrftoken=" + this.token // cookie
+                "Cookie": "csrftoken=" + token // cookie
             },
             data: {
                 username: username,
                 password: password,
-                csrfmiddlewaretoken: this.token
+                csrfmiddlewaretoken: token
             },
             verbose: true,
             include: true,
@@ -95,29 +98,29 @@ var kilometrikisa = {
         };
         curl.request(options, function (err, stdout, meta) {
 
-            // console.log(meta.args);
-            // console.log('%s %s', meta.cmd, meta.args.join(' '));
-            // console.log(stdout);
+            console.log(meta.args);
+            console.log('%s %s', meta.cmd, meta.args.join(' '));
+            console.log(stdout);
 
 
             // // Get CSRF value from cookie header.
             var rows = stdout.split("\n");
             for (var i in rows) {
                 if (rows[i].indexOf("Set-Cookie: csrftoken=") != -1) {
-                    this.token = rows[i].replace(/.*csrftoken=/, "").replace(/;.*/, "").replace(/\W/g, '');
+                    token = rows[i].replace(/.*csrftoken=/, "").replace(/;.*/, "").replace(/\W/g, '');
                 }
                 if (rows[i].indexOf("Set-Cookie: sessionid=") != -1) {
-                    this.sessionId = rows[i].replace(/.*sessionid=/, "").replace(/;.*/, "").replace(/\W/g, '');
+                    sessionId = rows[i].replace(/.*sessionid=/, "").replace(/;.*/, "").replace(/\W/g, '');
                 }
             }
 
-            console.log("New token '" + this.token + "'");
-            console.log("New session id '" + this.sessionId + "'");
+            console.log("New token '" + token + "'");
+            console.log("New session id '" + sessionId + "'");
 
-            if (!this.token || !this.sessionId) {
+            if (!token || !sessionId) {
                 errorCallback();
             } else {
-                successCallback(this.token, this.sessionId);
+                successCallback(token, sessionId);
             }
 
         }.bind(this));

@@ -1,44 +1,46 @@
 <%- include header %>
 
-<div class="overlay-image"></div>
-<div class="overlay"></div>
+<section>
+    <div class="jumbo jumbo--full-screen">
 
-<div class="container">
+        <div data-animate="animated fadeIn animatedsuperslow animateddelay2" class="background-image" style=" background-image:url(/img/bikes.jpeg);"></div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="sub">Enable synchronization</h1>
-        </div>
-    </div>
+        <div class="jumbo__overlay"></div>
 
-    <div class="row">
-        <div class="col-xs-6 col-sm-offset-3">
+        <div class="jumbo__content text-xs-center">
+            <h1 class="headline">Enable synchronization</h1>
+            
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                        <div class="container-box text-xs-center">
 
-            <div class="container-box text-xs-center">
+                            <p>
+                                Synchronization is <b class="js-autosync-status"><% if (autosync) { %>enabled<% } else { %>disabled<% } %></b>.
+                            </p>
 
-                <p>
-                    Synchronization is <b class="js-autosync-status"><% if (autosync) { %>enabled<% } else { %>disabled<% } %></b>.
-                </p>
+                            <div class="switch">
+                              <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (autosync) { %>checked<% } %>>
+                              <label for="cmn-toggle-1"></label>
+                            </div>
 
-                <div class="switch">
-                  <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (autosync) { %>checked<% } %>>
-                  <label for="cmn-toggle-1"></label>
+                        </div>
+                        <div class="container-box container-box--grey">
+                            <p>
+                                Automatic synchronization will copy your activites from last seven days from Strava to Kilometrikisa. Synchronization will occur once in a day. Please note that if you have entered kilometers manually at Kilometrikisa <b class="warning">they will be overwritten!</b>
+                            </p>
+                            <p>
+                                Done? Feel free to <a href="/logout">log out</a>.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-            <div class="container-box container-box--grey">
-                <p>
-                    Automatic synchronization will copy your activites from last seven days from Strava to Kilometrikisa. Synchronization will occur once in a day. Please note that if you have entered kilometers manually at Kilometrikisa <b class="warning">they will be overwritten!</b>
-                </p>
-                <p>
-                    Done? Feel free to <a href="/logout">log out</a>.
-                </p>
-            </div>
+        </div>
 
         </div>
-    </div>
-</div>
 
-
+    </div><!-- end of jumbo -->
+</section>
 
 <%- include footer %>

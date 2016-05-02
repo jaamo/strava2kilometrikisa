@@ -3,7 +3,7 @@ const config = require('./config')();
 const mongoose = require('mongoose');
 const strava = require('strava-v3');
 
-mongoose.connect('mongodb://localhost/strava2kilometrikisa');
+mongoose.connect('mongodb://'+process.env.dbuser+':'+process.env.dbpassword+'@'+process.env.dbhost+'/'+process.env.db);
 
 const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
