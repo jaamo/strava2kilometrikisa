@@ -23,13 +23,13 @@ const Cron = require('./cron');
 
 var CronJob = require('cron').CronJob;
 
-// new CronJob('0 10 * * *', function() {
-//   Cron.run();
-// }, null, true, 'Europe/Helsinki');
+new CronJob('0 10 * * *', function() {
+  Cron.run();
+}, null, true, 'Europe/Helsinki');
 
-// new CronJob('0 22 * * *', function() {
-//   Cron.run();
-// }, null, true, 'Europe/Helsinki');
+new CronJob('0 22 * * *', function() {
+  Cron.run();
+}, null, true, 'Europe/Helsinki');
 
 // Serve static files.
 app.use(express.static('assets/dist'));
