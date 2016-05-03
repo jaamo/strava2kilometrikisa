@@ -9,7 +9,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 // Connect to MongoDB.
-mongoose.connect('mongodb://'+process.env.dbuser+':'+process.env.dbpassword+'@'+process.env.dbhost+'/'+process.env.db);
+mongoose.connect('mongodb://'+process.env.KILOMETRIKISA_DBUSER+':'+process.env.KILOMETRIKISA_DBPASSWORD+'@'+process.env.KILOMETRIKISA_DBHOST+'/'+process.env.KILOMETRIKISA_DB);
 
 // Controllers
 const Home = require('./controllers/Home');
@@ -19,6 +19,17 @@ const Stats = require('./controllers/Stats');
 const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
 const Sync = require('./controllers/Sync');
+const Cron = require('./cron');
+
+var CronJob = require('cron').CronJob;
+
+// new CronJob('0 10 * * *', function() {
+//   Cron.run();
+// }, null, true, 'Europe/Helsinki');
+
+// new CronJob('0 22 * * *', function() {
+//   Cron.run();
+// }, null, true, 'Europe/Helsinki');
 
 // Serve static files.
 app.use(express.static('assets/dist'));

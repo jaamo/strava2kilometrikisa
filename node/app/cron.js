@@ -3,50 +3,56 @@ const config = require('./config')();
 const mongoose = require('mongoose');
 const strava = require('strava-v3');
 
-mongoose.connect('mongodb://'+process.env.dbuser+':'+process.env.dbpassword+'@'+process.env.dbhost+'/'+process.env.db);
-
 const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 const Log = require('./models/LogModel.js');
 
-console.log("Syncing users...");
+var cron = {
 
-// Find all user having autosync enabled.
-User.find({autosync:true}, function(err, users) {
+    run: function(){
+        // Find all user having autosync enabled.
+        User.find({autosync:true}, function(err, users) {
 
-    var usersLength = users.length;
-    var usersSynced = 0;
+            console.log('cron sync'); 
 
-    users.forEach(function(user) {
+            var usersLength = users.length;
+            var usersSynced = 0;
 
-        SyncModel.doSync(
-            user.stravaUserId,
-            user.stravaToken,
-            user.kilometrikisaToken,
-            user.kilometrikisaSessionId,
-            function(activities) {
+            users.forEach(function(user) {
 
-                Log.log("Activities synced automatically.", JSON.stringify(activities), user.stravaUserId);
+                SyncModel.doSync(
+                    user.stravaUserId,
+                    user.stravaToken,
+                    user.kilometrikisaToken,
+                    user.kilometrikisaSessionId,
+                    function(activities) {
 
-                if (++usersSynced == usersLength) process.exit();
+                        Log.log("Activities synced automatically.", JSON.stringify(activities), user.stravaUserId);
 
-            },
-            function() {
+                        if (++usersSynced == usersLength) process.exit();
 
-                Log.log(
-                    "Automatic sync failed!",
-                    "stravaToken " + user.stravaToken + ", " +
-                    "stravaToken " + user.kilometrikisaToken + ", " +
-                    "stravaToken " + user.kilometrikisaSessionId + ", message: " + error,
-                    user.stravaUserId
-                );
+                    },
+                    function() {
 
-                if (++usersSynced == usersLength) process.exit();
+                        Log.log(
+                            "Automatic sync failed!",
+                            "stravaToken " + user.stravaToken + ", " +
+                            "stravaToken " + user.kilometrikisaToken + ", " +
+                            "stravaToken " + user.kilometrikisaSessionId + ", message: " + error,
+                            user.stravaUserId
+                        );
 
-            }
-        )
+                        if (++usersSynced == usersLength) process.exit();
 
-    });
+                    }
+                )
 
-});
+            });
+
+        });
+    }
+
+};
+
+module.exports = cron;
