@@ -23,11 +23,7 @@ const Cron = require('./cron');
 
 var CronJob = require('cron').CronJob;
 
-new CronJob('0 10 * * *', function() {
-  Cron.run();
-}, null, true, 'Europe/Helsinki');
-
-new CronJob('0 22 * * *', function() {
+new CronJob('0 * * * *', function() {
   Cron.run();
 }, null, true, 'Europe/Helsinki');
 
@@ -84,7 +80,7 @@ app.get('/faq', (req, res, next) => {
 //    Kilometrikisa.index(req, res, next);
 // });
 
-app.get('/admin/stats/:id', (req, res, next) => {
+app.get('/admin/stats', (req, res, next) => {
    Stats.index(req, res, next);
 });
 
