@@ -114,6 +114,11 @@ app.get('/account', (req, res, next) => {
 });
 
 // Manual sync.
+app.get('/manualsync', (req, res, next) => {
+   Sync.manualSyncPreview(req, res, next);
+});
+
+// Manual sync.
 app.get('/dosync', (req, res, next) => {
    Sync.doSync(req, res, next);
 });

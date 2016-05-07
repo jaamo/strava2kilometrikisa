@@ -5,8 +5,8 @@
   padding: 2rem;
   background: white;
   box-shadow: 0rem 0rem 4rem black;
+  color: #000;
   p {
-    color: #000;
   }
   &--grey {
     background-color: $color-superlight-grey;
@@ -20,4 +20,3 @@
     color: $text-color;
   }
 }
-

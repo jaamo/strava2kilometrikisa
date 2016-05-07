@@ -19,10 +19,22 @@
                         <div class="container-box text-xs-center">
 
                             <p>
-                                Your activities are now synced. Log in to <a href="http://www.kilometrikisa.fi" target="_blank">Kilometrikisa</a> to see if we did it correctly.
+                                Following activities will be synced:
                             </p>
 
-                            <a type="button" href="/account" class="btn btn-primary">Ok</a>
+                            <dl class="activity-table">
+                                <% for (var date in activities) { %>
+                                    <dd class="activity-table__date">
+                                        <%=date%>
+                                    </dd>
+                                    <dt class="activity-table__distance">
+                                        <%=activities[date]%> km
+                                    </dt>
+                                <% } %>
+                            </dl>
+
+                            <a type="button" href="/account" class="btn btn-secondary">Cancel</a>
+                            <a type="button" href="/dosync" class="btn btn-primary">Sync</a>
 
                         </div>
 

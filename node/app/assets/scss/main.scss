@@ -7,13 +7,13 @@
 
 /**
  * Vendors
- */  
+ */
 @import "vendor/bootstrap";
 @import "vendor/animate-css";
 
 /**
  * Mixins
- * 
+ *
  */
 @import "mixins/bgimg";
 @import "mixins/full-cover";
@@ -35,18 +35,20 @@
 
 /**
  * Layouts
- * 
+ *
  */
 //@import "layouts/jumbo";
 
 /**
  * Components
- * 
+ *
  */
 @import "components/container-box";
 @import "components/jumbo";
 @import "components/background-image";
 @import "components/faq";
+@import "components/activity-table";
+@import "components/buttons";
 
 //nasty, but for now until we order the chaos
 @import "all";
