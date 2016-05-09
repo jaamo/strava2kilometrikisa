@@ -14,7 +14,7 @@ var cron = {
         // Find all user having autosync enabled.
         User.find({autosync:true}, function(err, users) {
 
-            console.log('cron sync'); 
+            console.log('cron sync');
 
             var usersLength = users.length;
             var usersSynced = 0;
@@ -33,7 +33,7 @@ var cron = {
                         if (++usersSynced == usersLength) process.exit();
 
                     },
-                    function() {
+                    function(error) {
 
                         Log.log(
                             "Automatic sync failed!",
