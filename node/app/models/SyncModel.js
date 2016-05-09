@@ -73,10 +73,10 @@ var SyncModel = {
         //     workout_type: 10 } ];
 
         // Get activities from last five days but not before 1st of may.
-        var date = new Date();
-        var after = date.getTime() / 1000 - 5 * 3600 * 24;
-        var earliesTime = 1462060800; // 1st of may
-        if (after < earliesTime) after = earliesTime;
+        var d = new Date();
+        var after = (new Date(d.getFullYear(), d.getMonth(), d.getDate() - 5)).getTime() / 1000;
+        var earliestTime = 1462060800; // 1st of may
+        if (after < earliestTime) after = earliestTime;
 
         strava.athlete.listActivities({access_token: stravaToken, after: after}, function(err, activities) {
 
