@@ -1,8 +1,11 @@
 FROM phusion/baseimage:latest
 
-RUN apt-get update && \
-    apt-get -y install curl && \
-    curl -sL https://deb.nodesource.com/setup_5.x | sudo bash - && \
+RUN apt-get update && apt-get install -y \
+  wget \
+  curl \
+  git
+
+RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo bash - && \
     apt-get -y install python build-essential nodejs
 
 #make a app dir

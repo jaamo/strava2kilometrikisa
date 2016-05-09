@@ -23,6 +23,7 @@ const Cron = require('./cron');
 
 var CronJob = require('cron').CronJob;
 
+//everyhour on the hour
 new CronJob('0 * * * *', function() {
   Cron.run();
 }, null, true, 'Europe/Helsinki');
@@ -82,6 +83,10 @@ app.get('/faq', (req, res, next) => {
 
 app.get('/admin/stats', (req, res, next) => {
    Stats.index(req, res, next);
+});
+
+app.get('/admin/stats/:id', (req, res, next) => {
+   Stats.athelete(req, res, next);
 });
 
 // Application flow:
