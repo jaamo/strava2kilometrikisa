@@ -72,8 +72,13 @@ var SyncModel = {
         //     has_kudoed: false,
         //     workout_type: 10 } ];
 
+        // Get activities from last five days but not before 1st of may.
+        var d = new Date();
+        var after = (new Date(d.getFullYear(), d.getMonth(), d.getDate() - 5)).getTime() / 1000;
+        var earliestTime = 1462060800; // 1st of may
+        if (after < earliestTime) after = earliestTime;
 
-        strava.athlete.listActivities({access_token: stravaToken, after: 1462060800}, function(err, activities) {
+        strava.athlete.listActivities({access_token: stravaToken, after: after}, function(err, activities) {
 
             if(!err && typeof(activities.errors) == "undefined") {
 
@@ -176,7 +181,7 @@ var SyncModel = {
                         count++;
 
                         // All activities synced.
-                        if (count == amount - 1) {
+                        if (count == amount) {
 
                             // No errors!
                             if (Object.keys(failedActivities).length == 0) {

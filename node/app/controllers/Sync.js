@@ -37,6 +37,36 @@ var SyncController = {
 
 
     /**
+     * Display a preview.
+     *
+     * @return {[type]} [description]
+     */
+    manualSyncPreview: function(req, res, next) {
+
+        // Load user.
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+
+            // Get activities.
+            SyncModel.getStravaActivities(
+                user.stravaToken,
+                function(activities){
+                    res.render('sync-preview', {
+                        activities: activities
+                    });
+                },
+                function(){
+                    res.render('sync-preview', {
+                        activities: []
+                    });
+                });
+
+        });
+
+    },
+
+
+
+    /**
      * Sync kilometers.
      *
      * @param  {[type]}   req  [description]

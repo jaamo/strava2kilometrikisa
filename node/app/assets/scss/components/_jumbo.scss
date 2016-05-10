@@ -5,11 +5,11 @@
 	color:#fff;
 	background: $color-almost-black;
 
-	a {
+	&__link {
 		color: #fff;
 		text-decoration: underline;
 	}
-	a:hover {
+	&__link:hover {
 		color: #fff;
 		text-decoration: none;
 	}

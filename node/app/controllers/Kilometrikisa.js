@@ -20,7 +20,28 @@ var KilometrikisaController = {
      */
     auth:  function(req, res, next) {
 
-        res.render('kilometrikisa-auth', { error: req.query.error });
+        // Load user. There soulb be one at this point.
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+
+            // Check if Kilometrikisa login is still valid. If it is, redirect
+            // to sync page.
+            Kilometrikisa.isLoggedIn(
+                user.kilometrikisaToken,
+                user.kilometrikisaSessionId,
+                // Logged in.
+                function() {
+                    res.redirect('/account')
+                },
+                // Not logged in.
+                function() {
+                    res.render('kilometrikisa-auth', { error: req.query.error });
+                }
+            );
+
+        })
+
+
+
 
     },
 

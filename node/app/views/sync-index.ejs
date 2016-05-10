@@ -19,7 +19,7 @@
                         <div class="container-box text-xs-center">
 
                             <p>
-                                Synchronization is <b class="js-autosync-status"><% if (autosync) { %>enabled<% } else { %>disabled<% } %></b>.
+                                Automatic synchronization is <b class="js-autosync-status"><% if (autosync) { %>enabled<% } else { %>disabled<% } %></b>.
                             </p>
 
                             <div class="switch">
@@ -27,10 +27,17 @@
                                 <label for="cmn-toggle-1"></label>
                             </div>
 
+                            <a class="manual-sync" href="/manualsync">
+                                <img class="manual-sync__icon" src="/img/gear.svg" />
+                                <span class="manual-sync__button" >
+                                    Sync manually
+                                </span>
+                            </a>
+
                         </div>
                         <div class="container-box container-box--grey">
                             <p>
-                                Automatic synchronization will copy your activites from last few days from Strava to Kilometrikisa. Synchronization will occur once in a day. Please note that if you have entered kilometers manually at Kilometrikisa <b class="warning">they will be overwritten!</b>
+                                Automatic synchronization will copy your activites from last five days from Strava to Kilometrikisa. Synchronization will occur once in an hour. Please note that if you have entered kilometers manually at Kilometrikisa <b>they will be overwritten!</b>
                             </p>
                         </div>
 

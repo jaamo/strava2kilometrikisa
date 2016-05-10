@@ -19,6 +19,10 @@ var paths = {
   js: {
     src: ['assets/js/*.js', 'assets/js/components/*.js'],
     dist: 'assets/dist/js/'
+  },
+  img: {
+    src: ['assets/img/*'],
+    dist: 'assets/dist/img/'
   }
 }
 
@@ -53,10 +57,17 @@ gulp.task('js', function () {
    }, 500);
 });
 
-//default task for dev
-gulp.task('default', ['sass', 'js', 'watch'], function() {});
+// Just copy image to dist.
+gulp.task('img', function () {
+    gulp.src(paths.img.src)
+      .pipe(gulp.dest(paths.img.dist));
+});
 
-gulp.task('build', ['sass', 'js'], function() {});
+
+//default task for dev
+gulp.task('default', ['sass', 'js', 'img', 'watch'], function() {});
+
+gulp.task('build', ['sass', 'js', 'img'], function() {});
 
 //setup watch tasks
 gulp.task('watch', function () {
