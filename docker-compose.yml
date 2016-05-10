@@ -15,6 +15,7 @@ node:
     volumes:
         - ./node/app:/srv/www/app
     environment:
+        KILOMETRIKISA_ENV: '${KILOMETRIKISA_ENV}'
         KILOMETRIKISA_DB: '${KILOMETRIKISA_DB}'
         KILOMETRIKISA_DBUSER: '${KILOMETRIKISA_DBUSER}'
         KILOMETRIKISA_DBPASSWORD: '${KILOMETRIKISA_DBPASSWORD}'

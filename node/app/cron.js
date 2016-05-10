@@ -7,7 +7,7 @@ const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 const Log = require('./models/LogModel.js');
-const Email = require('./lib/email');
+const Email = require('./lib/Email');
 
 var cron = {
 
