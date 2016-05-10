@@ -6,11 +6,12 @@ var UserSchema = new mongoose.Schema({
     stravaToken: { type: String },
     kilometrikisaToken: { type: String },
     kilometrikisaSessionId: { type: String },
+    email: { type: String },
 
     // Sync kilometers automatically.
     autosync: { type: Boolean },
 
-    // If true, we know that notification email about sessin timeout
+    // If true, we know that notification email about session timeout
     // is sent to user.
     notifiedByEmail: { type: Boolean }
 
