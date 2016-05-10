@@ -44,7 +44,7 @@ var cron = {
                             user.stravaUserId
                         );
 
-                        Email.send('paul.stewart@evermade.fi, jaakko@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
+                        Email.send('strava2kilometrikisa@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
 
                         if (++usersSynced == usersLength) process.exit();
 
