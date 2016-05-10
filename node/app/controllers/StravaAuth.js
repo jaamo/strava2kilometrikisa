@@ -77,6 +77,7 @@ var StravaAuthController = {
                     // Save details.
                     user.set("stravaUserId", req.session.stravaUserId);
                     user.set("stravaToken", payload.access_token);
+                    user.set("email", payload.athlete.email);
                     user.set("notifiedByEmail", false);
 
                     user.save(function() {
