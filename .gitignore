@@ -38,3 +38,4 @@ node/app/assets/dist
 node/app/assets/vendor
 env_vars
 .idea
+test.js

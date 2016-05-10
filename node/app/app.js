@@ -23,10 +23,15 @@ const Cron = require('./cron');
 
 var CronJob = require('cron').CronJob;
 
-//everyhour on the hour
-new CronJob('0 * * * *', function() {
-  Cron.run();
-}, null, true, 'Europe/Helsinki');
+//only run cron if on production
+if(typeof(process.env.KILOMETRIKISA_ENV) !== 'undefined' && process.env.KILOMETRIKISA_ENV == 'production'){
+
+  //everyhour on the hour
+  new CronJob('0 * * * *', function() {
+    Cron.run();
+  }, null, true, 'Europe/Helsinki');
+
+}
 
 // Serve static files.
 app.use(express.static('assets/dist'));

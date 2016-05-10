@@ -7,6 +7,7 @@ const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 const Log = require('./models/LogModel.js');
+const Email = require('./lib/email');
 
 var cron = {
 
@@ -42,6 +43,8 @@ var cron = {
                             "stravaToken " + user.kilometrikisaSessionId + ", message: " + error,
                             user.stravaUserId
                         );
+
+                        Email.send('paul.stewart@evermade.fi, jaakko@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
 
                         if (++usersSynced == usersLength) process.exit();
 
