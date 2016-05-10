@@ -4,16 +4,19 @@
 	<tr>
 		<th>strava id</th>
 		<th>action</th>
+		<th>logs</th>
 		<th>autosync</th>
+		<th>notifiedByEmail</th>
 	</tr>
 	<% for(var i=0; i < data.users.length; i++) { %>
 	   <tr>
 	     <td><a href="https://www.strava.com/athletes/<%= data.users[i].stravaUserId %>" target="_blank"><%= data.users[i].stravaUserId %></a></td>
-	     <td><a href="/admin/stats/<%= data.users[i].stravaUserId %>" target="_blank">View</a></td>
+	     <td><a href="/admin/users/<%= data.users[i].stravaUserId %>" target="_blank">View</a></td>
+	     <td><a href="/admin/users/<%= data.users[i].stravaUserId %>/logs" target="_blank">View</a></td>
 	     <td><%= data.users[i].autosync %></td>
+	     <td><%= data.users[i].notifiedByEmail %></td>
 	   </tr>
 	<% } %>
 	</table>
 
-	<pre><code><%= JSON.stringify(data, null, 2) %></code></pre>
 </div>

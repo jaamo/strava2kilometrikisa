@@ -1,0 +1,16 @@
+<div class="container">
+	
+	<table class="table">
+	<tr>
+		<th>date</th>
+		<th>message</th>
+	</tr>
+	<% for(var i=0; i < data.length; i++) { %>
+	   <tr>
+	     <td><%= data[i].date %></td>
+	     <td><%= data[i].message %></td>
+	   </tr>
+	<% } %>
+	</table>
+
+</div>

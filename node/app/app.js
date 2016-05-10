@@ -15,7 +15,7 @@ mongoose.connect('mongodb://'+process.env.KILOMETRIKISA_DBUSER+':'+process.env.K
 const Home = require('./controllers/Home');
 const Friends = require('./controllers/Friends');
 const Activities = require('./controllers/Activities');
-const Stats = require('./controllers/Stats');
+const User = require('./controllers/User');
 const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
 const Sync = require('./controllers/Sync');
@@ -81,12 +81,16 @@ app.get('/faq', (req, res, next) => {
 //    Kilometrikisa.index(req, res, next);
 // });
 
-app.get('/admin/stats', (req, res, next) => {
-   Stats.index(req, res, next);
+app.get('/admin/users', (req, res, next) => {
+   User.index(req, res, next);
 });
 
-app.get('/admin/stats/:id', (req, res, next) => {
-   Stats.athelete(req, res, next);
+app.get('/admin/users/:id', (req, res, next) => {
+   User.show(req, res, next);
+});
+
+app.get('/admin/users/:id/logs', (req, res, next) => {
+   User.logs(req, res, next);
 });
 
 // Application flow:
