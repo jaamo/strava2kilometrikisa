@@ -2,6 +2,8 @@
 
 An application to fill the gap between Strava and Kilometrikisa. A docker setup with a node application running in 1 container with nginx running to create a reverse proxy in another container.
 
+Visit the site to use it: http://strava2kilometrikisa.com
+
 ## Installation
 
 1. clone this project
