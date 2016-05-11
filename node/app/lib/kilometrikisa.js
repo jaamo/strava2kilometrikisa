@@ -98,9 +98,9 @@ var kilometrikisa = {
         };
         curl.request(options, function (err, stdout, meta) {
 
-            console.log(meta.args);
-            console.log('%s %s', meta.cmd, meta.args.join(' '));
-            console.log(stdout);
+            //console.log(meta.args);
+            //console.log('%s %s', meta.cmd, meta.args.join(' '));
+            //console.log(stdout);
 
 
             // // Get CSRF value from cookie header.
@@ -272,8 +272,8 @@ var kilometrikisa = {
         };
         curl.request(options, function (err, stdout, meta) {
 
-            console.log('%s %s', meta.cmd, meta.args.join(' '));
-            console.log(stdout);
+            //console.log('%s %s', meta.cmd, meta.args.join(' '));
+            //console.log(stdout);
 
 //            callback();
 

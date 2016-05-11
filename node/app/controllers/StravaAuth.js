@@ -46,7 +46,7 @@ var StravaAuthController = {
             // console.log(payload);
 
             // If error is set, show error message.
-            if (typeof(req.query.error) != 'undefined') {
+            if (typeof(req.query.error) != 'undefined' || typeof(payload.athlete) == "undefined") {
 
                 res.render('strava-autherror', {});
 
