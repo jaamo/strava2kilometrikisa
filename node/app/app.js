@@ -141,9 +141,15 @@ app.get('/dosync', (req, res, next) => {
 app.get('/enableautosync', (req, res, next) => {
    Sync.enableAutosync(req, res, next);
 });
+
 // Disable autosync.
 app.get('/disableautosync', (req, res, next) => {
    Sync.disableAutosync(req, res, next);
+});
+
+// isAuthenticated
+app.get('/isauthenticated', (req, res, next) => {
+   Sync.isAuthenticated(req, res, next);
 });
 
 

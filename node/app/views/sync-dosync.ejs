@@ -18,11 +18,24 @@
 
                         <div class="container-box text-xs-center">
 
-                            <p>
-                                Your activities are now synced. Log in to <a href="http://www.kilometrikisa.fi" target="_blank">Kilometrikisa</a> to see if we did it correctly.
-                            </p>
+                            <% if (success) { %>
 
-                            <a type="button" href="/account" class="btn btn-primary">Ok</a>
+                                <p>
+                                    Your activities are now synced. Log in to <a href="http://www.kilometrikisa.fi" target="_blank">Kilometrikisa</a> to see if we did it correctly.
+                                </p>
+
+                                <a type="button" href="/account" class="btn btn-primary">Ok</a>
+
+
+                            <% } else { %>
+
+                                <p>
+                                    Ooop! Sync failed! This most probably happened because of your Kilometrikisa session is timed out. <a href="/">Please connect again</a>.
+                                </p>
+
+                                <a type="button" href="/" class="btn btn-primary">Connect again</a>
+
+                            <% } %>
 
                         </div>
 

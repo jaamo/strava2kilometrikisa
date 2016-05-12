@@ -18,6 +18,10 @@
 
                         <div class="container-box text-xs-center">
 
+                            <div class="alert alert-danger hidden-xs-up js-isauthenticated" role="alert">
+                                Your Kilometrikisa session is timed out! Please <a href="/">login again</a>.
+                            </div>
+
                             <p>
                                 Automatic synchronization is <b class="js-autosync-status"><% if (autosync) { %>enabled<% } else { %>disabled<% } %></b>.
                             </p>
@@ -33,6 +37,8 @@
                                     Sync manually
                                 </span>
                             </a>
+
+
 
                         </div>
                         <div class="container-box container-box--grey">

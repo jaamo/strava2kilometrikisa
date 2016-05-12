@@ -25,6 +25,12 @@ var SyncController = {
         // Load user.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
+            if (!user) {
+                console.log("SyncController.isAuthenticated: No user for Strava ID " + req.session.stravaUserId);
+                res.redirect("/?error=usernotfound");
+                return;
+            }
+
             // Render template.
             res.render('sync-index', {
                 autosync: user.autosync
@@ -45,6 +51,12 @@ var SyncController = {
 
         // Load user.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+
+            if (!user) {
+                console.log("SyncController.isAuthenticated: No user for Strava ID " + req.session.stravaUserId);
+                res.redirect("/?error=usernotfound");
+                return;
+            }
 
             // Get activities.
             SyncModel.getStravaActivities(
@@ -78,6 +90,12 @@ var SyncController = {
 
         // Load user.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+
+            if (!user) {
+                console.log("SyncController.isAuthenticated: No user for Strava ID " + req.session.stravaUserId);
+                res.redirect("/?error=usernotfound");
+                return;
+            }
 
             // Sync all activities.
             SyncModel.doSync(
@@ -156,6 +174,41 @@ var SyncController = {
                 res.redirect("/account");
             });
         });
+
+    },
+
+
+
+    /**
+     * Check is user is logged in to kilometrikisa.
+     */
+    isAuthenticated: function(req, res, next) {
+
+        User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
+
+            if (user) {
+
+                res.setHeader('Content-Type', 'application/json');
+                Kilometrikisa.isLoggedIn(
+                    user.kilometrikisaToken,
+                    user.kilometrikisaSessionId,
+                    function() {
+                        res.send(JSON.stringify({ kilometrikisa: true }));
+                    },
+                    function() {
+                        res.send(JSON.stringify({ kilometrikisa: false }));
+                    }
+                );
+
+            } else {
+                console.log("SyncController.isAuthenticated: No user for Strava ID " + req.session.stravaUserId);
+                res.redirect("/?error=usernotfound");
+            }
+
+        });
+
+
+
 
     }
 
