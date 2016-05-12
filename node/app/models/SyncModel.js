@@ -80,7 +80,7 @@ var SyncModel = {
 
         strava.athlete.listActivities({access_token: stravaToken, after: after}, function(err, activities) {
 
-            if(!err && typeof(activities.errors) == "undefined") {
+            if(!err && activities) {
 
                 var response = {};
                 for (var i in activities) {

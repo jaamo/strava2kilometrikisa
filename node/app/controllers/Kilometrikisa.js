@@ -23,9 +23,7 @@ var KilometrikisaController = {
         // Load user. There soulb be one at this point.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
-            if (typeof(user) == "undefined" || user == null) {
-	        res.redirect('/');
-            }
+	    try {
 
 	    // Check if Kilometrikisa login is still valid. If it is, redirect
             // to sync page.
@@ -41,6 +39,11 @@ var KilometrikisaController = {
                     res.render('kilometrikisa-auth', { error: req.query.error });
                 }
             );
+
+	    } catch(e) {
+                console.log(e.message);
+		res.redirect('/');
+	    }
 
         })
 
