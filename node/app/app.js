@@ -28,7 +28,7 @@ if(typeof(process.env.KILOMETRIKISA_ENV) !== 'undefined' && process.env.KILOMETR
 
   //everyhour on the hour
   new CronJob('0 * * * *', function() {
-    //Cron.run();
+    Cron.run();
   }, null, true, 'Europe/Helsinki');
 
 }
