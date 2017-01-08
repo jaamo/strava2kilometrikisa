@@ -163,7 +163,7 @@ var SyncModel = {
                     Kilometrikisa.updateLog(
                         kilometrikisaToken,
                         kilometrikisaSessionId,
-                        16,
+                        21,
                         activities[date],
                         date,
                         function() {
