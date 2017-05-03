@@ -6,7 +6,7 @@
 *.o
 *.so
 
-#Packages 
+#Packages
 *.7z
 *.dmg
 *.gz
@@ -39,3 +39,4 @@ node/app/assets/vendor
 env_vars
 .idea
 test.js
+.env

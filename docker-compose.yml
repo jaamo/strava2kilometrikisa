@@ -5,7 +5,7 @@ nginx:
     volumes_from:
         - node
     ports:
-        - "80:80"
+        - 80:80
 node:
     build: ./node
     container_name: node
@@ -14,15 +14,5 @@ node:
         - 3000
     volumes:
         - ./node/app:/srv/www/app
-    environment:
-        KILOMETRIKISA_ENV: '${KILOMETRIKISA_ENV}'
-        KILOMETRIKISA_DB: '${KILOMETRIKISA_DB}'
-        KILOMETRIKISA_DBUSER: '${KILOMETRIKISA_DBUSER}'
-        KILOMETRIKISA_DBPASSWORD: '${KILOMETRIKISA_DBPASSWORD}'
-        KILOMETRIKISA_DBHOST: '${KILOMETRIKISA_DBHOST}'
-        STRAVA_ACCESS_TOKEN: '${STRAVA_ACCESS_TOKEN}'
-        STRAVA_CLIENT_ID: '${STRAVA_CLIENT_ID}'
-        STRAVA_CLIENT_SECRET: '${STRAVA_CLIENT_SECRET}'
-        STRAVA_REDIRECT_URI: '${STRAVA_REDIRECT_URI}'
-        SMTP_USER: '${SMTP_USER}'
-        SMTP_PASSWORD: '${SMTP_PASSWORD}'
+    env_file:
+        - ./node/app/.env
