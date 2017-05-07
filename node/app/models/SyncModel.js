@@ -89,7 +89,7 @@ var SyncModel = {
                 var response = {};
                 for (var i in activities) {
 
-                    if (activities[i]["type"] == "Ride") {
+                    if (activities[i]["type"] == "Ride" && activities[i]["trainer"] == false) {
 
                         // Format date.
                         var date = new Date(activities[i]["start_date_local"]);
