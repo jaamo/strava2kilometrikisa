@@ -28,7 +28,9 @@
                                         <%=date%>
                                     </dd>
                                     <dt class="activity-table__distance">
-                                        <%=activities[date]%> km
+                                        <%=activities[date].distance%> km<br>
+                                        <%=activities[date].hours%> h
+                                        <%=activities[date].minutes%> min
                                     </dt>
                                 <% } %>
                             </dl>

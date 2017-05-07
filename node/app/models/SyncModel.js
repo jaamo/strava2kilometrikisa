@@ -6,13 +6,17 @@ var SyncModel = {
 
 
     /**
-     * Get cycling activities from Strava and calculate daily sum. Return
-     * in a format suitable for posting to Kilometrikisa:
+     * Get cycling activities from Strava and calculate daily sum for distance and time. 
+     * Return in a format suitable for posting to Kilometrikisa:
      *
      * Example return value:
      *
      * {
-     *   "2016-04-05": 1,5
+     *   "2016-04-05": { 
+     *      distance: 1,5,
+     *      hours: 1,
+     *      minutes: 23
+     *  }
      * }
      *
      * Date format: YYYY-MM-DD, example: 2016-04-05
@@ -97,19 +101,28 @@ var SyncModel = {
 
                         // Init date.
                         if (typeof(response[dateFormatted]) == "undefined") {
-                            response[dateFormatted] = 0;
+                            response[dateFormatted] = {
+                                distance: 0,
+                                seconds: 0
+                            };
                         }
 
                         // Append kilometers.
-                        response[dateFormatted] += (parseFloat(activities[i]["distance"]) / 1000);
+                        response[dateFormatted].distance += (parseFloat(activities[i]["distance"]) / 1000);
+
+                        // Append time in seconds.
+                        response[dateFormatted].seconds += activities[i]["moving_time"];
 
                     }
 
                 }
 
-                // Round to 2 decimals.
+                // Round distance to 2 decimals and
+                // convert seconds into hours and minutes.
                 for (var date in response) {
-                    response[date] = Math.round(response[date] * 100) / 100;
+                    response[date].distance = Math.round(response[date].distance * 100) / 100;
+                    response[date].hours = Math.floor(response[date].seconds / 3600);
+                    response[date].minutes = Math.floor((response[date].seconds - response[date].hours * 3600) / 60);
                 }
 
                 successCallback(response);
@@ -149,8 +162,9 @@ var SyncModel = {
             stravaToken,
             function(activities) {
 
-                // Counters.
-                var amount = Object.keys(activities).length;
+                // Counters. We do two requests per each activity. One for distance
+                // and one for time.
+                var amount = Object.keys(activities).length * 2;
                 var count = 0;
 
                 // List of failed activities.
@@ -164,7 +178,23 @@ var SyncModel = {
                         kilometrikisaToken,
                         kilometrikisaSessionId,
                         22,
-                        activities[date],
+                        activities[date].distance,
+                        date,
+                        function() {
+                            cb();
+                        },
+                        function(error) {
+                            failedActivities[date] = activities[date];
+                            cb();
+                        });
+
+                    // Update duration to kilometrikisa.
+                    Kilometrikisa.updateMinuteLog(
+                        kilometrikisaToken,
+                        kilometrikisaSessionId,
+                        22,
+                        activities[date].hours,
+                        activities[date].minutes,
                         date,
                         function() {
                             cb();

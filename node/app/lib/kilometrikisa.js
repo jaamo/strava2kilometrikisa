@@ -179,6 +179,7 @@ var kilometrikisa = {
     },
 
 
+
     /**
      * Update distance.
      *
@@ -245,6 +246,72 @@ var kilometrikisa = {
         }.bind(this));
 
     },
+
+
+
+    /**
+     * Update time.
+     *
+     * @param  {String}   token     Session token.
+     * @param  {String}   sessionId Session id.
+     * @param  {Integer}   contestId Contest id. Changes every year.
+     * @param  {Float}   hours  Hours.
+     * @param  {Float}   minutes  Minutes.
+     * @param  {String}   date      Date. YYYY-MM-DD, example: 2016-04-05
+     * @param  {Function} callback  Called on success.
+     */
+    updateMinuteLog: function(token, sessionId, contestId, hours, minutes, date, successCallback, errorCallback) {
+
+
+        // curl -X POST
+        // -e https://www.kilometrikisa.fi/contest/log/
+        // -d "contest_id=17&km_amount=10&km_date=2016-04-05&csrfmiddlewaretoken=9Jw5rFmg4LGYr9sT23oOZNQtzFFluWWF"
+        // -b "csrftoken=9Jw5rFmg4LGYr9sT23oOZNQtzFFluWWF; sessionid=oj1ueczy2uhw764vyo6kbhpw6sj7way1"
+        // --trace-ascii - https://www.kilometrikisa.fi/contest/log-save/
+
+
+        // Submit username, password and CSFR token to login form.
+        var options = {
+            url: "https://www.kilometrikisa.fi/contest/minute-log-save/",
+            method: "POST",
+            referer: "https://www.kilometrikisa.fi/contest/log/",
+            headers: {
+                "Cookie": "csrftoken=" + token + "; sessionid=" + sessionId + ";"
+            },
+            data: {
+                contest_id: contestId,
+                hours: hours,
+                minutes: minutes,
+                date: date,
+                csrfmiddlewaretoken: token
+            },
+            verbose: true,
+            include: true,
+            location: false // do not follow header location
+        };
+        curl.request(options, function (err, stdout, meta) {
+
+            // Check for header location header. If header exists, user is not
+            // logged in.
+            var rows = stdout.split("\n");
+            var loggedIn = true;
+            for (var i in rows) {
+                // console.log(rows[i]);
+                if (rows[i].indexOf("403 FORBIDDEN") != -1) {
+                    loggedIn = false;
+                }
+            }
+
+            if (loggedIn) {
+                successCallback();
+            } else {
+                errorCallback("Session timeout.");
+            }
+
+        }.bind(this));
+
+    },
+    
 
 
     /**
