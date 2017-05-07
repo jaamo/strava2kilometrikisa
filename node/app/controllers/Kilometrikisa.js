@@ -23,27 +23,49 @@ var KilometrikisaController = {
         // Load user. There soulb be one at this point.
         User.findOne({stravaUserId: req.session.stravaUserId}, function(err, user) {
 
-	    try {
+            // Try logging in.
+            Kilometrikisa.login(
+                user.kilometrikisaUsername,
+                user.kilometrikisaPassword,
+                function(token, sessionId) {
 
-	    // Check if Kilometrikisa login is still valid. If it is, redirect
-            // to sync page.
-            Kilometrikisa.isLoggedIn(
-                user.kilometrikisaToken,
-                user.kilometrikisaSessionId,
-                // Logged in.
-                function() {
+                    // Credentials works. Redirect to account page.
+                    console.log('Login succesful: ' + token + ' / ' + sessionId);
                     res.redirect('/account')
+
+
                 },
-                // Not logged in.
                 function() {
+
+                    // No luck. Display login form.
                     res.render('kilometrikisa-auth', { error: req.query.error });
+
                 }
             );
 
-	    } catch(e) {
-                console.log(e.message);
-		res.redirect('/');
-	    }
+
+
+            // try {
+
+            //     // Check if Kilometrikisa login is still valid. If it is, redirect
+            //     // to sync page.
+            //     Kilometrikisa.isLoggedIn(
+            //         user.kilometrikisaToken,
+            //         user.kilometrikisaSessionId,
+            //         // Logged in.
+            //         function() {
+            //             res.redirect('/account')
+            //         },
+            //         // Not logged in.
+            //         function() {
+            //             res.render('kilometrikisa-auth', { error: req.query.error });
+            //         }
+            //     );
+
+            // } catch(e) {
+            //     console.log(e.message);
+            //     res.redirect('/');
+            // }
 
         })
 
@@ -90,6 +112,8 @@ var KilometrikisaController = {
                     var user = u[0];
                     user.set("kilometrikisaToken", token);
                     user.set("kilometrikisaSessionId", sessionId);
+                    user.set("kilometrikisaUsername", username);
+                    user.setPassword(password);
                     user.save(function() {
 
                         // Redirect to account page.
