@@ -13,5 +13,9 @@ bower install --allow-root
 gulp build
 
 #run nodemon so we can watch for changes in the app files, important note, we musy use --legacy-watch to allow files to be watched over the network of containers
-#nodemon --legacy-watch app.js
-node app.js
+if [ $NODE_ENV = "development" ]
+then
+    nodemon --legacy-watch app.js
+else
+    node app.js
+fi
