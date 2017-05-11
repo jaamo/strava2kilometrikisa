@@ -13,8 +13,7 @@ var cron = {
 
     run: function(){
         // Find all user having autosync enabled.
-        User.find({kilometrikisaUsername:'jaamo'}, function(err, users) {
-        //User.find({autosync:true}, function(err, users) {
+        User.find({autosync:true}, function(err, users) {
 
             var usersLength = users.length;
             var usersSynced = 0;
@@ -28,7 +27,7 @@ var cron = {
                     user.getPassword(),
                     function(token, sessionId) {
 
-                        console.log("Login complete: " + token + " / " + sessionId);
+                        console.log("Syncing for user " + user.kilometrikisaUsername + ". Login complete: " + token + " / " + sessionId);
 
                         // Save login token.
                         user.set("kilometrikisaToken", token);
@@ -43,6 +42,7 @@ var cron = {
                             function(activities) {
 
                                 Log.log("Activities synced automatically.", JSON.stringify(activities), user.stravaUserId);
+                                console.log("Activities synced for user " + user.kilometrikisaUsername);
 
                                 if (++usersSynced == usersLength) process.exit();
 
@@ -56,6 +56,8 @@ var cron = {
                                     "stravaToken " + user.kilometrikisaSessionId + ", message: " + error,
                                     user.stravaUserId
                                 );
+
+                                console.log("Activities sync failed for user " + user.kilometrikisaUsername);
 
                                 //Email.send('strava2kilometrikisa@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
 
