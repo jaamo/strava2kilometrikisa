@@ -170,6 +170,12 @@ var SyncModel = {
                 // List of failed activities.
                 var failedActivities = {};
 
+                // No activities, just quit.
+
+                if (Object.keys(activities).length == 0) {
+                    successCallback(activities);
+                }
+
                 // Add each activity to Kilometrikisa.
                 for (var date in activities) {
 
