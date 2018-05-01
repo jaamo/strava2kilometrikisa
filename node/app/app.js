@@ -27,7 +27,7 @@ var CronJob = require('cron').CronJob;
 if(typeof(process.env.KILOMETRIKISA_ENV) !== 'undefined' && process.env.KILOMETRIKISA_ENV == 'production'){
 
   //everyhour on the hour
-  new CronJob('0 * * * *', function() {
+  new CronJob('0 4 * * *', function() {
     Cron.run();
   }, null, true, 'Europe/Helsinki');
 
