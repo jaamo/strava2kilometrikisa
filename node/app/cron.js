@@ -27,7 +27,9 @@ var cron = {
 
             // Start syncing.
             console.log('Found ' + users.length + ' users.');
-            this.syncNextUser();
+
+            this.syncNextUser();  
+  
 
             // Loop through users.
             // users.forEach(function(user) {
@@ -54,7 +56,7 @@ var cron = {
         console.log(this.users.length + ' users left in queue.');
 
         // Sync!
-        this.syncUser(user, function() { this.syncNextUser(); }.bind(this));
+        this.syncUser(user, function() { setTimeout(function() { this.syncNextUser(); }.bind(this), 1000); }.bind(this));
 
     },
 
