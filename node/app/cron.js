@@ -53,10 +53,11 @@ var cron = {
         // Get next.
         var user = this.users.pop();
 
+	console.log((new Date()));
         console.log(this.users.length + ' users left in queue.');
 
         // Sync!
-        this.syncUser(user, function() { setTimeout(function() { this.syncNextUser(); }.bind(this), 1000); }.bind(this));
+        this.syncUser(user, function() { setTimeout(function() { this.syncNextUser(); }.bind(this), 5000); }.bind(this));
 
     },
 

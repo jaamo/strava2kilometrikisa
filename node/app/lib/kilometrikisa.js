@@ -242,7 +242,9 @@ var kilometrikisa = {
             }
 
             if (loggedIn) {
-                successCallback();
+		setTimeout(function() {
+                	successCallback();
+		}, 500);
             } else {
                 errorCallback("Session timeout.");
             }
@@ -308,7 +310,9 @@ var kilometrikisa = {
             }
 
             if (loggedIn) {
-                successCallback();
+		setTimeout(function() {
+                	successCallback();
+		}, 500);
             } else {
                 errorCallback("Session timeout.");
             }
