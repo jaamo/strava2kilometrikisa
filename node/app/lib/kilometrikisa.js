@@ -42,7 +42,8 @@ var kilometrikisa = {
         var options = {
             url: 'https://www.kilometrikisa.fi/accounts/login/',
             verbose: true,
-            include: true
+            include: true,
+            useragent: "strava2kilometrikisa-agen"
         };
         curl.request(options, function (err, stdout, meta) {
 
@@ -94,6 +95,7 @@ var kilometrikisa = {
             },
             verbose: true,
             include: true,
+            useragent: "strava2kilometrikisa-agen",
             location: false // do not follow header location
         };
         curl.request(options, function (err, stdout, meta) {
@@ -148,6 +150,7 @@ var kilometrikisa = {
             },
             verbose: true,
             include: true,
+            useragent: "strava2kilometrikisa-agen",
             location: false // do not follow header location
         };
         curl.request(options, function (err, stdout, meta) {
@@ -222,6 +225,7 @@ var kilometrikisa = {
             },
             verbose: true,
             include: true,
+            useragent: "strava2kilometrikisa-agen",
             location: false // do not follow header location
         };
         curl.request(options, function (err, stdout, meta) {
@@ -238,7 +242,9 @@ var kilometrikisa = {
             }
 
             if (loggedIn) {
-                successCallback();
+		setTimeout(function() {
+                	successCallback();
+		}, 500);
             } else {
                 errorCallback("Session timeout.");
             }
@@ -287,6 +293,7 @@ var kilometrikisa = {
             },
             verbose: true,
             include: true,
+            useragent: "strava2kilometrikisa-agen",
             location: false // do not follow header location
         };
         curl.request(options, function (err, stdout, meta) {
@@ -303,7 +310,9 @@ var kilometrikisa = {
             }
 
             if (loggedIn) {
-                successCallback();
+		setTimeout(function() {
+                	successCallback();
+		}, 500);
             } else {
                 errorCallback("Session timeout.");
             }
@@ -335,6 +344,7 @@ var kilometrikisa = {
             },
             verbose: true,
             include: true,
+            useragent: "strava2kilometrikisa-agen",
             location: false // do not follow header location
         };
         curl.request(options, function (err, stdout, meta) {
