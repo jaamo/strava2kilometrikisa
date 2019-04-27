@@ -14,6 +14,15 @@ var SyncController = {
 
 
     /**
+     * Shameless self promotion.
+     */     
+    kampiapina:  function(req, res, next) {
+        res.render('kampiapina');
+    },
+
+
+
+    /**
      * Main page.
      *
      * @param  {[type]}   req  [description]

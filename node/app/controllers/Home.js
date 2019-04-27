@@ -20,7 +20,7 @@ var HomeController = {
 
         if (Helpers.isLoggedIn(req)) {
 
-            res.redirect('/account');
+            res.redirect('/kampiapina');
 
         } else {
 

@@ -31,7 +31,7 @@ var KilometrikisaController = {
 
                     // Credentials works. Redirect to account page.
                     console.log('Login succesful: ' + token + ' / ' + sessionId);
-                    res.redirect('/account')
+                    res.redirect('/kampiapina')
 
 
                 },
@@ -117,7 +117,7 @@ var KilometrikisaController = {
                     user.save(function() {
 
                         // Redirect to account page.
-                        res.redirect('/account');
+                        res.redirect('/kampiapina');
 
                     });
 
