@@ -1,0 +1,46 @@
+html {
+  font-size: 13px;
+
+  /* Medium Devices, Desktops */
+  @media only screen and (min-width: 992px) {
+    font-size: 14px;
+  }
+
+  /* Large Devices, Wide Screens */
+  @media only screen and (min-width: 1200px) {
+    font-size: 16px;
+  }
+}
+
+html,
+button,
+input,
+select,
+textarea {
+  color: $text-color;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+body {
+  font-family: $font-family-base;
+  line-height: $line-height-base;
+  color: $text-color;
+  font-weight: $font-weight-base;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  cursor: pointer;
+}
+
+img {
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+
+.text-xs-center {
+  text-align: center;
+}

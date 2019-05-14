@@ -1,25 +1,30 @@
 {
   "name": "stava2kilometrikisa",
   "version": "1.0.0",
-  "description": "a stava2kilometrikisa integration",
-  "main": "app.js",
+  "description": "An application to fill the gap between Strava and Kilometrikisa.",
+  "main": "app/index.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sudo npm install && nodemon app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app/index.js",
+    "build": "gulp build",
+    "start": "node app/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "async": "^2.0.0-rc.4",
     "body-parser": "^1.15.0",
+    "bootstrap-sass": "^3.4.1",
     "connect-mongo": "^1.1.0",
     "cron": "^1.1.0",
     "curlrequest": "^0.5.7",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "mongoose": "^4.4.12",
+    "mongoose": "4.4.12",
     "morgan": "^1.7.0",
     "nodemailer": "^2.3.2",
     "nodemon": "^1.9.1",
