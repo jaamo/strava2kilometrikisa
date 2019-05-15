@@ -320,7 +320,7 @@ var kilometrikisa = {
   getLog: function(token, sessionId, startDate, endDate) {
     // Submit username, password and CSFR token to login form.
     var options = {
-      url: 'http://www.kilometrikisa.fi/contest/log_list_json/17/?start=1459112400&end=1462136400&_=1461005550108',
+      url: 'https://www.kilometrikisa.fi/contest/log_list_json/17/?start=1459112400&end=1462136400&_=1461005550108',
       method: 'GET',
       referer: 'https://www.kilometrikisa.fi/contest/log/',
       headers: {

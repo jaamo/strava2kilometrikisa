@@ -28,6 +28,7 @@ const StravaAuth = require('./controllers/StravaAuth');
 const Sync = require('./controllers/Sync');
 
 // Serve static files.
+app.use('/img', express.static(path.join(__dirname, 'assets/img')));
 app.use(express.static(path.join(__dirname, 'assets/dist')));
 
 // Logger.

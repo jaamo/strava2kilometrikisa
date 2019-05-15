@@ -17,7 +17,7 @@ var StravaAuthController = {
   auth: function(req, res, next) {
     // Get strava authorize url.
     var url = strava.oauth.getRequestAccessURL({
-      scope: 'view_private',
+      scope: 'activity:read_all',
     });
     res.render('index', { url: url });
   },

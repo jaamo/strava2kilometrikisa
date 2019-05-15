@@ -5,6 +5,10 @@
   color: #fff;
   background: $color-almost-black;
 
+  h1 {
+    margin-bottom: 0;
+  }
+
   &__link {
     color: #fff;
     text-decoration: underline;
@@ -27,6 +31,14 @@
     left: 0;
     right: 0;
     transform: translateY(-50%);
+
+    .login-button {
+      background: url(/img/LogInWithStrava@2x.png) center no-repeat;
+      background-size: contain;
+      padding: 4em 8em;
+      display: inline-block;
+      text-indent: -9999px;
+    }
   }
 
   &--cover {
@@ -35,5 +47,9 @@
 
   &--full-screen {
     height: 100vh;
+
+    > .background-image {
+      background: url(/img/bikes.jpeg);
+    }
   }
 }
