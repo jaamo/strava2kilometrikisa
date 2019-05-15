@@ -1,7 +1,5 @@
-//include basic requirments
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -28,26 +26,6 @@ const User = require("./controllers/User");
 const Kilometrikisa = require("./controllers/Kilometrikisa");
 const StravaAuth = require("./controllers/StravaAuth");
 const Sync = require("./controllers/Sync");
-const Cron = require("./cron");
-
-var CronJob = require("cron").CronJob;
-
-//only run cron if on production
-if (
-  typeof process.env.KILOMETRIKISA_ENV !== "undefined" &&
-  process.env.KILOMETRIKISA_ENV == "production"
-) {
-  //everyhour on the hour
-  new CronJob(
-    "0 4 * * *",
-    function() {
-      Cron.run();
-    },
-    null,
-    true,
-    "Europe/Helsinki"
-  );
-}
 
 // Serve static files.
 app.use(express.static(path.join(__dirname, "assets/dist")));
@@ -62,7 +40,7 @@ app.set("view engine", "ejs");
 // Init sessions.
 app.use(
   session({
-    secret: "mAs03dfsfokdqpFsd34sdfq0dqjlknmae",
+    secret: process.env.KILOMETRIKISA_SESSION_SECRET,
     saveUninitialized: true,
     resave: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
