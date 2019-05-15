@@ -2,6 +2,8 @@
 .manual-sync {
   display: block;
   padding-top: 2rem;
+  text-decoration: none;
+  cursor: pointer;
   &__icon {
     display: inline-block;
     opacity: 0.4;

@@ -14,29 +14,33 @@
                 <h1 class="headline margin-bottom--md">Manual synchronization</h1>
 
                 <div class="row">
-                    <div class="col-xs-6 col-sm-offset-3">
+                    <div class="col-md-6 col-md-offset-3">
 
                         <div class="container-box text-xs-center">
 
                             <p>
-                                Following activities will be synced:
+                                The following activities will be synced:
                             </p>
+                            
+                            <div class="l-activities">
+                              <table class="c-activities">
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Distance</th>
+                                    <th>Duration</th>
+                                  </tr>
+                                  <% for (var date in activities) { %>
+                                    <tr>
+                                      <td><%=date%></td>
+                                      <td><%=activities[date].distance%> km<br></td>
+                                      <td><%=activities[date].hours%> h, <%=activities[date].minutes%> min</td>
+                                    </tr>
+                                  <% } %>
+                              </table>
+                            </div>
 
-                            <dl class="activity-table">
-                                <% for (var date in activities) { %>
-                                    <dd class="activity-table__date">
-                                        <%=date%>
-                                    </dd>
-                                    <dt class="activity-table__distance">
-                                        <%=activities[date].distance%> km<br>
-                                        <%=activities[date].hours%> h
-                                        <%=activities[date].minutes%> min
-                                    </dt>
-                                <% } %>
-                            </dl>
-
-                            <a type="button" href="/account" class="btn btn-secondary">Cancel</a>
-                            <a type="button" href="/dosync" class="btn btn-primary">Sync</a>
+                            <a href="/account" class="btn btn-secondary">Cancel</a>
+                            <a href="/dosync" class="btn btn-primary">Sync</a>
 
                         </div>
 

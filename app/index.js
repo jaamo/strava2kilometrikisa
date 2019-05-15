@@ -20,8 +20,8 @@ mongoose.connect(
 
 // Controllers
 const Home = require('./controllers/Home');
-const Friends = require('./controllers/Friends');
-const Activities = require('./controllers/Activities');
+// const Friends = require('./controllers/Friends');
+// const Activities = require('./controllers/Activities');
 const User = require('./controllers/User');
 const Kilometrikisa = require('./controllers/Kilometrikisa');
 const StravaAuth = require('./controllers/StravaAuth');
@@ -59,21 +59,21 @@ app.get('/', (req, res, next) => {
   StravaAuth.auth(req, res, next);
 });
 
-app.get('/admin/friends', (req, res, next) => {
-  Friends.index(req, res, next);
-});
+// app.get('/admin/friends', (req, res, next) => {
+//   Friends.index(req, res, next);
+// });
 
-app.get('/admin/activities', (req, res, next) => {
-  Activities.index(req, res, next);
-});
+// app.get('/admin/activities', (req, res, next) => {
+//   Activities.index(req, res, next);
+// });
 
-app.get('/admin/dev', (req, res, next) => {
-  Home.dev(req, res, next);
-});
+// app.get('/admin/dev', (req, res, next) => {
+//   Home.dev(req, res, next);
+// });
 
-app.get('/admin/styleguide', (req, res, next) => {
-  Home.styleguide(req, res, next);
-});
+// app.get('/admin/styleguide', (req, res, next) => {
+//   Home.styleguide(req, res, next);
+// });
 
 app.get('/faq', (req, res, next) => {
   Home.faq(req, res, next);
@@ -83,17 +83,17 @@ app.get('/faq', (req, res, next) => {
 //    Kilometrikisa.index(req, res, next);
 // });
 
-app.get('/admin/users', (req, res, next) => {
-  User.index(req, res, next);
-});
+// app.get('/admin/users', (req, res, next) => {
+//   User.index(req, res, next);
+// });
 
-app.get('/admin/users/:id', (req, res, next) => {
-  User.show(req, res, next);
-});
+// app.get('/admin/users/:id', (req, res, next) => {
+//   User.show(req, res, next);
+// });
 
-app.get('/admin/users/:id/logs', (req, res, next) => {
-  User.logs(req, res, next);
-});
+// app.get('/admin/users/:id/logs', (req, res, next) => {
+//   User.logs(req, res, next);
+// });
 
 // Application flow:
 

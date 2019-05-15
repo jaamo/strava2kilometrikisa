@@ -1,18 +1,32 @@
 const mongoose = require('mongoose');
-const strava = require('strava-v3');
+// const strava = require('strava-v3');
 
 const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 const Log = require('./models/LogModel.js');
-const Email = require('./lib/Email');
+// const Email = require('./lib/Email');
+
+// Connect to MongoDB.
+mongoose.connect(
+  'mongodb://' +
+    process.env.KILOMETRIKISA_DBUSER +
+    ':' +
+    process.env.KILOMETRIKISA_DBPASSWORD +
+    '@' +
+    process.env.KILOMETRIKISA_DBHOST +
+    '/' +
+    process.env.KILOMETRIKISA_DB,
+);
 
 var cron = {
   users: [],
 
   run: function() {
+    console.log('Cronjob running...');
+
     // Find all user having autosync enabled.
-    User.find(
+    return User.find(
       { autosync: true },
       function(err, users) {
         var usersLength = users.length;
@@ -24,7 +38,7 @@ var cron = {
         this.users = users;
 
         // Start syncing.
-        console.log('Found ' + users.length + ' users.');
+        console.log('Found ' + users.length + ' users to sync...');
 
         this.syncNextUser();
 

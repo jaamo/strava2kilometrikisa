@@ -1,19 +1,8 @@
-.activity-table {
+.l-activities {
+  margin: 2em auto;
   width: 60%;
-  display: block;
-  margin: 1rem auto;
-  text-align: left;
-  overflow: hidden;
-  &__date {
-    margin: 0;
-    padding: 0;
-    width: 60%;
-    float: left;
-  }
-  &__distance {
-    margin: 0;
-    padding: 0;
-    width: 40%;
-    float: left;
-  }
+}
+
+.c-activities {
+  width: 100%;
 }

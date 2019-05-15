@@ -4,8 +4,9 @@ h1.headline {
   font-family: $font-family-heading;
   font-weight: 100;
   text-align: center;
-  font-size: 4rem;
+  font-size: 3rem;
   color: white;
+  line-height: 1;
 }
 
 h1.sub {
@@ -125,4 +126,16 @@ input.cmn-toggle-round:checked + label:after {
 
 .section {
   padding: 2rem 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+footer {
+  .nav {
+    a + a {
+      margin-left: 1em;
+    }
+  }
 }

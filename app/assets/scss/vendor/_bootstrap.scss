@@ -9,12 +9,12 @@
 
 // Core CSS
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
-//@import "~bootstrap-sass/assets/stylesheets/bootstrap/type";
+// @import '~bootstrap-sass/assets/stylesheets/bootstrap/type';
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap/code";
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/grid';
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap/tables";
-//@import "~bootstrap-sass/assets/stylesheets/bootstrap/forms";
-//@import "~bootstrap-sass/assets/stylesheets/bootstrap/buttons";
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/forms';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/buttons';
 
 // Components
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap/component-animations";
