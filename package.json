@@ -6,6 +6,7 @@
   "engines": {
     "node": "10.x"
   },
+  "repository": "https://github.com/jaamo/strava2kilometrikisa",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp build",
@@ -42,6 +43,7 @@
     "gulp-sourcemaps": "~1.6",
     "gulp-uglify": "~1.5",
     "jshint": "~2.9",
-    "jshint-stylish": "~2.1"
+    "jshint-stylish": "~2.1",
+    "prettier": "^1.17.1"
   }
 }

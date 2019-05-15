@@ -1,10 +1,10 @@
 # strava2kilometrikisa
 
-An application to fill the gap between Strava and Kilometrikisa.
+An application to fill the gap between [Strava](http://strava.com/) and [Kilometrikisa](https://www.kilometrikisa.fi/).
 
-Visit the site to use it: [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
+Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
 
-## Installation
+## Development
 
 1. Copy and configure `app/.env.example` to `app/.env`
 1. `$ npm install`

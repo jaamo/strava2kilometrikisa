@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const strava = require("strava-v3");
+const mongoose = require('mongoose');
+const strava = require('strava-v3');
 
-const Kilometrikisa = require("./lib/kilometrikisa.js");
-const SyncModel = require("./models/SyncModel.js");
-const User = require("./models/UserModel.js");
-const Log = require("./models/LogModel.js");
-const Email = require("./lib/Email");
+const Kilometrikisa = require('./lib/kilometrikisa.js');
+const SyncModel = require('./models/SyncModel.js');
+const User = require('./models/UserModel.js');
+const Log = require('./models/LogModel.js');
+const Email = require('./lib/Email');
 
 var cron = {
   users: [],
@@ -24,14 +24,14 @@ var cron = {
         this.users = users;
 
         // Start syncing.
-        console.log("Found " + users.length + " users.");
+        console.log('Found ' + users.length + ' users.');
 
         this.syncNextUser();
 
         // Loop through users.
         // users.forEach(function(user) {
         // });
-      }.bind(this)
+      }.bind(this),
     );
   },
 
@@ -48,7 +48,7 @@ var cron = {
     var user = this.users.pop();
 
     console.log(new Date());
-    console.log(this.users.length + " users left in queue.");
+    console.log(this.users.length + ' users left in queue.');
 
     // Sync!
     this.syncUser(
@@ -58,9 +58,9 @@ var cron = {
           function() {
             this.syncNextUser();
           }.bind(this),
-          5000
+          5000,
         );
-      }.bind(this)
+      }.bind(this),
     );
   },
 
@@ -74,17 +74,12 @@ var cron = {
       user.getPassword(),
       function(token, sessionId) {
         console.log(
-          "Syncing for user " +
-            user.kilometrikisaUsername +
-            ". Login complete: " +
-            token +
-            " / " +
-            sessionId
+          'Syncing for user ' + user.kilometrikisaUsername + '. Login complete: ' + token + ' / ' + sessionId,
         );
 
         // Save login token.
-        user.set("kilometrikisaToken", token);
-        user.set("kilometrikisaSessionId", sessionId);
+        user.set('kilometrikisaToken', token);
+        user.set('kilometrikisaSessionId', sessionId);
 
         // Do sync.
         SyncModel.doSync(
@@ -93,51 +88,43 @@ var cron = {
           user.kilometrikisaToken,
           user.kilometrikisaSessionId,
           function(activities) {
-            Log.log(
-              "Activities synced automatically.",
-              JSON.stringify(activities),
-              user.stravaUserId
-            );
-            console.log(
-              "Activities synced for user " + user.kilometrikisaUsername
-            );
+            Log.log('Activities synced automatically.', JSON.stringify(activities), user.stravaUserId);
+            console.log('Activities synced for user ' + user.kilometrikisaUsername);
 
             callback();
             // if (++usersSynced == usersLength) process.exit();
           }.bind(this),
           function(error) {
             Log.log(
-              "Automatic sync failed!",
-              "stravaToken " +
+              'Automatic sync failed!',
+              'stravaToken ' +
                 user.stravaToken +
-                ", " +
-                "stravaToken " +
+                ', ' +
+                'stravaToken ' +
                 user.kilometrikisaToken +
-                ", " +
-                "stravaToken " +
+                ', ' +
+                'stravaToken ' +
                 user.kilometrikisaSessionId +
-                ", message: " +
+                ', message: ' +
                 error,
-              user.stravaUserId
+              user.stravaUserId,
             );
 
-            console.log(
-              "Activities sync failed for user " + user.kilometrikisaUsername
-            );
+            console.log('Activities sync failed for user ' + user.kilometrikisaUsername);
 
             //Email.send('strava2kilometrikisa@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
 
             callback();
             // if (++usersSynced == usersLength) process.exit();
-          }.bind(this)
+          }.bind(this),
         );
       }.bind(this),
       function() {
-        Log.log("User " + user.kilometrikisaUsername + " login failed.");
+        Log.log('User ' + user.kilometrikisaUsername + ' login failed.');
         callback();
-      }.bind(this)
+      }.bind(this),
     );
-  }
+  },
 };
 
 module.exports = cron;

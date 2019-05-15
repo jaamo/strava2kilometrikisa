@@ -1,8 +1,8 @@
-var strava = require("strava-v3");
-var Kilometrikisa = require("../lib/kilometrikisa.js");
-var Sync = require("./Sync.js");
-var Helpers = require("../helpers/Helpers.js");
-var Log = require("../models/LogModel.js");
+var strava = require('strava-v3');
+var Kilometrikisa = require('../lib/kilometrikisa.js');
+var Sync = require('./Sync.js');
+var Helpers = require('../helpers/Helpers.js');
+var Log = require('../models/LogModel.js');
 
 var HomeController = {
   /**
@@ -15,25 +15,25 @@ var HomeController = {
    */
   index: function(req, res, next) {
     if (Helpers.isLoggedIn(req)) {
-      res.redirect("/kampiapina");
+      res.redirect('/kampiapina');
     } else {
-      res.render("index", {});
+      res.render('index', {});
     }
   },
 
   styleguide: function(req, res, next) {
     //need to put these behind http auth or something
-    res.render("styleguide", {});
+    res.render('styleguide', {});
   },
 
   dev: function(req, res, next) {
     //need to put these behind http auth or something
-    res.render("dev", {});
+    res.render('dev', {});
   },
 
   faq: function(req, res, next) {
     //need to put these behind http auth or something
-    res.render("faq", {});
+    res.render('faq', {});
   },
 
   /**
@@ -49,7 +49,7 @@ var HomeController = {
     req.session.stravaToken = false;
     req.session.kilometrikisaToken = false;
     req.session.kilometrikisaSessionId = false;
-    res.redirect("/");
-  }
+    res.redirect('/');
+  },
 };
 module.exports = HomeController;

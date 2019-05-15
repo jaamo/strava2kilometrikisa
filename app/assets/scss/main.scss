@@ -3,35 +3,35 @@
  *
  * include the base variables
  */
-@import "base/variables";
+@import 'base/variables';
 
 /**
  * Vendors
  */
-@import "vendor/bootstrap";
-@import "vendor/animate-css";
+@import 'vendor/bootstrap';
+@import 'vendor/animate-css';
 
 /**
  * Mixins
  *
  */
-@import "mixins/bgimg";
-@import "mixins/full-cover";
-@import "mixins/helpers";
-@import "mixins/overlay";
-@import "mixins/section";
-@import "mixins/typography";
-@import "mixins/wysiwyg-html";
+@import 'mixins/bgimg';
+@import 'mixins/full-cover';
+@import 'mixins/helpers';
+@import 'mixins/overlay';
+@import 'mixins/section';
+@import 'mixins/typography';
+@import 'mixins/wysiwyg-html';
 
 /**
  * Base
  *
  * include the base helpers, typography etc
  */
-@import "base/base";
-@import "base/helpers";
-@import "base/print";
-@import "base/typography";
+@import 'base/base';
+@import 'base/helpers';
+@import 'base/print';
+@import 'base/typography';
 
 /**
  * Layouts
@@ -43,12 +43,12 @@
  * Components
  *
  */
-@import "components/container-box";
-@import "components/jumbo";
-@import "components/background-image";
-@import "components/faq";
-@import "components/activity-table";
-@import "components/buttons";
+@import 'components/container-box';
+@import 'components/jumbo';
+@import 'components/background-image';
+@import 'components/faq';
+@import 'components/activity-table';
+@import 'components/buttons';
 
 //nasty, but for now until we order the chaos
-@import "all";
+@import 'all';

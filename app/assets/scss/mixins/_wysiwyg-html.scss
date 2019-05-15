@@ -3,39 +3,49 @@
  * well-formatted when the client has control over the content. Typically when
  * the client has the ability to add HTML.
  */
-@mixin wysiwyg-html(){
-
-  h1, h2, h3, h4, h5, h6 {
-      margin: 1em 0 0.3em 0;
-      color: $headings-color;
-      margin-bottom: rem($padding);
+@mixin wysiwyg-html() {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1em 0 0.3em 0;
+    color: $headings-color;
+    margin-bottom: rem($padding);
   }
 
-  ul, ol {
+  ul,
+  ol {
     li {
       margin: 0 0 5px 0;
     }
   }
 
   p {
-  	margin-bottom: rem($padding);
+    margin-bottom: rem($padding);
 
-  	&:last-child{
-  		margin-bottom:0;
-  	}
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
-  dl,dd,blockquote,ul,ol{
-  	margin-bottom: rem($padding);
+  dl,
+  dd,
+  blockquote,
+  ul,
+  ol {
+    margin-bottom: rem($padding);
 
-  	&+ol,&+ul{
-  		margin-bottom:0;
-  	}
+    & + ol,
+    & + ul {
+      margin-bottom: 0;
+    }
   }
 
   /* Editor image styles */
   img {
-    height:auto; // overwrite height-attribute set by WP
+    height: auto; // overwrite height-attribute set by WP
   }
 
   // images with captions
@@ -53,7 +63,7 @@
 
   .alignnone {
     width: 100%;
-    display:block;
+    display: block;
     margin-bottom: rem($padding);
 
     img {
@@ -62,10 +72,10 @@
   }
 
   .aligncenter {
-    text-align:center;
-    margin-left:auto;
-    margin-right:auto;
-    display:block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     margin-bottom: rem($padding);
   }
 
@@ -84,13 +94,18 @@
   }
 }
 
-@mixin wysiwyg-html--nowrap(){
-  h1, h2, h3, h4, h5, h6,
-  ul li, ol li,
-  p,
-  {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
+@mixin wysiwyg-html--nowrap() {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  ul li,
+  ol li,
+  p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }

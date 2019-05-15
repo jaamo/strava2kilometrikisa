@@ -1,13 +1,13 @@
-const CronJob = require("cron").CronJob;
-const Cron = require("./cron");
+const CronJob = require('cron').CronJob;
+const Cron = require('./cron');
 
 new CronJob(
-  "0 4 * * *",
+  '0 4 * * *',
   function() {
     // Cron.run();
-    console.log("Running...");
+    console.log('Running...');
   },
   null,
   true,
-  "Europe/Helsinki"
+  'Europe/Helsinki',
 );

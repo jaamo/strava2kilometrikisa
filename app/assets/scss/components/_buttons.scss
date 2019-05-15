@@ -1,18 +1,18 @@
 /* Grey low emphasis button used on the footer of white container box. */
 .manual-sync {
-    display: block;
-    padding-top: 2rem;
-    &__icon {
-        display: inline-block;
-        opacity: 0.4;
-        width: 2rem;
-    }
-    &__button {
-        display: inline-block;
-        color: grey;
-        line-height: 2rem;
-    }
+  display: block;
+  padding-top: 2rem;
+  &__icon {
+    display: inline-block;
+    opacity: 0.4;
+    width: 2rem;
+  }
+  &__button {
+    display: inline-block;
+    color: grey;
+    line-height: 2rem;
+  }
 }
 .manual-sync:hover {
-    text-decoration: none;
+  text-decoration: none;
 }

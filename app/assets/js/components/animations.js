@@ -1,91 +1,81 @@
 (function() {
+  //create empty object in the global em variable
+  em.animations = {
+    elements: {},
+    winWidthOk: false,
+  };
 
-	//create empty object in the global em variable
-	em.animations = {
-		elements: {},
-		winWidthOk: false
-	};
+  //call any functions to be trigger on dom ready
+  em.animations.init = function() {
+    em.animations.capture();
 
-	//call any functions to be trigger on dom ready
-	em.animations.init = function(){
+    em.animations.checkRequiredWidth();
 
-		em.animations.capture();
+    em.animations.animateFirstBlockIn();
 
-		em.animations.checkRequiredWidth();
+    em.animations.setup();
+  };
 
-		em.animations.animateFirstBlockIn();
+  em.animations.capture = function() {
+    em.animations.elements = $('[data-animate]');
+  };
 
-		em.animations.setup();
-		
-	};
+  em.animations.checkRequiredWidth = function() {
+    if (window.innerWidth > 1024) {
+      em.animations.winWidthOk = true;
+      em.animations.animate();
+      em.animations.animateFirstBlockIn();
+    } else {
+      em.animations.winWidthOk = false;
+    }
+  };
 
-	em.animations.capture = function(){
-		em.animations.elements = $("[data-animate]");
-	};
+  em.animations.canWe = function() {
+    if (em.animations.elements.length && em.animations.winWidthOk === true) {
+      return true;
+    }
 
-	em.animations.checkRequiredWidth = function(){
-		if(window.innerWidth>1024){
-			em.animations.winWidthOk = true;
-			em.animations.animate();
-			em.animations.animateFirstBlockIn();
-		}
-		else {
-			em.animations.winWidthOk = false;
-		}
+    return false;
+  };
 
-	};
+  em.animations.setup = function() {
+    $(window)
+      .on('scroll', function() {
+        if (!em.animations.canWe()) {
+          return false;
+        }
 
-	em.animations.canWe = function(){
-		if(em.animations.elements.length && em.animations.winWidthOk === true) {
-			return true;
-		}
+        em.animations.animate();
+      })
+      .scroll();
+  };
 
-		return false;
-	};
+  em.animations.animate = function() {
+    em.animations.elements.each(function() {
+      var win = $(window),
+        el = $(this),
+        scrollTop = win.scrollTop(),
+        windowHeight = win.height(),
+        elTop = el.offset().top;
 
-	em.animations.setup  = function(){
-		
-		$(window).on("scroll", function() {
+      el.toggleClass(el.data('animate'), elTop < scrollTop + windowHeight);
 
-			if(!em.animations.canWe()){
-				return false;
-			}
+      // if(elTop < (scrollTop+windowHeight)){
+      // 	el.addClass( el.data("animate"));
+      // }
+    });
+  };
 
-			em.animations.animate();
-		    
-		}).scroll();
-	};
+  em.animations.animateFirstBlockIn = function() {
+    if (em.animations.canWe()) {
+      var el = $('.main-header > section.hero + section');
+      var container = el.find('div').eq(0);
 
-	em.animations.animate = function(){
-		em.animations.elements.each(function(){
-
-	        var win = $(window),
-	        	el = $(this),
-	        	scrollTop = win.scrollTop(),
-	            windowHeight = win.height(),
-	            elTop = el.offset().top;
-
-	        el.toggleClass( el.data("animate"), elTop < (scrollTop+windowHeight));
-
-	        // if(elTop < (scrollTop+windowHeight)){
-	        // 	el.addClass( el.data("animate"));
-	        // }
-	    });
-	};
-
-	em.animations.animateFirstBlockIn = function(){
-		if(em.animations.canWe()){
-			var el = $('.main-header > section.hero + section');
-			var container = el.find('div').eq(0);
-
-			if(!el.hasClass('toBeAnimated')){
-				container.addClass('animated fadeInUp');
-			}
-			else {
-				container.css({opacity: 1});
-			}
-			
-		}
-	};
-
+      if (!el.hasClass('toBeAnimated')) {
+        container.addClass('animated fadeInUp');
+      } else {
+        container.css({ opacity: 1 });
+      }
+    }
+  };
 })();
