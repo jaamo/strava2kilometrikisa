@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 var crypto = require('crypto');
+var strava = require('strava-v3');
 
 
 
@@ -13,6 +14,8 @@ var cryptoPassword = process.env.CRYPTO_PASSWORD;
 var UserSchema = new mongoose.Schema({
     stravaUserId: { type: Number },
     stravaToken: { type: String },
+    tokenExpire: { type: Number },
+    refreshToken: { type: String },
     kilometrikisaToken: { type: String },
     kilometrikisaSessionId: { type: String },
     kilometrikisaUsername: { type: String },
@@ -27,6 +30,17 @@ var UserSchema = new mongoose.Schema({
     notifiedByEmail: { type: Boolean }
 
 });
+
+
+UserSchema.methods.updateToken = function() {
+    var d = new Date();
+    if (d > this.tokenExpire) {
+        const payload = strava.oauth.refreshToken(this.refreshToken);
+        this.stravaToken = payload.access_token;
+        this.tokenExpire = payload.expires_at * 1000;
+        this.refreshToken = payload.refresh_token;
+    }
+}
 
 
 
