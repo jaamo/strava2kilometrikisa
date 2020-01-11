@@ -22,7 +22,7 @@ var StravaAuthController = {
 
         // Get strava authorize url.
         var url = strava.oauth.getRequestAccessURL({
-            scope: "view_private"
+            scope: "activity:read_all"
         });
         res.render('index', { url: url });
 
@@ -77,6 +77,8 @@ var StravaAuthController = {
                     // Save details.
                     user.set("stravaUserId", req.session.stravaUserId);
                     user.set("stravaToken", payload.access_token);
+                    user.set("tokenExpire", payload.expires_at * 1000);
+                    user.set("refreshToken", payload.refresh_token);
                     user.set("email", payload.athlete.email);
                     user.set("notifiedByEmail", false);
 
