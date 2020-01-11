@@ -1,7 +1,7 @@
 {
-  "name": "stava2kilometrikisa",
+  "name": "strava2kilometrikisa",
   "version": "1.0.0",
-  "description": "a stava2kilometrikisa integration",
+  "description": "a strava2kilometrikisa integration",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
