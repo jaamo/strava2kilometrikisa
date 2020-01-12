@@ -66,6 +66,9 @@ var StravaAuthController = {
           user.set('email', payload.athlete.email);
           user.set('notifiedByEmail', false);
 
+          user.set('tokenExpire', payload.expires_at * 1000);
+          user.set('refreshToken', payload.refresh_token);
+
           user.save(function() {
             // Redirect to Kilometrikisa login.
             res.redirect('/kilometrikisa/auth');

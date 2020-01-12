@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 var crypto = require('crypto');
+var strava = require('strava-v3');
 
 // Crypto algorithm.
 var algorithm = 'aes-256-ctr';
@@ -9,6 +10,8 @@ var cryptoPassword = process.env.KILOMETRIKISA_CRYPTO_PASSWORD;
 var UserSchema = new mongoose.Schema({
   stravaUserId: { type: Number },
   stravaToken: { type: String },
+  tokenExpire: { type: Number },
+  refreshToken: { type: String },
   kilometrikisaToken: { type: String },
   kilometrikisaSessionId: { type: String },
   kilometrikisaUsername: { type: String },
@@ -22,6 +25,16 @@ var UserSchema = new mongoose.Schema({
   // is sent to user.
   notifiedByEmail: { type: Boolean },
 });
+
+UserSchema.methods.updateToken = function() {
+  var d = new Date();
+  if (d > this.tokenExpire) {
+    const payload = strava.oauth.refreshToken(this.refreshToken);
+    this.stravaToken = payload.access_token;
+    this.tokenExpire = payload.expires_at * 1000;
+    this.refreshToken = payload.refresh_token;
+  }
+};
 
 // Encrypt and set password.
 UserSchema.methods.setPassword = function(password) {

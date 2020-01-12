@@ -92,6 +92,8 @@ var SyncController = {
         return;
       }
 
+      user.updateToken();
+
       // Sync all activities.
       SyncModel.doSync(
         req.session.stravaUserId,

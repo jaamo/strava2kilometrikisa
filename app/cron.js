@@ -95,6 +95,9 @@ var cron = {
         user.set('kilometrikisaToken', token);
         user.set('kilometrikisaSessionId', sessionId);
 
+        // Update Strava token if expired
+        user.updateToken();
+
         // Do sync.
         SyncModel.doSync(
           user.stravaUserId,
