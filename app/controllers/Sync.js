@@ -1,9 +1,7 @@
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var SyncModel = require('../models/SyncModel.js');
-var strava = require('strava-v3');
 var User = require('../models/UserModel.js');
 var Log = require('../models/LogModel.js');
-// var Cron = require('../cron');
 
 /**
  * Handle syncing from Stara to Kilometrikisa.

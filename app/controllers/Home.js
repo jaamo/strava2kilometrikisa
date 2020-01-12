@@ -1,8 +1,4 @@
-var strava = require('strava-v3');
-var Kilometrikisa = require('../lib/kilometrikisa.js');
-var Sync = require('./Sync.js');
 var Helpers = require('../helpers/Helpers.js');
-var Log = require('../models/LogModel.js');
 
 var HomeController = {
   /**

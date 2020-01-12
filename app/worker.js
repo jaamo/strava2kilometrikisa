@@ -1,10 +1,12 @@
 const CronJob = require('cron').CronJob;
 const Cron = require('./cron');
 
-console.log('Worker running...');
+const time = process.env.CRON_TIME_SYNC || '0 4 * * *';
+
+console.log(`Worker running [${time}]...`);
 
 new CronJob(
-  '0 4 * * *',
+  time,
   function() {
     Cron.run();
   },

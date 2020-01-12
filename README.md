@@ -14,9 +14,7 @@ Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
 
 ## How to contribute
 
-We would love to hear from you. If you have an idea, any improvements, suggestions or just found a bug, please [submit an issue](https://github.com/jaamo/strava2kilometrikisa/issues/new) for us and others to track and work.
-
-If you fancy doing the work, please [create a pull request](https://github.com/jaamo/strava2kilometrikisa/compare) referencing the issue you are resolving.
+We would love your input! Check out how to contribute [here](./.github/CONTRIBUTING.md).
 
 ## Contributors
 

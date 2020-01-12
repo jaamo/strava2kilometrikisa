@@ -1,5 +1,4 @@
 var strava = require('strava-v3');
-var async = require('async');
 const User = require('../models/UserModel.js');
 const Log = require('../models/LogModel.js');
 
@@ -27,33 +26,6 @@ var UsersController = {
 
   index: function(req, res, next) {
     var data = {};
-
-    // async.waterfall([
-    //   function(callback){
-    //     // code a
-    //     User.find({autosync:true}, function(err, users) {
-    //     	callback(null, users)
-    //     });
-
-    //   },
-    //   function(users, callback){
-
-    //   	var data = {};
-    //   	data.users = users;
-    //   	data.logs = [123];
-
-    //     users.forEach(function(user) {
-    //     	Log.find({stravaUserId:user.stravaUserId}, function(err, logs) {
-    //           		data.logs[user.stravaUserId] = logs;
-    //           	});
-    //     });
-
-    //     callback(null, data)
-    //   }],
-    //   function (err, result) {
-    //    res.render('stats', {data: result});
-    //   }
-    // );
 
     User.find({ autosync: true }, function(err, users) {
       data.users = users;

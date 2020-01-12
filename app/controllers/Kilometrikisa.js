@@ -1,5 +1,4 @@
 var Kilometrikisa = require('../lib/kilometrikisa.js');
-var strava = require('strava-v3');
 var User = require('../models/UserModel.js');
 
 /**

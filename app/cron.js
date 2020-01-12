@@ -1,23 +1,9 @@
 const mongoose = require('mongoose');
-// const strava = require('strava-v3');
 
 const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 const Log = require('./models/LogModel.js');
-// const Email = require('./lib/Email');
-
-// Connect to MongoDB.
-mongoose.connect(
-  'mongodb://' +
-    process.env.KILOMETRIKISA_DBUSER +
-    ':' +
-    process.env.KILOMETRIKISA_DBPASSWORD +
-    '@' +
-    process.env.KILOMETRIKISA_DBHOST +
-    '/' +
-    process.env.KILOMETRIKISA_DB,
-);
 
 var cron = {
   users: [],
@@ -25,28 +11,44 @@ var cron = {
   run: function() {
     console.log('Cronjob running...');
 
-    // Find all user having autosync enabled.
-    return User.find(
-      { autosync: true },
-      function(err, users) {
-        var usersLength = users.length;
-        var usersSynced = 0;
+    // Connect to MongoDB.
+    mongoose
+      .connect(
+        'mongodb://' +
+          process.env.KILOMETRIKISA_DBUSER +
+          ':' +
+          process.env.KILOMETRIKISA_DBPASSWORD +
+          '@' +
+          process.env.KILOMETRIKISA_DBHOST +
+          '/' +
+          process.env.KILOMETRIKISA_DB,
+      )
+      .then(() => {
+        console.log('Connected to DB.');
 
-        // DEBUG:
-        // users = users.slice(0, 5);
+        // Find all user having autosync enabled.
+        return User.find(
+          { autosync: true },
+          function(err, users) {
+            var usersLength = users.length;
+            var usersSynced = 0;
 
-        this.users = users;
+            // DEBUG:
+            // users = users.slice(0, 5);
 
-        // Start syncing.
-        console.log('Found ' + users.length + ' users to sync...');
+            this.users = users;
 
-        this.syncNextUser();
+            // Start syncing.
+            console.log('Found ' + users.length + ' users to sync...');
 
-        // Loop through users.
-        // users.forEach(function(user) {
-        // });
-      }.bind(this),
-    );
+            this.syncNextUser();
+
+            // Loop through users.
+            // users.forEach(function(user) {
+            // });
+          }.bind(this),
+        );
+      });
   },
 
   /**
@@ -55,6 +57,8 @@ var cron = {
   syncNextUser: function() {
     // All done!
     if (this.users.length == 0) {
+      mongoose.disconnect();
+      console.log('Disconnected from DB.');
       return false;
     }
 
@@ -72,7 +76,7 @@ var cron = {
           function() {
             this.syncNextUser();
           }.bind(this),
-          5000,
+          3500,
         );
       }.bind(this),
     );
