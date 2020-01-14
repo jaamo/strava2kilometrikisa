@@ -70,6 +70,8 @@ var SyncController = {
                 return;
             }
 
+            user.updateToken();
+
             // Get activities.
             SyncModel.getStravaActivities(
                 user.stravaToken,
@@ -108,8 +110,6 @@ var SyncController = {
                 res.redirect("/?error=usernotfound");
                 return;
             }
-
-            user.updateToken();
 
             // Sync all activities.
             SyncModel.doSync(
