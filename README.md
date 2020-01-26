@@ -1,6 +1,6 @@
 # Strava2kilometrikisa
 
-An application to fill the gap between [Strava](http://strava.com/) and [Kilometrikisa](https://www.kilometrikisa.fi/).
+An application to fill the gap between [Strava](https://strava.com/) and [Kilometrikisa](https://www.kilometrikisa.fi/).
 
 Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
 
