@@ -100,45 +100,45 @@ var cron = {
         user.set('kilometrikisaSessionId', sessionId);
 
         // Update Strava token if expired
-        user.updateToken();
+        user.updateToken().then(() => {
+          // Do sync.
+          SyncModel.doSync(
+            user.stravaUserId,
+            user.stravaToken,
+            user.kilometrikisaToken,
+            user.kilometrikisaSessionId,
+            function(activities) {
+              Log.log('Activities synced automatically.', JSON.stringify(activities), user.stravaUserId);
+              console.log('Activities synced for user ' + user.kilometrikisaUsername);
 
-        // Do sync.
-        SyncModel.doSync(
-          user.stravaUserId,
-          user.stravaToken,
-          user.kilometrikisaToken,
-          user.kilometrikisaSessionId,
-          function(activities) {
-            Log.log('Activities synced automatically.', JSON.stringify(activities), user.stravaUserId);
-            console.log('Activities synced for user ' + user.kilometrikisaUsername);
-
-            callback();
-            // if (++usersSynced == usersLength) process.exit();
-          }.bind(this),
-          function(error) {
-            Log.log(
-              'Automatic sync failed!',
-              'stravaToken ' +
-                user.stravaToken +
-                ', ' +
+              callback();
+              // if (++usersSynced == usersLength) process.exit();
+            }.bind(this),
+            function(error) {
+              Log.log(
+                'Automatic sync failed!',
                 'stravaToken ' +
-                user.kilometrikisaToken +
-                ', ' +
-                'stravaToken ' +
-                user.kilometrikisaSessionId +
-                ', message: ' +
-                error,
-              user.stravaUserId,
-            );
+                  user.stravaToken +
+                  ', ' +
+                  'stravaToken ' +
+                  user.kilometrikisaToken +
+                  ', ' +
+                  'stravaToken ' +
+                  user.kilometrikisaSessionId +
+                  ', message: ' +
+                  error,
+                user.stravaUserId,
+              );
 
-            console.log('Activities sync failed for user ' + user.kilometrikisaUsername);
+              console.log('Activities sync failed for user ' + user.kilometrikisaUsername);
 
-            //Email.send('strava2kilometrikisa@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
+              //Email.send('strava2kilometrikisa@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
 
-            callback();
-            // if (++usersSynced == usersLength) process.exit();
-          }.bind(this),
-        );
+              callback();
+              // if (++usersSynced == usersLength) process.exit();
+            }.bind(this),
+          );
+        });
       }.bind(this),
       function() {
         Log.log('User ' + user.kilometrikisaUsername + ' login failed.');

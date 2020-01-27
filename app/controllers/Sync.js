@@ -56,22 +56,22 @@ var SyncController = {
         return;
       }
 
-      user.updateToken();
-
-      // Get activities.
-      SyncModel.getStravaActivities(
-        user.stravaToken,
-        function(activities) {
-          res.render('sync-preview', {
-            activities: activities,
-          });
-        },
-        function() {
-          res.render('sync-preview', {
-            activities: [],
-          });
-        },
-      );
+      user.updateToken().then(() => {
+        // Get activities.
+        SyncModel.getStravaActivities(
+          user.stravaToken,
+          function(activities) {
+            res.render('sync-preview', {
+              activities: activities,
+            });
+          },
+          function() {
+            res.render('sync-preview', {
+              activities: [],
+            });
+          },
+        );
+      });
     });
   },
 

@@ -30,7 +30,7 @@ var UserSchema = new mongoose.Schema({
 UserSchema.methods.updateToken = function() {
   var d = new Date();
   if (d > this.tokenExpire) {
-    strava.oauth
+    return strava.oauth
       .refreshToken(this.refreshToken)
       .then(function(account) {
         this.stravaToken = account.access_token;
@@ -39,6 +39,8 @@ UserSchema.methods.updateToken = function() {
       })
       .catch(console.log);
   }
+
+  return Promise.resolve();
 };
 
 // Encrypt and set password.
