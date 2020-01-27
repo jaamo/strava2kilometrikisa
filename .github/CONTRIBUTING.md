@@ -8,13 +8,13 @@ We love your input! We want to make contributing to this project as easy and tra
 - Proposing new features
 - Becoming a maintainer
 
-## We Develop with Github
+## We develop with GitHub
 
-We use github to host code, to track issues and feature requests, as well as accept pull requests which trigger deployments.
+We use GitHub to host code, to track issues and feature requests, as well as accept pull requests which trigger deployments.
 
-## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
+## We use [GitHub Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests
 
-Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
+Pull requests are the best way to propose changes to the codebase (we use [GitHub Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from `master`.
 1. ~~If you've added code that should be tested, add tests.~~ WIP
@@ -22,7 +22,7 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 1. ~~Ensure the test suite passes~~. WIP
 1. [Create a pull request](https://github.com/jaamo/strava2kilometrikisa/compare)!
 
-## Report bugs using Github's [issues](https://github.com/briandk/transcriptase-atom/issues)
+## Report bugs using GitHub's [issues](https://github.com/jaamo/strava2kilometrikisa/issues)
 
 We use GitHub issues to track public bugs. Report a bug by [opening an issue](https://github.com/jaamo/strava2kilometrikisa/issues/new); it's that easy!
 

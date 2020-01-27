@@ -6,7 +6,7 @@ Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
 
 ## Development
 
-1. Grab yourself some [Strava API credentials](http://developers.strava.com)
+1. Grab yourself some [Strava API credentials](https://developers.strava.com)
 1. Copy and configure `app/.env.example` to `app/.env`
 1. `$ source .env`
 1. `$ npm install`
