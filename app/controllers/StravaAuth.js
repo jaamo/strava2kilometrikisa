@@ -32,18 +32,15 @@ var StravaAuthController = {
   authComplete: function(req, res, next) {
     // Not get access token from Strava.
     strava.oauth.getToken(req.query.code, function(err, payload) {
-      // console.log(err);
-      // console.log(payload);
-
       // If error is set, show error message.
-      if (typeof req.query.error != 'undefined' || typeof payload.athlete == 'undefined') {
+      if (typeof req.query.error != 'undefined' || typeof payload.body.athlete == 'undefined') {
         res.render('strava-autherror', {});
       }
       // Otherwise save token and continue.
       else {
         // Save token to session.
-        // req.session.stravaToken = payload.access_token;
-        req.session.stravaUserId = payload.athlete.id;
+        // req.session.stravaToken = payload.body.access_token;
+        req.session.stravaUserId = payload.body.athlete.id;
 
         // Create user object, if id doesn't exists.
 
@@ -62,12 +59,12 @@ var StravaAuthController = {
 
           // Save details.
           user.set('stravaUserId', req.session.stravaUserId);
-          user.set('stravaToken', payload.access_token);
-          user.set('email', payload.athlete.email);
+          user.set('stravaToken', payload.body.access_token);
+          user.set('email', payload.body.athlete.email);
           user.set('notifiedByEmail', false);
 
-          user.set('tokenExpire', payload.expires_at * 1000);
-          user.set('refreshToken', payload.refresh_token);
+          user.set('tokenExpire', payload.body.expires_at * 1000);
+          user.set('refreshToken', payload.body.refresh_token);
 
           user.save(function() {
             // Redirect to Kilometrikisa login.
