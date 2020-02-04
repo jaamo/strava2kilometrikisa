@@ -29,13 +29,15 @@ var UserSchema = new mongoose.Schema({
 // https://github.com/UnbounDev/node-strava-v3/blob/master/lib/oauth.js#L102
 UserSchema.methods.updateToken = function() {
   var d = new Date();
+  var user = this;
   if (d > this.tokenExpire) {
     return strava.oauth
       .refreshToken(this.refreshToken)
       .then(function(account) {
-        this.stravaToken = account.access_token;
-        this.tokenExpire = account.expires_at * 1000;
-        this.refreshToken = account.refresh_token;
+        user.stravaToken = account.access_token;
+        user.tokenExpire = account.expires_at * 1000;
+        user.refreshToken = account.refresh_token;
+        user.save(); // Persis the changes to the DB
       })
       .catch(console.log);
   }

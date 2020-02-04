@@ -58,15 +58,18 @@ var cron = {
     // All done!
     if (this.users.length == 0) {
       mongoose.disconnect();
-      console.log('Disconnected from DB.');
+      console.log('\n' + this.users.length + ' users left in queue.');
+      console.log('\nDisconnected from DB.');
       return false;
     }
 
-    // Get next.
-    var user = this.users.pop();
-
+    console.log('\n');
     console.log(new Date());
     console.log(this.users.length + ' users left in queue.');
+    console.log('\n');
+
+    // Get next.
+    var user = this.users.pop();
 
     // Sync!
     this.syncUser(
@@ -86,14 +89,14 @@ var cron = {
    * Sync given user.
    */
   syncUser: function(user, callback) {
+    console.log('!! Syncing for user ' + user.kilometrikisaUsername);
+
     // Login.
     Kilometrikisa.login(
       user.kilometrikisaUsername,
       user.getPassword(),
       function(token, sessionId) {
-        console.log(
-          'Syncing for user ' + user.kilometrikisaUsername + '. Login complete: ' + token + ' / ' + sessionId,
-        );
+        console.log('Login complete: ' + token + ' / ' + sessionId);
 
         // Save login token.
         user.set('kilometrikisaToken', token);
@@ -109,7 +112,7 @@ var cron = {
             user.kilometrikisaSessionId,
             function(activities) {
               Log.log('Activities synced automatically.', JSON.stringify(activities), user.stravaUserId);
-              console.log('Activities synced for user ' + user.kilometrikisaUsername);
+              console.log(Object.keys(activities).length + ' activities synced');
 
               callback();
               // if (++usersSynced == usersLength) process.exit();
