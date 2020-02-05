@@ -1,0 +1,146 @@
+// base helper classes
+.el {
+  position: relative;
+  display: block;
+  float: left;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.background-image {
+  @include full-cover;
+  @include bgimg;
+}
+
+//put below into map
+
+/*------
+#PADDING
+------*/
+.padding {
+  padding: $padding;
+
+  &--xxl {
+    padding: $padding-xxl;
+  }
+
+  &--xl {
+    padding: $padding-xl;
+  }
+
+  &--lg {
+    padding: $padding-lg;
+  }
+
+  &--md {
+    padding: $padding-md;
+  }
+
+  &--sm {
+    padding: $padding-sm;
+  }
+
+  &--xs {
+    padding: $padding-xs;
+  }
+
+  &--xxs {
+    padding: $padding-xxs;
+  }
+}
+
+/*-----
+#MARGIN
+-----*/
+.margin {
+  margin: $padding;
+
+  &--xxl {
+    margin: $padding-xxl;
+  }
+
+  &--xl {
+    margin: $padding-xl;
+  }
+
+  &--lg {
+    margin: $padding-lg;
+  }
+
+  &--md {
+    margin: $padding-md;
+  }
+
+  &--sm {
+    margin: $padding-sm;
+  }
+
+  &--xs {
+    margin: $padding-xs;
+  }
+
+  &--xxs {
+    margin: $padding-xxs;
+  }
+}
+
+.margin-top {
+  &--xxl {
+    margin-top: $padding-xxl;
+  }
+
+  &--xl {
+    margin-top: $padding-xl;
+  }
+
+  &--lg {
+    margin-top: $padding-lg;
+  }
+
+  &--md {
+    margin-top: $padding-md;
+  }
+
+  &--sm {
+    margin-top: $padding-sm;
+  }
+
+  &--xs {
+    margin-top: $padding-xs;
+  }
+
+  &--xxs {
+    margin-top: $padding-xxs;
+  }
+}
+
+.margin-bottom {
+  &--xxl {
+    margin-bottom: $padding-xxl;
+  }
+
+  &--xl {
+    margin-bottom: $padding-xl;
+  }
+
+  &--lg {
+    margin-bottom: $padding-lg;
+  }
+
+  &--md {
+    margin-bottom: $padding-md;
+  }
+
+  &--sm {
+    margin-bottom: $padding-sm;
+  }
+
+  &--xs {
+    margin-bottom: $padding-xs;
+  }
+
+  &--xxs {
+    margin-bottom: $padding-xxs;
+  }
+}

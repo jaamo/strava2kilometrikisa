@@ -34,10 +34,6 @@ Thumbs.db
 
 #random stuff
 node_modules
-node/app/assets/dist
-node/app/assets/vendor
-env_vars
+app/assets/dist
 .idea
-test.js
 .env
-ssl-certs

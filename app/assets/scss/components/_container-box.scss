@@ -1,0 +1,23 @@
+/* Container box. */
+
+.container-box {
+  padding: 2rem;
+  background: white;
+  box-shadow: 0rem 0rem 4rem black;
+  color: #000;
+  p {
+  }
+  &--grey {
+    background-color: $color-superlight-grey;
+    box-shadow: none;
+    p,
+    a,
+    a:hover {
+      color: #000;
+    }
+  }
+
+  label {
+    color: $text-color;
+  }
+}

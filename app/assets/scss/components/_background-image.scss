@@ -1,0 +1,14 @@
+.background-image {
+  @include full-cover;
+  @include bgimg;
+}
+
+.overlay-image {
+  background-image: url(/img/bikes.jpeg);
+  background-size: cover;
+}
+
+.overlay {
+  background: rgba(20, 20, 20, 0.4);
+  padding-bottom: 10rem;
+}

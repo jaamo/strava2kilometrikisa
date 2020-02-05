@@ -1,20 +1,22 @@
-# strava2kilometrikisa
+# Strava2kilometrikisa
 
-An application to fill the gap between Strava and Kilometrikisa. A docker setup with a node application running in 1 container with nginx running to create a reverse proxy in another container.
+An application to fill the gap between [Strava](https://strava.com/) and [Kilometrikisa](https://www.kilometrikisa.fi/).
 
-Visit the site to use it: [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
+Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
 
-## Installation
+## Development
 
-1. Copy `/node/app/.env.example` to `/node/app/.env` and configure
-2. Run `docker-compose up -d` to boot up the stack and build the application.
-3. View the site in your web browser, through the standard port 80, as we are using a proxy pass for the node server within nginx.
+1. Grab yourself some [Strava API credentials](https://developers.strava.com)
+1. Copy and configure `app/.env.example` to `app/.env`
+1. `$ source .env`
+1. `$ npm install`
+1. `$ npm run dev`
 
-## Notes
+## How to contribute
 
-* The default dev port for this node application is 3000.
+We would love your input! Check out how to contribute [here](./.github/CONTRIBUTING.md).
 
 ## Contributors
 
-* Jaakko Alajoki
-* Paul Stewart
+- Jaakko Alajoki
+- Paul Stewart

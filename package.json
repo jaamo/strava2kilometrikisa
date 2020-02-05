@@ -1,0 +1,57 @@
+{
+  "name": "stava2kilometrikisa",
+  "version": "1.0.0",
+  "description": "An application to fill the gap between Strava and Kilometrikisa.",
+  "main": "app/index.js",
+  "engines": {
+    "node": "10.x"
+  },
+  "repository": "https://github.com/jaamo/strava2kilometrikisa",
+  "scripts": {
+    "backend-watch": "nodemon app/index.js",
+    "backend": "node app/index.js",
+    "build": "npm run frontend-build",
+    "dev": "concurrently \"npm run frontend-watch\" \"npm run backend-watch\"",
+    "frontend-build": "webpack -p",
+    "frontend-watch": "webpack --watch --mode development",
+    "lint": "prettier --list-different 'app/**/*.{js,scss}' && echo 'prettier OK'",
+    "prettier-fix": "prettier --write 'app/**/*.{js,scss}'",
+    "start": "npm run backend",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "worker-watch": "nodemon app/worker.js",
+    "worker": "node app/worker.js"
+  },
+  "author": "Jaakko Alajoki and Paul Stewart",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "autoprefixer": "^9.7.3",
+    "babel-loader": "^8.0.6",
+    "bootstrap-sass": "^3.4.1",
+    "concurrently": "^5.0.2",
+    "connect-mongo": "^1.1.0",
+    "cron": "^1.7.2",
+    "css-loader": "^2.1.1",
+    "cssnano": "^4.1.10",
+    "curlrequest": "^0.5.7",
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "file-loader": "^3.0.1",
+    "mini-css-extract-plugin": "^0.6.0",
+    "mongoose": "4.4.12",
+    "morgan": "^1.7.0",
+    "nodemailer": "^2.3.2",
+    "nodemon": "^1.19.4",
+    "postcss-loader": "^3.0.0",
+    "sass": "^1.24.4",
+    "sass-loader": "^7.3.1",
+    "strava-v3": "^2.0.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
+  }
+}
