@@ -177,7 +177,7 @@ var SyncModel = {
           Kilometrikisa.updateLog(
             kilometrikisaToken,
             kilometrikisaSessionId,
-            41,
+            process.env.KILOMETRIKISA_COMPETITION_ID,
             activities[date].distance,
             date,
             function() {
@@ -193,7 +193,7 @@ var SyncModel = {
           Kilometrikisa.updateMinuteLog(
             kilometrikisaToken,
             kilometrikisaSessionId,
-            41,
+            process.env.KILOMETRIKISA_COMPETITION_ID,
             activities[date].hours,
             activities[date].minutes,
             date,
