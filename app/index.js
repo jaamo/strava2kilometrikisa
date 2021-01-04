@@ -90,10 +90,6 @@ app.get('/account', (req, res, next) => {
   Sync.index(req, res, next);
 });
 
-app.get('/kampiapina', (req, res, next) => {
-  Sync.kampiapina(req, res, next);
-});
-
 // Manual sync.
 app.get('/manualsync', (req, res, next) => {
   Sync.manualSyncPreview(req, res, next);
