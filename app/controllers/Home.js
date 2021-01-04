@@ -11,7 +11,7 @@ var HomeController = {
    */
   index: function(req, res, next) {
     if (Helpers.isLoggedIn(req)) {
-      res.redirect('/kampiapina');
+      res.redirect('/account');
     } else {
       res.render('index', {});
     }
