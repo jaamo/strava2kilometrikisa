@@ -12,6 +12,18 @@ Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
 1. `$ npm install`
 1. `$ npm run dev`
 
+## Database
+
+This app uses MondoDB database for storing logs users. Mongoose is used as a database driver.
+
+MondoDB Atlas free tier is used on production:  
+https://cloud.mongodb.com
+
+## Production on Heroku
+
+Production application is hosted on Heroku:  
+https://dashboard.heroku.com
+
 ## How to contribute
 
 We would love your input! Check out how to contribute [here](./.github/CONTRIBUTING.md).

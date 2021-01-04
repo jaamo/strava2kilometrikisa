@@ -8,14 +8,16 @@ const path = require('path');
 
 // Connect to MongoDB.
 mongoose.connect(
-  'mongodb://' +
+  'mongodb+srv://' +
     process.env.KILOMETRIKISA_DBUSER +
     ':' +
     process.env.KILOMETRIKISA_DBPASSWORD +
     '@' +
     process.env.KILOMETRIKISA_DBHOST +
     '/' +
-    process.env.KILOMETRIKISA_DB,
+    process.env.KILOMETRIKISA_DB +
+    '?retryWrites=true&w=majority',
+  { useNewUrlParser: true, useUnifiedTopology: true },
 );
 
 // Controllers
