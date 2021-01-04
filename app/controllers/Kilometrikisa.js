@@ -24,7 +24,7 @@ var KilometrikisaController = {
         function(token, sessionId) {
           // Credentials works. Redirect to account page.
           console.log('Login succesful: ' + token + ' / ' + sessionId);
-          res.redirect('/kampiapina');
+          res.redirect('/account');
         },
         function() {
           // No luck. Display login form.
@@ -93,7 +93,7 @@ var KilometrikisaController = {
           user.setPassword(password);
           user.save(function() {
             // Redirect to account page.
-            res.redirect('/kampiapina');
+            res.redirect('/account');
           });
         });
       },
