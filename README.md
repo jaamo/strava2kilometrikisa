@@ -2,7 +2,7 @@
 
 An application to fill the gap between [Strava](https://strava.com/) and [Kilometrikisa](https://www.kilometrikisa.fi/).
 
-Live at [https://strava2kilometrikisa.com](https://strava2kilometrikisa.com)
+Live at [https://www.strava2kilometrikisa.com](https://www.strava2kilometrikisa.com)
 
 ## Development
 
