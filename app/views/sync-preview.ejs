@@ -28,12 +28,18 @@
                                     <th>Date</th>
                                     <th>Distance</th>
                                     <th>Duration</th>
+                                    <th />
                                   </tr>
                                   <% for (var date in activities) { %>
                                     <tr>
                                       <td><%=date%></td>
                                       <td><%=activities[date].distance%> km<br></td>
                                       <td><%=activities[date].hours%> h, <%=activities[date].minutes%> min</td>
+                                      <% if (activities[date].isEBike) { %>
+                                        <td>Electric</td>
+                                      <% } else { %>
+                                        <td />
+                                      <% } %>
                                     </tr>
                                   <% } %>
                               </table>
