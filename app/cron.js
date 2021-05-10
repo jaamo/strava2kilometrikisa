@@ -30,7 +30,7 @@ var cron = {
 
         // Find all user having autosync enabled.
         return User.find(
-          { autosync: true },
+          { autosync: true, kilometrikisaUsername: { $exists: true }, kilometrikisaPassword: { $exists: true } },
           function(err, users) {
             var usersLength = users.length;
             var usersSynced = 0;
