@@ -28,6 +28,7 @@ var SyncController = {
       // Render template.
       res.render('sync-index', {
         autosync: user.autosync,
+        ebike: user.ebike,
       });
     });
   },
@@ -52,6 +53,7 @@ var SyncController = {
         // Get activities.
         SyncModel.getStravaActivities(
           user.stravaToken,
+          user.ebike,
           function(activities) {
             res.render('sync-preview', {
               activities: activities,
@@ -90,6 +92,7 @@ var SyncController = {
         user.stravaToken,
         user.kilometrikisaToken,
         user.kilometrikisaSessionId,
+        user.ebike,
 
         // Sync success.
         function(activities) {
@@ -151,6 +154,36 @@ var SyncController = {
   disableAutosync: function(req, res, next) {
     User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
       user.set('autosync', false);
+      user.save(function() {
+        res.redirect('/account');
+      });
+    });
+  },
+
+  /**
+   * Set e-bike sync to true and redirect to account page
+   * @param {*} req 
+   * @param {*} res 
+   * @param {*} next 
+   */
+  enableEBikeSync: function(req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+      user.set('ebike', true);
+      user.save(function() {
+        res.redirect('/account');
+      });
+    });
+  },
+
+  /**
+   * Set e-bike sync to false and redirect to account page
+   * @param {*} req 
+   * @param {*} res 
+   * @param {*} next 
+   */
+  disableEBikeSync: function(req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+      user.set('ebike', false);
       user.save(function() {
         res.redirect('/account');
       });

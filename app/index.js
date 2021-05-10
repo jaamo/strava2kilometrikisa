@@ -100,7 +100,7 @@ app.get('/dosync', (req, res, next) => {
   Sync.doSync(req, res, next);
 });
 
-// Disable autosync.
+// Enable autosync.
 app.get('/enableautosync', (req, res, next) => {
   Sync.enableAutosync(req, res, next);
 });
@@ -108,6 +108,16 @@ app.get('/enableautosync', (req, res, next) => {
 // Disable autosync.
 app.get('/disableautosync', (req, res, next) => {
   Sync.disableAutosync(req, res, next);
+});
+
+// Enable e-bike sync.
+app.get('/enableebike', (req, res, next) => {
+  Sync.enableEBikeSync(req, res, next);
+});
+
+// Disable e-bike sync.
+app.get('/disableebike', (req, res, next) => {
+  Sync.disableEBikeSync(req, res, next);
 });
 
 // isAuthenticated

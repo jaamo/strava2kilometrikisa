@@ -21,7 +21,7 @@ var SyncModel = {
    * @param Function Callback.
    * @return {[type]} [description]
    */
-  getStravaActivities: function(stravaToken, successCallback, errorCallback) {
+  getStravaActivities: function(stravaToken, syncEBike, successCallback, errorCallback) {
     // Example input:
     // var activities = [ { id: 540164876,
     //     resource_state: 2,
@@ -81,7 +81,8 @@ var SyncModel = {
       if (!err && activities) {
         var response = {};
         for (var i in activities) {
-          if ((activities[i]['type'] == 'Ride' || activities[i]['type'] == 'EBikeRide') && activities[i]['trainer'] == false) {
+          if ((activities[i]['type'] == 'Ride' || (syncEBike && activities[i]['type'] == 'EBikeRide'))
+              && activities[i]['trainer'] == false) {
             // Format date.
             var date = new Date(activities[i]['start_date_local']);
             var dateFormatted =
@@ -143,6 +144,7 @@ var SyncModel = {
     stravaToken,
     kilometrikisaToken,
     kilometrikisaSessionId,
+    syncEBike,
     successCallback,
     errorCallback,
   ) {
@@ -163,6 +165,7 @@ var SyncModel = {
     // Get activities from Strava.
     SyncModel.getStravaActivities(
       stravaToken,
+      syncEBike,
       function(activities) {
         // Counters. We do two requests per each activity. One for distance
         // and one for time.

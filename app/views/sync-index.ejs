@@ -30,6 +30,15 @@
                                 <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (autosync) { %>checked<% } %>>
                                 <label for="cmn-toggle-1"></label>
                             </div>
+			   
+                            <p>
+                                E-bike synchronization is <b class="js-ebike-status"><% if (ebike) { %>enabled<% } else { %>disabled<% } %></b>.
+                            </p>
+
+                            <div class="switch">
+                                <input id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round" type="checkbox" <% if (ebike) { %>checked<% } %>>
+                                <label for="cmn-toggle-2"></label>
+                            </div>
 
                             <a class="manual-sync" href="/manualsync">
                                 <img class="manual-sync__icon" src="/img/gear.svg" />
@@ -44,6 +53,9 @@
                         <div class="container-box container-box--grey text-center">
                             <p>
                                 Automatic synchronization will copy your activities from the last five days from Strava to Kilometrikisa. Synchronization will occur once per day. Please note that if you have entered kilometers manually at Kilometrikisa <b>they will be overwritten!</b>
+                            </p>
+                            <p>
+                                If e-bike synchronization is enabled and e-bike rides is found, all rides on same day is marked as e-bike ride as Kilomterikisa doesn't support multiple inputs for single day.
                             </p>
                         </div>
 
