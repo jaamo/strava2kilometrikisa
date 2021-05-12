@@ -42,7 +42,7 @@
     "mini-css-extract-plugin": "^0.6.0",
     "mongoose": "5.11.9",
     "morgan": "^1.7.0",
-    "nodemailer": "^2.3.2",
+    "nodemailer": "^6.4.16",
     "nodemon": "^1.19.4",
     "postcss-loader": "^3.0.0",
     "sass": "^1.24.4",
