@@ -21,6 +21,9 @@ var UserSchema = new mongoose.Schema({
   // Sync kilometers automatically.
   autosync: { type: Boolean },
 
+  // Sync e-bike kilometers.
+  ebike: { type: Boolean},
+
   // If true, we know that notification email about session timeout
   // is sent to user.
   notifiedByEmail: { type: Boolean },

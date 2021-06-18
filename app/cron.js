@@ -112,6 +112,7 @@ var cron = {
             user.stravaToken,
             user.kilometrikisaToken,
             user.kilometrikisaSessionId,
+            user.ebike,
             function(activities) {
               Log.log('Activities synced automatically.', JSON.stringify(activities), user.stravaUserId);
               console.log(Object.keys(activities).length + ' activities synced');

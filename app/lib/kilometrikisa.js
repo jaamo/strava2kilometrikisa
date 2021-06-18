@@ -192,10 +192,11 @@ var kilometrikisa = {
    * @param  {String}   sessionId Session id.
    * @param  {Integer}   contestId Contest id. Changes every year.
    * @param  {Float}   distance  Distance for a day.
+   * @param  {Integer}   ebike   Is daily ride added as e-bike ride
    * @param  {String}   date      Date. YYYY-MM-DD, example: 2016-04-05
    * @param  {Function} callback  Called on success.
    */
-  updateLog: function(token, sessionId, contestId, distance, date, successCallback, errorCallback) {
+  updateLog: function(token, sessionId, contestId, distance, ebike, date, successCallback, errorCallback) {
     // curl -X POST
     // -e https://www.kilometrikisa.fi/contest/log/
     // -d "contest_id=17&km_amount=10&km_date=2016-04-05&csrfmiddlewaretoken=9Jw5rFmg4LGYr9sT23oOZNQtzFFluWWF"
@@ -213,6 +214,7 @@ var kilometrikisa = {
       data: {
         contest_id: contestId,
         km_amount: distance,
+        is_electric: ebike,
         km_date: date,
         csrfmiddlewaretoken: token,
       },
@@ -254,10 +256,11 @@ var kilometrikisa = {
    * @param  {Integer}   contestId Contest id. Changes every year.
    * @param  {Float}   hours  Hours.
    * @param  {Float}   minutes  Minutes.
+   * @param  {Integer}   ebike   Is daily ride added as e-bike ride
    * @param  {String}   date      Date. YYYY-MM-DD, example: 2016-04-05
    * @param  {Function} callback  Called on success.
    */
-  updateMinuteLog: function(token, sessionId, contestId, hours, minutes, date, successCallback, errorCallback) {
+  updateMinuteLog: function(token, sessionId, contestId, hours, minutes, ebike, date, successCallback, errorCallback) {
     // curl -X POST
     // -e https://www.kilometrikisa.fi/contest/log/
     // -d "contest_id=17&km_amount=10&km_date=2016-04-05&csrfmiddlewaretoken=9Jw5rFmg4LGYr9sT23oOZNQtzFFluWWF"
@@ -276,6 +279,7 @@ var kilometrikisa = {
         contest_id: contestId,
         hours: hours,
         minutes: minutes,
+        is_electric: ebike,
         date: date,
         csrfmiddlewaretoken: token,
       },
