@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const Kilometrikisa = require('./lib/kilometrikisa.js');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
-const Log = require('./models/LogModel.js');
+
+const logger = require('./helpers/logger');
 
 var cron = {
   users: [],
 
   run: function() {
-    console.log('Cronjob running...');
+    logger.info('Cronjob running...');
 
     // Connect to MongoDB.
     mongoose
@@ -26,22 +27,19 @@ var cron = {
         { useNewUrlParser: true, useUnifiedTopology: true },
       )
       .then(() => {
-        console.log('Connected to DB.');
+        logger.info('Connected to DB.');
 
         // Find all user having autosync enabled.
         return User.find(
           { autosync: true, kilometrikisaUsername: { $exists: true }, kilometrikisaPassword: { $exists: true } },
           function(err, users) {
-            var usersLength = users.length;
-            var usersSynced = 0;
-
             // DEBUG:
             // users = users.slice(0, 5);
 
             this.users = users;
 
             // Start syncing.
-            console.log('Found ' + users.length + ' users to sync...');
+            logger.info('Found ' + users.length + ' users to sync...');
 
             this.syncNextUser();
 
@@ -60,15 +58,12 @@ var cron = {
     // All done!
     if (this.users.length == 0) {
       mongoose.disconnect();
-      console.log('\n' + this.users.length + ' users left in queue.');
-      console.log('\nDisconnected from DB.');
+      logger.info(this.users.length + ' users left in queue.');
+      logger.info('Disconnected from DB.');
       return false;
     }
 
-    console.log('\n');
-    console.log(new Date());
-    console.log(this.users.length + ' users left in queue.');
-    console.log('\n');
+    logger.info(this.users.length + ' users left in queue.');
 
     // Get next.
     var user = this.users.pop();
@@ -91,14 +86,14 @@ var cron = {
    * Sync given user.
    */
   syncUser: function(user, callback) {
-    console.log('!! Syncing for user ' + user.kilometrikisaUsername);
+    logger.info('!! Syncing for user ' + user.kilometrikisaUsername);
 
     // Login.
     Kilometrikisa.login(
       user.kilometrikisaUsername,
       user.getPassword(),
       function(token, sessionId) {
-        console.log('Login complete: ' + token + ' / ' + sessionId);
+        logger.info('Login complete: ' + user.kilometrikisaUsername);
 
         // Save login token.
         user.set('kilometrikisaToken', token);
@@ -114,38 +109,20 @@ var cron = {
             user.kilometrikisaSessionId,
             user.ebike,
             function(activities) {
-              Log.log('Activities synced automatically.', JSON.stringify(activities), user.stravaUserId);
-              console.log(Object.keys(activities).length + ' activities synced');
+              logger.info(Object.keys(activities).length + ' activities synced');
 
               callback();
-              // if (++usersSynced == usersLength) process.exit();
             }.bind(this),
             function(error) {
-              Log.log(
-                'Automatic sync failed!',
-                'stravaToken ' +
-                  user.stravaToken +
-                  ', ' +
-                  'stravaToken ' +
-                  user.kilometrikisaToken +
-                  ', ' +
-                  'stravaToken ' +
-                  user.kilometrikisaSessionId +
-                  ', message: ' +
-                  error,
-                user.stravaUserId,
-              );
-
-              console.log('Activities sync failed for user ' + user.kilometrikisaUsername);
+              logger.warn('Activities sync failed for user ' + user.kilometrikisaUsername, error);
 
               callback();
-              // if (++usersSynced == usersLength) process.exit();
             }.bind(this),
           );
         });
       }.bind(this),
       function() {
-        Log.log('User ' + user.kilometrikisaUsername + ' login failed.');
+        logger.warn('User ' + user.kilometrikisaUsername + ' login failed.');
         callback();
       }.bind(this),
     );

@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
+const logger = require('./helpers/logger');
 
 // Connect to MongoDB.
 mongoose.connect(
@@ -30,9 +30,6 @@ const Sync = require('./controllers/Sync');
 app.use('/img', express.static(path.join(__dirname, 'assets/img')));
 app.use(express.static(path.join(__dirname, 'assets/dist')));
 
-// Logger.
-app.use(morgan(process.env.KILOMETRIKISA_LOGGING));
-
 //set out template engine
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -49,7 +46,7 @@ app.use(
 
 //lets start a server and listens on port 3000 for connections
 app.listen(process.env.PORT, () => {
-  console.log(`Server listening on http://localhost:${process.env.PORT}`);
+  logger.info(`Server listening on http://localhost:${process.env.PORT}`);
 });
 
 //some basic routes to controllers

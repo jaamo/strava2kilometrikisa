@@ -1,7 +1,7 @@
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var SyncModel = require('../models/SyncModel.js');
 var User = require('../models/UserModel.js');
-var Log = require('../models/LogModel.js');
+const logger = require('../helpers/logger');
 
 /**
  * Handle syncing from Stara to Kilometrikisa.
@@ -20,7 +20,7 @@ var SyncController = {
     // Load user.
     User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
       if (!user) {
-        console.log('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
         return;
       }
@@ -44,7 +44,7 @@ var SyncController = {
     // Load user.
     User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
       if (!user) {
-        console.log('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
         return;
       }
@@ -81,7 +81,7 @@ var SyncController = {
     // Load user.
     User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
       if (!user) {
-        console.log('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
         return;
       }
@@ -96,7 +96,7 @@ var SyncController = {
 
         // Sync success.
         function(activities) {
-          Log.log('Activities synced manually.', JSON.stringify(activities), user.stravaUserId);
+          logger.info('Activities synced manually.', JSON.stringify(activities), user.stravaUserId);
 
           res.render('sync-dosync', {
             success: true,
@@ -105,20 +105,7 @@ var SyncController = {
 
         // Sync failed.
         function(error) {
-          Log.log(
-            'Manual activity sync failed!',
-            'stravaToken ' +
-              user.stravaToken +
-              ', ' +
-              'stravaToken ' +
-              user.kilometrikisaToken +
-              ', ' +
-              'stravaToken ' +
-              user.kilometrikisaSessionId +
-              ', message: ' +
-              error,
-            user.stravaUserId,
-          );
+          logger.warn('Manual activity sync failed!', user.stravaUserId, error);
 
           res.render('sync-dosync', {
             success: false,
@@ -162,9 +149,9 @@ var SyncController = {
 
   /**
    * Set e-bike sync to true and redirect to account page
-   * @param {*} req 
-   * @param {*} res 
-   * @param {*} next 
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
    */
   enableEBikeSync: function(req, res, next) {
     User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
@@ -177,9 +164,9 @@ var SyncController = {
 
   /**
    * Set e-bike sync to false and redirect to account page
-   * @param {*} req 
-   * @param {*} res 
-   * @param {*} next 
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
    */
   disableEBikeSync: function(req, res, next) {
     User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
@@ -208,7 +195,7 @@ var SyncController = {
           },
         );
       } else {
-        console.log('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
       }
     });

@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 var crypto = require('crypto');
 var strava = require('strava-v3');
 
+const logger = require('../helpers/logger');
+
 // Crypto algorithm.
 var algorithm = 'aes-256-ctr';
 var cryptoPassword = process.env.KILOMETRIKISA_CRYPTO_PASSWORD;
@@ -37,7 +39,7 @@ UserSchema.methods.updateToken = function() {
         user.refreshToken = account.refresh_token;
         user.save(); // Persis the changes to the DB
       })
-      .catch(console.log);
+      .catch(e => logger.warn('Error updating the user token', e));
   }
 
   return Promise.resolve();

@@ -1,3 +1,4 @@
+const logger = require('../helpers/logger');
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var User = require('../models/UserModel.js');
 
@@ -23,7 +24,7 @@ var KilometrikisaController = {
         user.kilometrikisaPassword,
         function(token, sessionId) {
           // Credentials works. Redirect to account page.
-          console.log('Login succesful: ' + token + ' / ' + sessionId);
+          logger.info('Login succesful', user.kilometrikisaUsername);
           res.redirect('/account');
         },
         function() {
@@ -31,28 +32,6 @@ var KilometrikisaController = {
           res.render('kilometrikisa-auth', { error: req.query.error });
         },
       );
-
-      // try {
-
-      //     // Check if Kilometrikisa login is still valid. If it is, redirect
-      //     // to sync page.
-      //     Kilometrikisa.isLoggedIn(
-      //         user.kilometrikisaToken,
-      //         user.kilometrikisaSessionId,
-      //         // Logged in.
-      //         function() {
-      //             res.redirect('/account')
-      //         },
-      //         // Not logged in.
-      //         function() {
-      //             res.render('kilometrikisa-auth', { error: req.query.error });
-      //         }
-      //     );
-
-      // } catch(e) {
-      //     console.log(e.message);
-      //     res.redirect('/');
-      // }
     });
   },
 
@@ -68,15 +47,14 @@ var KilometrikisaController = {
     var username = req.query.username;
     var password = req.query.password;
 
+    logger.info('Logging in', { username });
+
     // res.render('kilometrikisa-auth');
     Kilometrikisa.login(
       username,
       password,
       function(token, sessionId) {
-        console.log('Login complete: ' + token + ' / ' + sessionId);
-
-        // req.session.kilometrikisaToken = token;
-        // req.session.kilometrikisaSessionId = sessionId;
+        logger.info('Login complete', { username });
 
         // Find user.
         User.find({ stravaUserId: req.session.stravaUserId }, 'stravaUserId', function(err, u) {
@@ -98,34 +76,10 @@ var KilometrikisaController = {
         });
       },
       function() {
+        logger.info('Login failed', { username });
         res.redirect('/kilometrikisa/auth?error=true');
       },
     );
   },
-
-  /*
-    index: function(req, res, next) {
-
-        Kilometrikisa.login(
-            "jaamo",
-            "KissaKoira2",
-            function(token, sessionId) {
-
-                console.log("Login complete: " + token + " / " + sessionId);
-
-                Kilometrikisa.updateLog(token, sessionId, 17, 66, "2016-04-05", function() {
-                    console.log("ok");
-                })
-
-
-            },
-            function() {
-                console.log("Not logged in...");
-            }
-        );
-
-        res.render('kilometrikisa', {data: 'check the terminal log'});
-    }
-    */
 };
 module.exports = KilometrikisaController;

@@ -1,6 +1,5 @@
 var strava = require('strava-v3');
 const User = require('../models/UserModel.js');
-const Log = require('../models/LogModel.js');
 
 var UsersController = {
   show: function(req, res, next) {
@@ -15,12 +14,6 @@ var UsersController = {
           res.render('athelete', { data: err });
         }
       });
-    });
-  },
-
-  logs: function(req, res, next) {
-    Log.find({ stravaUserId: req.params.id }, function(err, logs) {
-      res.render('users/logs', { data: logs });
     });
   },
 

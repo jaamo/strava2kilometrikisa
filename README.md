@@ -14,7 +14,7 @@ Live at [https://www.strava2kilometrikisa.com](https://www.strava2kilometrikisa.
 
 ## Database
 
-This app uses MondoDB database for storing logs users. Mongoose is used as a database driver.
+This app uses a MongoDB database. Mongoose is used as a database driver.
 
 MondoDB Atlas free tier is used on production:  
 https://cloud.mongodb.com

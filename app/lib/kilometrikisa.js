@@ -1,4 +1,5 @@
 var curl = require('curlrequest');
+const logger = require('../helpers/logger');
 
 /**
  * Kilometrikisa client.
@@ -57,8 +58,6 @@ var kilometrikisa = {
           }
         }
 
-        console.log("Token is: '" + token + "'");
-
         this.loginStep2(username, password, token, successCallback, errorCallback);
       }.bind(this),
     );
@@ -99,10 +98,6 @@ var kilometrikisa = {
     curl.request(
       options,
       function(err, stdout, meta) {
-        //console.log(meta.args);
-        //console.log('%s %s', meta.cmd, meta.args.join(' '));
-        //console.log(stdout);
-
         // // Get CSRF value from cookie header.
         var rows = stdout.split('\n');
         for (var i in rows) {
@@ -119,9 +114,6 @@ var kilometrikisa = {
               .replace(/\W/g, '');
           }
         }
-
-        console.log("New token '" + token + "'");
-        console.log("New session id '" + sessionId + "'");
 
         if (!token || !sessionId) {
           errorCallback();
@@ -156,15 +148,10 @@ var kilometrikisa = {
     curl.request(
       options,
       function(err, stdout, meta) {
-        // console.log(meta.args);
-        // console.log('%s %s', meta.cmd, meta.args.join(' '));
-        // console.log(stdout);
-
         // Get session value from cookies.
         var rows = stdout.split('\n');
         var loggedIn = true;
         for (var i in rows) {
-          // console.log(rows[i]);
           if (rows[i].indexOf('Location:') != -1 && rows[i].indexOf('login') != -1) {
             loggedIn = false;
           }
@@ -231,7 +218,6 @@ var kilometrikisa = {
         var rows = stdout.split('\n');
         var loggedIn = true;
         for (var i in rows) {
-          // console.log(rows[i]);
           if (rows[i].indexOf('403 FORBIDDEN') != -1) {
             loggedIn = false;
           }
@@ -296,7 +282,6 @@ var kilometrikisa = {
         var rows = stdout.split('\n');
         var loggedIn = true;
         for (var i in rows) {
-          // console.log(rows[i]);
           if (rows[i].indexOf('403 FORBIDDEN') != -1) {
             loggedIn = false;
           }
@@ -338,8 +323,6 @@ var kilometrikisa = {
     curl.request(
       options,
       function(err, stdout, meta) {
-        //console.log('%s %s', meta.cmd, meta.args.join(' '));
-        //console.log(stdout);
         //            callback();
       }.bind(this),
     );
