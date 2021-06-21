@@ -60,8 +60,6 @@ var StravaAuthController = {
           // Save details.
           user.set('stravaUserId', req.session.stravaUserId);
           user.set('stravaToken', payload.body.access_token);
-          user.set('email', payload.body.athlete.email);
-          user.set('notifiedByEmail', false);
 
           user.set('tokenExpire', payload.body.expires_at * 1000);
           user.set('refreshToken', payload.body.refresh_token);

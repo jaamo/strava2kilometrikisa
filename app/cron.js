@@ -138,8 +138,6 @@ var cron = {
 
               console.log('Activities sync failed for user ' + user.kilometrikisaUsername);
 
-              //Email.send('strava2kilometrikisa@evermade.fi', 'Automatic sync failed! '+user.stravaUserId, error, error);
-
               callback();
               // if (++usersSynced == usersLength) process.exit();
             }.bind(this),

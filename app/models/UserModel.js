@@ -16,17 +16,12 @@ var UserSchema = new mongoose.Schema({
   kilometrikisaSessionId: { type: String },
   kilometrikisaUsername: { type: String },
   kilometrikisaPassword: { type: String },
-  email: { type: String },
 
   // Sync kilometers automatically.
   autosync: { type: Boolean },
 
   // Sync e-bike kilometers.
-  ebike: { type: Boolean},
-
-  // If true, we know that notification email about session timeout
-  // is sent to user.
-  notifiedByEmail: { type: Boolean },
+  ebike: { type: Boolean },
 });
 
 // https://github.com/UnbounDev/node-strava-v3/blob/master/lib/oauth.js#L102
