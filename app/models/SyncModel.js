@@ -81,8 +81,10 @@ var SyncModel = {
       if (!err && activities) {
         var response = {};
         for (var i in activities) {
-          if ((activities[i]['type'] == 'Ride' || (syncEBike && activities[i]['type'] == 'EBikeRide'))
-              && activities[i]['trainer'] == false) {
+          if (
+            (activities[i]['type'] == 'Ride' || (syncEBike && activities[i]['type'] == 'EBikeRide')) &&
+            activities[i]['trainer'] == false
+          ) {
             // Format date.
             var date = new Date(activities[i]['start_date_local']);
             var dateFormatted =
@@ -105,7 +107,7 @@ var SyncModel = {
             // Append time in seconds.
             response[dateFormatted].seconds += activities[i]['moving_time'];
 
-            // There is no possibility to add 'acoustic' and e-bike rides for same day so if there is e-bike ride for a day, 
+            // There is no possibility to add 'acoustic' and e-bike rides for same day so if there is e-bike ride for a day,
             // all rides are marked as e-bike ride
             if (activities[i]['type'] == 'EBikeRide') {
               response[dateFormatted].isEBike = true;
