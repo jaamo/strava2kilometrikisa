@@ -22,6 +22,8 @@ Local development container for mongoDB can be started with
 docker-compose -f dev-mongo-stack.yml up
 ```
 
+Local Mongo credentials can be found in `app/.env.example`.
+
 ## Production on Heroku
 
 Production application is hosted on Heroku.
