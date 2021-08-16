@@ -17,6 +17,13 @@ Live at [https://www.strava2kilometrikisa.com](https://www.strava2kilometrikisa.
 
 This app uses a MongoDB database hosted on MongoDB Atlas. Mongoose is used as a database driver.
 
+Local development container for mongoDB can be started with
+```language
+docker-compose -f dev-mongo-stack.yml up
+```
+
+Local Mongo credentials can be found in `app/.env.example`.
+
 ## Production on Heroku
 
 Production application is hosted on Heroku.

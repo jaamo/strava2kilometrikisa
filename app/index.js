@@ -6,9 +6,17 @@ const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const logger = require('./helpers/logger');
 
+let protocol = 'mongodb+srv://';
+let dbSSL = 'ssl=true';
+
+// srv has to be omitted with local database host
+if (app.get('env') === 'development') {
+    protocol = 'mongodb://';
+    dbSSL = 'ssl=false';
+}
+
 // Connect to MongoDB.
-mongoose.connect(
-  'mongodb+srv://' +
+mongo_URI = protocol +
     process.env.KILOMETRIKISA_DBUSER +
     ':' +
     process.env.KILOMETRIKISA_DBPASSWORD +
@@ -16,7 +24,10 @@ mongoose.connect(
     process.env.KILOMETRIKISA_DBHOST +
     '/' +
     process.env.KILOMETRIKISA_DB +
-    '?retryWrites=true&w=majority',
+    '?retryWrites=true&w=majority&' + dbSSL;
+
+mongoose.connect(
+    mongo_URI,
   { useNewUrlParser: true, useUnifiedTopology: true },
 );
 
