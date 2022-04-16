@@ -74,12 +74,12 @@ app.get('/strava/authcomplete', (req, res) => {
 });
 
 // 3. Kilometrikisa authentication.
-app.get('/kilometrikisa/auth', (req, res, next) => {
-  return Kilometrikisa.auth(req, res);
+app.get('/kilometrikisa/auth', (req, res) => {
+  Kilometrikisa.auth(req, res);
 });
 
 // 4. Kilometrikisa authentication.
-app.get('/kilometrikisa/authhandler', (req, res, next) => {
+app.get('/kilometrikisa/authhandler', (req, res) => {
   return Kilometrikisa.authHandler(req, res);
 });
 
