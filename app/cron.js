@@ -9,7 +9,7 @@ const logger = require('./helpers/logger');
 var cron = {
   users: [],
 
-  run: function() {
+  run: function () {
     logger.info('Cronjob running...');
 
     // Connect to MongoDB.
@@ -32,7 +32,7 @@ var cron = {
         // Find all user having autosync enabled.
         return User.find(
           { autosync: true, kilometrikisaUsername: { $exists: true }, kilometrikisaPassword: { $exists: true } },
-          function(err, users) {
+          function (err, users) {
             // DEBUG:
             // users = users.slice(0, 5);
 
@@ -54,7 +54,7 @@ var cron = {
   /**
    * Get next user from the list and sync it. If users doesn't exist, we are done!
    */
-  syncNextUser: function() {
+  syncNextUser: function () {
     // All done!
     if (this.users.length == 0) {
       mongoose.disconnect();
@@ -71,9 +71,9 @@ var cron = {
     // Sync!
     this.syncUser(
       user,
-      function() {
+      function () {
         setTimeout(
-          function() {
+          function () {
             this.syncNextUser();
           }.bind(this),
           3500,
@@ -85,14 +85,14 @@ var cron = {
   /**
    * Sync given user.
    */
-  syncUser: function(user, callback) {
+  syncUser: function (user, callback) {
     logger.info('!! Syncing for user ' + user.kilometrikisaUsername);
 
     // Login.
     Kilometrikisa.login(
       user.kilometrikisaUsername,
       user.getPassword(),
-      function(token, sessionId) {
+      function (token, sessionId) {
         logger.info('Login complete: ' + user.kilometrikisaUsername);
 
         // Save login token.
@@ -108,12 +108,12 @@ var cron = {
             user.kilometrikisaToken,
             user.kilometrikisaSessionId,
             user.ebike,
-            function(activities) {
+            function (activities) {
               logger.info(Object.keys(activities).length + ' activities synced');
 
               callback();
             }.bind(this),
-            function(error) {
+            function (error) {
               logger.warn('Activities sync failed for user ' + user.kilometrikisaUsername, error);
 
               callback();
@@ -121,7 +121,7 @@ var cron = {
           );
         });
       }.bind(this),
-      function() {
+      function () {
         logger.warn('User ' + user.kilometrikisaUsername + ' login failed.');
         callback();
       }.bind(this),

@@ -8,7 +8,7 @@ logger.info(`Worker running [${time}]...`);
 
 new CronJob(
   time,
-  function() {
+  function () {
     Cron.run();
   },
   null,
