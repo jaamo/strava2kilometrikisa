@@ -51,12 +51,12 @@ app.listen(process.env.PORT, () => {
 });
 
 //some basic routes to controllers
-app.get('/', (req, res, next) => {
-  StravaAuth.auth(req, res, next);
+app.get('/', (req, res) => {
+  StravaAuth.auth(req, res);
 });
 
-app.get('/faq', (req, res, next) => {
-  Home.faq(req, res, next);
+app.get('/faq', (req, res) => {
+  Home.faq(req, res);
 });
 
 // Application flow:
@@ -64,68 +64,68 @@ app.get('/faq', (req, res, next) => {
 // 1. Home: Information about the app.
 
 // 2. Strava authentication.
-app.get('/strava/auth', (req, res, next) => {
-  StravaAuth.auth(req, res, next);
+app.get('/strava/auth', (req, res) => {
+  return StravaAuth.auth(req, res);
 });
 
 // 2. Strava authentication ok.
-app.get('/strava/authcomplete', (req, res, next) => {
-  StravaAuth.authComplete(req, res, next);
+app.get('/strava/authcomplete', (req, res) => {
+  return StravaAuth.authComplete(req, res);
 });
 
 // 3. Kilometrikisa authentication.
 app.get('/kilometrikisa/auth', (req, res, next) => {
-  Kilometrikisa.auth(req, res, next);
+  return Kilometrikisa.auth(req, res);
 });
 
 // 4. Kilometrikisa authentication.
 app.get('/kilometrikisa/authhandler', (req, res, next) => {
-  Kilometrikisa.authHandler(req, res, next);
+  return Kilometrikisa.authHandler(req, res);
 });
 
 // 5. Success page!
-app.get('/account', (req, res, next) => {
-  Sync.index(req, res, next);
+app.get('/account', (req, res) => {
+  return Sync.index(req, res);
 });
 
 // Manual sync.
-app.get('/manualsync', (req, res, next) => {
-  Sync.manualSyncPreview(req, res, next);
+app.get('/manualsync', (req, res) => {
+  return Sync.manualSyncPreview(req, res);
 });
 
 // Manual sync.
-app.get('/dosync', (req, res, next) => {
-  Sync.doSync(req, res, next);
+app.get('/dosync', (req, res) => {
+  return Sync.doSync(req, res);
 });
 
 // Enable autosync.
-app.get('/enableautosync', (req, res, next) => {
-  Sync.enableAutosync(req, res, next);
+app.get('/enableautosync', (req, res) => {
+  return Sync.enableAutosync(req, res);
 });
 
 // Disable autosync.
-app.get('/disableautosync', (req, res, next) => {
-  Sync.disableAutosync(req, res, next);
+app.get('/disableautosync', (req, res) => {
+  return Sync.disableAutosync(req, res);
 });
 
 // Enable e-bike sync.
-app.get('/enableebike', (req, res, next) => {
-  Sync.enableEBikeSync(req, res, next);
+app.get('/enableebike', (req, res) => {
+  return Sync.enableEBikeSync(req, res);
 });
 
 // Disable e-bike sync.
-app.get('/disableebike', (req, res, next) => {
-  Sync.disableEBikeSync(req, res, next);
+app.get('/disableebike', (req, res) => {
+  return Sync.disableEBikeSync(req, res);
 });
 
 // isAuthenticated
-app.get('/isauthenticated', (req, res, next) => {
-  Sync.isAuthenticated(req, res, next);
+app.get('/isauthenticated', (req, res) => {
+  return Sync.isAuthenticated(req, res);
 });
 
 // Log out.
-app.get('/logout', (req, res, next) => {
-  Home.logout(req, res, next);
+app.get('/logout', (req, res) => {
+  return Home.logout(req, res);
 });
 
 // catch 404 and forward to error handler

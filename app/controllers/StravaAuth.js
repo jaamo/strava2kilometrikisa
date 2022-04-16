@@ -11,12 +11,11 @@ var StravaAuthController = {
    *
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  auth: function (req, res, next) {
+  auth: async function (req, res) {
     // Get strava authorize url.
-    var url = strava.oauth.getRequestAccessURL({
+    const url = await strava.oauth.getRequestAccessURL({
       scope: 'activity:read_all',
     });
     res.render('index', { url: url });
@@ -27,50 +26,47 @@ var StravaAuthController = {
    *
    * @param req
    * @param res
-   * @param next
    */
-  authComplete: function (req, res, next) {
+  authComplete: async function (req, res) {
     // Not get access token from Strava.
-    strava.oauth.getToken(req.query.code, function (err, payload) {
+    try {
+      const payload = await strava.oauth.getToken(req.query.code);
+
       // If error is set, show error message.
-      if (typeof req.query.error != 'undefined' || typeof payload.body.athlete == 'undefined') {
+      if (typeof req.query.error != 'undefined' || typeof payload.athlete == 'undefined') {
         res.render('strava-autherror', {});
       }
       // Otherwise save token and continue.
       else {
         // Save token to session.
         // req.session.stravaToken = payload.body.access_token;
-        req.session.stravaUserId = payload.body.athlete.id;
+        req.session.stravaUserId = payload.athlete.id;
 
-        // Create user object, if id doesn't exists.
-
-        User.find({ stravaUserId: req.session.stravaUserId }, 'stravaUserId', function (err, u) {
-          if (err) {
-            res.redirect('/error?code=DATABASE_CONNECTION_FAILED');
-            return;
+        try {
+          // Create user object, if id doesn't exists.
+          let user = await User.findOne({ stravaUserId: req.session.stravaUserId }, 'stravaUserId');
+          if (!user) {
+            user = new User();
           }
 
-          // Create new user.
-          if (u.length == 0) {
-            var user = new User();
-          } else {
-            user = u[0];
-          }
-
-          // Save details.
           user.set('stravaUserId', req.session.stravaUserId);
-          user.set('stravaToken', payload.body.access_token);
+          user.set('stravaToken', payload.access_token);
 
-          user.set('tokenExpire', payload.body.expires_at * 1000);
-          user.set('refreshToken', payload.body.refresh_token);
+          user.set('tokenExpire', payload.expires_at * 1000);
+          user.set('refreshToken', payload.refresh_token);
 
-          user.save(function () {
-            // Redirect to Kilometrikisa login.
-            res.redirect('/kilometrikisa/auth');
-          });
-        });
+          await user.save();
+
+          // Redirect to Kilometrikisa login.
+          res.redirect('/kilometrikisa/auth');
+        } catch (err) {
+          res.redirect('/error?code=DATABASE_CONNECTION_FAILED');
+        }
       }
-    });
+    } catch (err) {
+      // TODO: Is this really what we want to do here if oauth.getToken fails?
+      res.render('strava-autherror', {});
+    }
   },
 };
 module.exports = StravaAuthController;
