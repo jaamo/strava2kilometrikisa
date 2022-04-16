@@ -1,3 +1,4 @@
+const kilometrikisa = require('kilometrikisa-client');
 var Kilometrikisa = require('../lib/kilometrikisa.js');
 var SyncModel = require('../models/SyncModel.js');
 var User = require('../models/UserModel.js');
@@ -152,25 +153,21 @@ var SyncController = {
   /**
    * Check is user is logged in to kilometrikisa.
    */
-  isAuthenticated: function (req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      if (user) {
-        res.setHeader('Content-Type', 'application/json');
-        Kilometrikisa.isLoggedIn(
-          user.kilometrikisaToken,
-          user.kilometrikisaSessionId,
-          function () {
-            res.send(JSON.stringify({ kilometrikisa: true }));
-          },
-          function () {
-            res.send(JSON.stringify({ kilometrikisa: false }));
-          },
-        );
-      } else {
-        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
-        res.redirect('/?error=usernotfound');
-      }
-    });
+  isAuthenticated: async function (req, res) {
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    if (user) {
+      res.setHeader('Content-Type', 'application/json');
+      const session = await kilometrikisa.kilometrikisaSession({
+        token: user.kilometrikisaToken,
+        sessionId: user.kilometrikisaSessionId,
+      });
+
+      const isValid = await session.isSessionValid();
+      res.send(JSON.stringify({ kilometrikisa: isValid }));
+    } else {
+      logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+      res.redirect('/?error=usernotfound');
+    }
   },
 };
 module.exports = SyncController;

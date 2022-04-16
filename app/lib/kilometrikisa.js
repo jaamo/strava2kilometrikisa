@@ -7,48 +7,6 @@ var curl = require('curlrequest');
  */
 var kilometrikisa = {
   /**
-   * Check login status.
-   * @param  {String} token               Session token.
-   * @param  {String} sessionId            Session id.
-   * @param  {Function} successCallback     Called if user is logged in.
-   * @param  {Function} errorCallback       Called if user is not logged in.
-   */
-  isLoggedIn: function (token, sessionId, successCallback, errorCallback) {
-    // Request account page and check if it redirects to login form.
-    var options = {
-      url: 'https://www.kilometrikisa.fi/accounts/index/',
-      method: 'GET',
-      referer: 'https://www.kilometrikisa.fi/accounts/index/',
-      headers: {
-        Cookie: 'csrftoken=' + token + '; sessionid=' + sessionId + ';',
-      },
-      verbose: true,
-      include: true,
-      useragent: 'strava2kilometrikisa-agen',
-      location: false, // do not follow header location
-    };
-    curl.request(
-      options,
-      function (err, stdout, meta) {
-        // Get session value from cookies.
-        var rows = stdout.split('\n');
-        var loggedIn = true;
-        for (var i in rows) {
-          if (rows[i].indexOf('Location:') != -1 && rows[i].indexOf('login') != -1) {
-            loggedIn = false;
-          }
-        }
-
-        if (loggedIn) {
-          successCallback();
-        } else {
-          errorCallback();
-        }
-      }.bind(this),
-    );
-  },
-
-  /**
    * Update distance.
    *
    * Example:
