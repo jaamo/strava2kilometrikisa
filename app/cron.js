@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Kilometrikisa = require('./lib/kilometrikisa.js');
+const kilometrikisa = require('kilometrikisa-client');
 const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 
@@ -10,52 +10,50 @@ const { isDev } = require('./helpers/Helpers');
 var cron = {
   users: [],
 
-  run: function () {
+  run: async function () {
     logger.info('Cronjob running...');
 
     // Connect to MongoDB.
-    mongoose
-      .connect(
-        `${isDev() ? 'mongodb://' : 'mongodb+srv://'}` +
-          process.env.KILOMETRIKISA_DBUSER +
-          ':' +
-          process.env.KILOMETRIKISA_DBPASSWORD +
-          '@' +
-          process.env.KILOMETRIKISA_DBHOST +
-          '/' +
-          process.env.KILOMETRIKISA_DB +
-          '?retryWrites=true&w=majority',
-        { useNewUrlParser: true, useUnifiedTopology: true, authSource: isDev() ? 'admin' : undefined },
-      )
-      .then(() => {
-        logger.info('Connected to DB.');
+    await mongoose.connect(
+      `${isDev() ? 'mongodb://' : 'mongodb+srv://'}` +
+        process.env.KILOMETRIKISA_DBUSER +
+        ':' +
+        process.env.KILOMETRIKISA_DBPASSWORD +
+        '@' +
+        process.env.KILOMETRIKISA_DBHOST +
+        '/' +
+        process.env.KILOMETRIKISA_DB +
+        '?retryWrites=true&w=majority',
+      { useNewUrlParser: true, useUnifiedTopology: true, authSource: isDev() ? 'admin' : undefined },
+    );
 
-        // Find all user having autosync enabled.
-        return User.find(
-          { autosync: true, kilometrikisaUsername: { $exists: true }, kilometrikisaPassword: { $exists: true } },
-          function (err, users) {
-            // DEBUG:
-            // users = users.slice(0, 5);
+    logger.info('Connected to DB.');
 
-            this.users = users;
+    // Find all user having autosync enabled.
+    const users = await User.find({
+      autosync: true,
+      kilometrikisaUsername: { $exists: true },
+      kilometrikisaPassword: { $exists: true },
+    });
+    // DEBUG:
+    // users = users.slice(0, 5);
 
-            // Start syncing.
-            logger.info('Found ' + users.length + ' users to sync...');
+    this.users = users;
 
-            this.syncNextUser();
+    // Start syncing.
+    logger.info('Found ' + users.length + ' users to sync...');
 
-            // Loop through users.
-            // users.forEach(function(user) {
-            // });
-          }.bind(this),
-        );
-      });
+    await this.syncNextUser();
+
+    // Loop through users.
+    // users.forEach(function(user) {
+    // });
   },
 
   /**
    * Get next user from the list and sync it. If users doesn't exist, we are done!
    */
-  syncNextUser: function () {
+  syncNextUser: async function () {
     // All done!
     if (this.users.length == 0) {
       mongoose.disconnect();
@@ -70,12 +68,12 @@ var cron = {
     var user = this.users.pop();
 
     // Sync!
-    this.syncUser(
+    await this.syncUser(
       user,
       function () {
         setTimeout(
-          function () {
-            this.syncNextUser();
+          async function () {
+            await this.syncNextUser();
           }.bind(this),
           3500,
         );
@@ -90,44 +88,41 @@ var cron = {
   syncUser: async function (user, callback) {
     logger.info('!! Syncing for user ' + user.kilometrikisaUsername);
 
-    // Login.
-    Kilometrikisa.login(
-      user.kilometrikisaUsername,
-      user.getPassword(),
-      function (token, sessionId) {
-        logger.info('Login complete: ' + user.kilometrikisaUsername);
+    try {
+      const session = await kilometrikisa.kilometrikisaSession({
+        username: user.kilometrikisaUsername,
+        password: user.getPassword(),
+      });
 
-        // Save login token.
-        user.set('kilometrikisaToken', token);
-        user.set('kilometrikisaSessionId', sessionId);
+      logger.info('Login complete: ' + user.kilometrikisaUsername);
 
-        // Update Strava token if expired
-        user.updateToken().then(() => {
-          // Do sync.
-          SyncModel.doSync(
-            user.stravaUserId,
-            user.stravaToken,
-            user.kilometrikisaToken,
-            user.kilometrikisaSessionId,
-            user.ebike,
-            function (activities) {
-              logger.info(Object.keys(activities).length + ' activities synced');
+      // Save login token.
+      user.set('kilometrikisaToken', session.sessionCredentials.token);
+      user.set('kilometrikisaSessionId', session.sessionCredentials.sessionId);
+      await user.updateToken();
 
-              callback();
-            }.bind(this),
-            function (error) {
-              logger.warn('Activities sync failed for user ' + user.kilometrikisaUsername, error);
+      // Do sync.
+      SyncModel.doSync(
+        user.stravaUserId,
+        user.stravaToken,
+        user.kilometrikisaToken,
+        user.kilometrikisaSessionId,
+        user.ebike,
+        function (activities) {
+          logger.info(Object.keys(activities).length + ' activities synced');
 
-              callback();
-            }.bind(this),
-          );
-        });
-      }.bind(this),
-      function () {
-        logger.warn('User ' + user.kilometrikisaUsername + ' login failed.');
-        callback();
-      }.bind(this),
-    );
+          callback();
+        }.bind(this),
+        function (error) {
+          logger.warn('Activities sync failed for user ' + user.kilometrikisaUsername, error);
+
+          callback();
+        }.bind(this),
+      );
+    } catch (err) {
+      logger.warn('User ' + user.kilometrikisaUsername + ' login failed.');
+      callback();
+    }
   },
 };
 
