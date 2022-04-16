@@ -4,7 +4,7 @@
   "description": "An application to fill the gap between Strava and Kilometrikisa.",
   "main": "app/index.js",
   "engines": {
-    "node": "10.x"
+    "node": "16.x"
   },
   "repository": "https://github.com/jaamo/strava2kilometrikisa",
   "scripts": {
