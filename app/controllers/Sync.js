@@ -1,5 +1,4 @@
 const kilometrikisa = require('kilometrikisa-client');
-var Kilometrikisa = require('../lib/kilometrikisa.js');
 var SyncModel = require('../models/SyncModel.js');
 var User = require('../models/UserModel.js');
 const logger = require('../helpers/logger');
