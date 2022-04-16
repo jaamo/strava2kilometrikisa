@@ -1,12 +1,12 @@
 const kilometrikisa = require('kilometrikisa-client');
 const logger = require('../helpers/logger');
-var User = require('../models/UserModel.js');
+const User = require('../models/UserModel.js');
 
 /**
  * Handle Kilometrikisa login flow.
  * @type {Object}
  */
-var KilometrikisaController = {
+const KilometrikisaController = {
   /**
    * Display login form.
    *
@@ -39,8 +39,8 @@ var KilometrikisaController = {
    * @return {[type]}        [description]
    */
   authHandler: async function (req, res) {
-    var username = req.query.username;
-    var password = req.query.password;
+    const username = req.query.username;
+    const password = req.query.password;
 
     logger.info('Logging in', { username });
 
