@@ -6,12 +6,13 @@ Live at [https://www.strava2kilometrikisa.com](https://www.strava2kilometrikisa.
 
 ## Development
 
-1. Grab yourself some [Strava API credentials](https://developers.strava.com)
-1. Copy and configure `app/.env.example` to `app/.env`
-1. `$ source .env`
-1. `$ nvm use`
-1. `$ npm install`
-1. `$ npm run dev`
+1. Run `$ docker-compose up -d` to spin up local Mongodb instance
+2. Grab yourself some [Strava API credentials](https://developers.strava.com)
+3. Copy and configure `app/.env.example` to `app/.env`
+3.`$ source .env`
+4. `$ nvm use`
+5. `$ npm install`
+6. `$ npm run dev`
 
 ## Database
 
