@@ -37,3 +37,4 @@ node_modules
 app/assets/dist
 .idea
 .env
+dist/

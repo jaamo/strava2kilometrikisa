@@ -28,11 +28,11 @@ const StravaAuth = require('./controllers/StravaAuth');
 const Sync = require('./controllers/Sync');
 
 // Serve static files.
-app.use('/img', express.static(path.join(__dirname, 'assets/img')));
-app.use(express.static(path.join(__dirname, 'assets/dist')));
+app.use('/img', express.static(path.join(__dirname, '../app/assets/img')));
+app.use(express.static(path.join(__dirname, '../app/assets/dist')));
 
 //set out template engine
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/../app/views');
 app.set('view engine', 'ejs');
 
 // Init sessions.

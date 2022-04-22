@@ -2,22 +2,22 @@
   "name": "strava2kilometrikisa",
   "version": "1.0.0",
   "description": "An application to fill the gap between Strava and Kilometrikisa.",
-  "main": "app/index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": "16.x"
   },
   "repository": "https://github.com/jaamo/strava2kilometrikisa",
   "scripts": {
-    "backend-watch": "nodemon app/index.js",
+    "backend-watch": "concurrently \"npm run watch\" \"nodemon dist/index.js\"",
     "backend": "node app/index.js",
-    "build": "npm run frontend-build",
+    "build": "tsc",
+    "watch": "tsc --watch",
     "dev": "concurrently \"npm run frontend-watch\" \"npm run backend-watch\"",
     "frontend-build": "webpack -p",
     "frontend-watch": "webpack --watch --mode development",
     "prettier:check": "prettier --check --config .prettierrc ./",
     "lint": "eslint ./app --ext .ts",
     "prettier-fix": "prettier --write 'app/**/*.{js,scss}'",
-    "start": "npm run backend",
     "test": "echo \"Error: no test specified\" && exit 1",
     "worker-watch": "nodemon app/worker.js",
     "worker": "node app/worker.js"
