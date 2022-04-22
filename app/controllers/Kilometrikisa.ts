@@ -1,22 +1,19 @@
-const kilometrikisa = require('kilometrikisa-client');
-const logger = require('../helpers/logger');
-const User = require('../models/UserModel.js');
+import { Request, Response } from 'express';
+import * as kilometrikisa from 'kilometrikisa-client';
+import logger from '../helpers/logger';
+import { findUser } from '../models/UserModel';
 
 /**
  * Handle Kilometrikisa login flow.
  * @type {Object}
  */
-const KilometrikisaController = {
+export default {
   /**
    * Display login form.
-   *
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
-   * @return {[type]}        [description]
    */
-  auth: async function (req, res) {
+  auth: async function (req: Request, res: Response) {
     try {
-      const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+      const user = await findUser({ stravaUserId: req.session.stravaUserId as string });
       await kilometrikisa.kilometrikisaSession({
         username: user.kilometrikisaUsername,
         password: user.kilometrikisaPassword,
@@ -33,14 +30,10 @@ const KilometrikisaController = {
 
   /**
    * Try logging in to Kilometrikisa.
-   *
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
-   * @return {[type]}        [description]
    */
-  authHandler: async function (req, res) {
-    const username = req.query.username;
-    const password = req.query.password;
+  authHandler: async function (req: Request, res: Response) {
+    const username = req.query.username as string;
+    const password = req.query.password as string;
 
     logger.info('Logging in', { username });
 
@@ -49,7 +42,7 @@ const KilometrikisaController = {
       logger.info('Login complete', { username });
 
       try {
-        const user = (await User.find({ stravaUserId: req.session.stravaUserId }, 'stravaUserId'))[0];
+        const user = await findUser({ stravaUserId: req.session.stravaUserId as string });
         const { token, sessionId } = session.sessionCredentials;
 
         // Save Kilometrikisa token and session id.
@@ -72,4 +65,3 @@ const KilometrikisaController = {
     }
   },
 };
-module.exports = KilometrikisaController;

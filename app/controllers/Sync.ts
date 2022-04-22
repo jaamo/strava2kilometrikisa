@@ -1,24 +1,21 @@
-const kilometrikisa = require('kilometrikisa-client');
-const { getStravaActivities } = require('../services/strava');
-var SyncModel = require('../models/SyncModel.js');
-var User = require('../models/UserModel.js');
-const logger = require('../helpers/logger');
+import { Request, Response } from 'express';
+import * as kilometrikisa from 'kilometrikisa-client';
+import { getStravaActivities } from '../services/strava';
+import SyncModel from '../models/SyncModel';
+import { findUser } from '../models/UserModel';
+import logger from '../helpers/logger';
 
 /**
  * Handle syncing from Stara to Kilometrikisa.
  * @type {Object}
  */
-var SyncController = {
+export default {
   /**
    * Main page.
-   *
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
-   * @return {[type]}        [description]
    */
-  index: async function (req, res) {
+  index: async function (req: Request, res: Response) {
     // Load user.
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     if (!user) {
       logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
       res.redirect('/?error=usernotfound');
@@ -33,11 +30,9 @@ var SyncController = {
   },
   /**
    * Display a preview.
-   *
-   * @return {[type]} [description]
    */
-  manualSyncPreview: async function (req, res, next) {
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+  manualSyncPreview: async function (req: Request, res: Response) {
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     if (!user) {
       logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
       res.redirect('/?error=usernotfound');
@@ -61,15 +56,10 @@ var SyncController = {
 
   /**
    * Sync kilometers.
-   *
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
-   * @return {[type]}        [description]
    */
-  doSync: async function (req, res) {
+  doSync: async function (req: Request, res: Response) {
     // Load user.
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     if (!user) {
       logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
       res.redirect('/?error=usernotfound');
@@ -103,12 +93,9 @@ var SyncController = {
 
   /**
    * Set autosync to true and redirect to account page.
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
    */
-  enableAutosync: async function (req, res, next) {
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+  enableAutosync: async function (req: Request, res: Response) {
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     user.set('autosync', true);
     await user.save();
     res.redirect('/account');
@@ -116,11 +103,10 @@ var SyncController = {
 
   /**
    * Set autosync to false and redirect to account page.
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
    */
-  disableAutosync: async function (req, res) {
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+  disableAutosync: async function (req: Request, res: Response) {
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
+
     user.set('autosync', false);
     await user.save();
     res.redirect('/account');
@@ -128,11 +114,9 @@ var SyncController = {
 
   /**
    * Set e-bike sync to true and redirect to account page
-   * @param {*} req
-   * @param {*} res
    */
-  enableEBikeSync: async function (req, res) {
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+  enableEBikeSync: async function (req: Request, res: Response) {
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     user.set('ebike', true);
     await user.save();
     res.redirect('/account');
@@ -140,11 +124,9 @@ var SyncController = {
 
   /**
    * Set e-bike sync to false and redirect to account page
-   * @param {*} req
-   * @param {*} res
    */
-  disableEBikeSync: async function (req, res) {
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+  disableEBikeSync: async function (req: Request, res: Response) {
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     user.set('ebike', false);
     user.save();
     res.redirect('/account');
@@ -153,8 +135,8 @@ var SyncController = {
   /**
    * Check is user is logged in to kilometrikisa.
    */
-  isAuthenticated: async function (req, res) {
-    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+  isAuthenticated: async function (req: Request, res: Response) {
+    const user = await findUser({ stravaUserId: req.session.stravaUserId });
     if (user) {
       res.setHeader('Content-Type', 'application/json');
       const session = await kilometrikisa.kilometrikisaSession({
@@ -170,4 +152,3 @@ var SyncController = {
     }
   },
 };
-module.exports = SyncController;

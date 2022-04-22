@@ -1,19 +1,16 @@
-var strava = require('strava-v3');
-var User = require('../models/UserModel.js');
+import { Request, Response } from 'express';
+import strava from 'strava-v3';
+import { UserModel } from '../models/UserModel';
 
 /**
  * Handle Strava authentication.
  * @type {Object}
  */
-var StravaAuthController = {
+export default {
   /**
    * Display login button.
-   *
-   * @param  {[type]}   req  [description]
-   * @param  {[type]}   res  [description]
-   * @return {[type]}        [description]
    */
-  auth: async function (req, res) {
+  auth: async function (req: Request, res: Response) {
     // Get strava authorize url.
     const url = await strava.oauth.getRequestAccessURL({
       scope: 'activity:read_all',
@@ -27,26 +24,22 @@ var StravaAuthController = {
    * @param req
    * @param res
    */
-  authComplete: async function (req, res) {
-    // Not get access token from Strava.
+  authComplete: async function (req: Request, res: Response) {
     try {
-      const payload = await strava.oauth.getToken(req.query.code);
+      const payload = await strava.oauth.getToken(req.query.code as string);
 
       // If error is set, show error message.
       if (typeof req.query.error != 'undefined' || typeof payload.athlete == 'undefined') {
         res.render('strava-autherror', {});
-      }
-      // Otherwise save token and continue.
-      else {
+      } else {
         // Save token to session.
-        // req.session.stravaToken = payload.body.access_token;
         req.session.stravaUserId = payload.athlete.id;
 
         try {
           // Create user object, if id doesn't exists.
-          let user = await User.findOne({ stravaUserId: req.session.stravaUserId }, 'stravaUserId');
+          let user = await UserModel.findOne({ stravaUserId: req.session.stravaUserId as string }, 'stravaUserId');
           if (!user) {
-            user = new User();
+            user = new UserModel();
           }
 
           user.set('stravaUserId', req.session.stravaUserId);
@@ -69,4 +62,3 @@ var StravaAuthController = {
     }
   },
 };
-module.exports = StravaAuthController;
