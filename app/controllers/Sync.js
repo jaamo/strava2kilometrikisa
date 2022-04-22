@@ -1,4 +1,5 @@
 const kilometrikisa = require('kilometrikisa-client');
+const { getStravaActivities } = require('../services/strava');
 var SyncModel = require('../models/SyncModel.js');
 var User = require('../models/UserModel.js');
 const logger = require('../helpers/logger');
@@ -47,7 +48,7 @@ var SyncController = {
 
     // Get activities.
     try {
-      const activities = await SyncModel.getStravaActivities(user.stravaToken, user.ebike);
+      const activities = await getStravaActivities(user.stravaToken, user.ebike);
       res.render('sync-preview', {
         activities: activities,
       });
