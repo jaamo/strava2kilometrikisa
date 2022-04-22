@@ -1,5 +1,5 @@
 {
-  "name": "stava2kilometrikisa",
+  "name": "strava2kilometrikisa",
   "version": "1.0.0",
   "description": "An application to fill the gap between Strava and Kilometrikisa.",
   "main": "app/index.js",
