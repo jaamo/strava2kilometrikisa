@@ -18,7 +18,7 @@
     "prettier:check": "prettier --check --config .prettierrc ./",
     "lint": "eslint ./app --ext .ts",
     "prettier-fix": "prettier --write 'app/**/*.{js,ts,scss}'",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns .spec.js",
     "worker-watch": "nodemon dist/sync-worker/worker.js",
     "worker": "node dist/sync-worker/worker.js"
   },
