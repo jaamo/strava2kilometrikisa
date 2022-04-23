@@ -1,4 +1,4 @@
-var Kilometrikisa = require('../lib/kilometrikisa.js');
+const kilometrikisa = require('kilometrikisa-client');
 var strava = require('strava-v3');
 
 var SyncModel = {
@@ -171,56 +171,54 @@ var SyncModel = {
             resolve(activities);
           }
 
+          const session = await kilometrikisa.kilometrikisaSession({
+            token: kilometrikisaToken,
+            sessionId: kilometrikisaSessionId,
+          });
+
           // Add each activity to Kilometrikisa.
           for (var date in activities) {
-            // Update distance to kilometrikisa.
-            Kilometrikisa.updateLog(
-              kilometrikisaToken,
-              kilometrikisaSessionId,
-              process.env.KILOMETRIKISA_COMPETITION_ID,
-              activities[date].distance,
-              activities[date].isEBike ? 1 : 0,
-              date,
-              function () {
-                cb();
-              },
-              function (error) {
-                failedActivities[date] = activities[date];
-                cb();
-              },
-            );
+            try {
+              await session.updateContestLog(
+                process.env.KILOMETRIKISA_COMPETITION_ID,
+                date,
+                activities[date].distance,
+                activities[date].isEBike,
+              );
+              cb();
+            } catch (err) {
+              failedActivities[date] = activities[date];
+              cb();
+            }
 
-            // Update duration to kilometrikisa.
-            Kilometrikisa.updateMinuteLog(
-              kilometrikisaToken,
-              kilometrikisaSessionId,
-              process.env.KILOMETRIKISA_COMPETITION_ID,
-              activities[date].hours,
-              activities[date].minutes,
-              activities[date].isEBike ? 1 : 0,
-              date,
-              function () {
-                cb();
-              },
-              function (error) {
-                failedActivities[date] = activities[date];
-                cb();
-              },
-            );
+            try {
+              await session.updateMinuteContestLog(
+                process.env.KILOMETRIKISA_COMPETITION_ID,
+                date,
+                activities[date].hours,
+                activities[date].minutes,
+                activities[date].isEBike,
+              );
+              cb();
+            } catch (err) {
+              failedActivities[date] = activities[date];
+              cb();
+            }
+          }
+          // Inline callback function to handle kilometrikisa response.
+          function cb() {
+            // Increase counter.
+            count++;
 
-            // Inline callback function to handle kilometrikisa response.
-            function cb() {
-              // Increase counter.
-              count++;
-
-              // All activities synced.
-              if (count == amount) {
-                // No errors!
-                if (Object.keys(failedActivities).length == 0) {
-                  resolve(activities);
-                } else {
-                  reject('SyncModel.doSync: Failed to sync following activities: ' + JSON.stringify(failedActivities));
-                }
+            // All activities synced.
+            if (count == amount) {
+              // No errors!
+              if (Object.keys(failedActivities).length == 0) {
+                successCallback(activities);
+              } else {
+                errorCallback(
+                  'SyncModel.doSync: Failed to sync following activities: ' + JSON.stringify(failedActivities),
+                );
               }
             }
           }
