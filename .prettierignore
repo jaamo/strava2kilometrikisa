@@ -1,1 +1,3 @@
 app/assets/dist
+dist/
+*.md
