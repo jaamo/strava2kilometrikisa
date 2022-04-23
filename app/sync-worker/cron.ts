@@ -1,5 +1,5 @@
 import * as kilometrikisa from 'kilometrikisa-client';
-import SyncModel from '../models/SyncModel';
+import { doSync } from '../models/SyncModel';
 import { User, UserModel } from '../models/UserModel';
 import logger from '../helpers/logger';
 import { getDbConnection, disconnectDb } from '../services/database';
@@ -67,7 +67,7 @@ async function syncUser(user: User) {
     await user.updateToken();
 
     try {
-      const activities = await SyncModel.doSync(
+      const activities = await doSync(
         user.stravaUserId,
         user.stravaToken,
         user.kilometrikisaToken,

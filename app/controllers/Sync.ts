@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as kilometrikisa from 'kilometrikisa-client';
 import { getStravaActivities } from '../services/strava';
-import SyncModel from '../models/SyncModel';
+import { doSync } from '../models/SyncModel';
 import { findUser } from '../models/UserModel';
 import logger from '../helpers/logger';
 
@@ -68,8 +68,8 @@ export default {
 
     // Sync all activities.
     try {
-      const activities = await SyncModel.doSync(
-        req.session.stravaUserId,
+      const activities = await doSync(
+        parseInt(req.session.stravaUserId ?? ''),
         user.stravaToken,
         user.kilometrikisaToken,
         user.kilometrikisaSessionId,
