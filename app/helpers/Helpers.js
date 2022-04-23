@@ -12,4 +12,12 @@ module.exports = {
       return false;
     }
   },
+
+  /**
+   * Are we in development environment?
+   * @returns {boolean}
+   */
+  isDev: function () {
+    return process.env.STRAVA2KILOMETRIKISA_ENV === 'development';
+  }
 };

@@ -5,10 +5,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const logger = require('./helpers/logger');
+const { isDev } = require('./helpers/Helpers');
 
 // Connect to MongoDB.
 mongoose.connect(
-  'mongodb+srv://' +
+  `${isDev() ? 'mongodb://' : 'mongodb+srv://'}` +
     process.env.KILOMETRIKISA_DBUSER +
     ':' +
     process.env.KILOMETRIKISA_DBPASSWORD +
@@ -17,7 +18,7 @@ mongoose.connect(
     '/' +
     process.env.KILOMETRIKISA_DB +
     '?retryWrites=true&w=majority',
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, authSource: isDev() ? 'admin' : undefined },
 );
 
 // Controllers
@@ -138,7 +139,7 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (isDev()) {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

@@ -5,6 +5,7 @@ const SyncModel = require('./models/SyncModel.js');
 const User = require('./models/UserModel.js');
 
 const logger = require('./helpers/logger');
+const { isDev } = require('./helpers/Helpers');
 
 var cron = {
   users: [],
@@ -15,7 +16,7 @@ var cron = {
     // Connect to MongoDB.
     mongoose
       .connect(
-        'mongodb+srv://' +
+        `${isDev() ? 'mongodb://' : 'mongodb+srv://'}` +
           process.env.KILOMETRIKISA_DBUSER +
           ':' +
           process.env.KILOMETRIKISA_DBPASSWORD +
@@ -24,7 +25,7 @@ var cron = {
           '/' +
           process.env.KILOMETRIKISA_DB +
           '?retryWrites=true&w=majority',
-        { useNewUrlParser: true, useUnifiedTopology: true },
+        { useNewUrlParser: true, useUnifiedTopology: true, authSource: isDev() ? 'admin' : undefined },
       )
       .then(() => {
         logger.info('Connected to DB.');
