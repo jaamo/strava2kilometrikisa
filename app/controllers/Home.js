@@ -9,7 +9,7 @@ var HomeController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  index: function(req, res, next) {
+  index: function (req, res, next) {
     if (Helpers.isLoggedIn(req)) {
       res.redirect('/account');
     } else {
@@ -17,7 +17,7 @@ var HomeController = {
     }
   },
 
-  faq: function(req, res, next) {
+  faq: function (req, res, next) {
     //need to put these behind http auth or something
     res.render('faq', {});
   },
@@ -30,7 +30,7 @@ var HomeController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  logout: function(req, res, next) {
+  logout: function (req, res, next) {
     req.session.stravaUserId = false;
     req.session.stravaToken = false;
     req.session.kilometrikisaToken = false;

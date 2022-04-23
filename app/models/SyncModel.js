@@ -21,7 +21,7 @@ var SyncModel = {
    * @param Function Callback.
    * @return {[type]} [description]
    */
-  getStravaActivities: function(stravaToken, syncEBike, successCallback, errorCallback) {
+  getStravaActivities: function (stravaToken, syncEBike, successCallback, errorCallback) {
     // Example input:
     // var activities = [ { id: 540164876,
     //     resource_state: 2,
@@ -77,7 +77,7 @@ var SyncModel = {
     var earliestTime = 1462060800; // 1st of may
     if (after < earliestTime) after = earliestTime;
 
-    strava.athlete.listActivities({ access_token: stravaToken, after: after }, function(err, activities) {
+    strava.athlete.listActivities({ access_token: stravaToken, after: after }, function (err, activities) {
       if (!err && activities) {
         var response = {};
         for (var i in activities) {
@@ -141,7 +141,7 @@ var SyncModel = {
    * @param  {[type]} successCallback        Success callback.
    * @param  {[type]} errorCallback          Connection to Strava failed.
    */
-  doSync: function(
+  doSync: function (
     stravaUserId,
     stravaToken,
     kilometrikisaToken,
@@ -168,7 +168,7 @@ var SyncModel = {
     SyncModel.getStravaActivities(
       stravaToken,
       syncEBike,
-      function(activities) {
+      function (activities) {
         // Counters. We do two requests per each activity. One for distance
         // and one for time.
         var amount = Object.keys(activities).length * 2;
@@ -193,10 +193,10 @@ var SyncModel = {
             activities[date].distance,
             activities[date].isEBike ? 1 : 0,
             date,
-            function() {
+            function () {
               cb();
             },
-            function(error) {
+            function (error) {
               failedActivities[date] = activities[date];
               cb();
             },
@@ -211,10 +211,10 @@ var SyncModel = {
             activities[date].minutes,
             activities[date].isEBike ? 1 : 0,
             date,
-            function() {
+            function () {
               cb();
             },
-            function(error) {
+            function (error) {
               failedActivities[date] = activities[date];
               cb();
             },
@@ -239,7 +239,7 @@ var SyncModel = {
           }
         }
       },
-      function(error) {
+      function (error) {
         errorCallback('SyncModel.doSync: Cannot get activities: ' + error);
       },
     );

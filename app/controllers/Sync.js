@@ -16,9 +16,9 @@ var SyncController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  index: function(req, res, next) {
+  index: function (req, res, next) {
     // Load user.
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       if (!user) {
         logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
@@ -38,11 +38,11 @@ var SyncController = {
    *
    * @return {[type]} [description]
    */
-  manualSyncPreview: function(req, res, next) {
+  manualSyncPreview: function (req, res, next) {
     // Cron.run();
 
     // Load user.
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       if (!user) {
         logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
@@ -54,12 +54,12 @@ var SyncController = {
         SyncModel.getStravaActivities(
           user.stravaToken,
           user.ebike,
-          function(activities) {
+          function (activities) {
             res.render('sync-preview', {
               activities: activities,
             });
           },
-          function() {
+          function () {
             res.render('sync-preview', {
               activities: [],
             });
@@ -77,9 +77,9 @@ var SyncController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  doSync: function(req, res, next) {
+  doSync: function (req, res, next) {
     // Load user.
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       if (!user) {
         logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
         res.redirect('/?error=usernotfound');
@@ -95,7 +95,7 @@ var SyncController = {
         user.ebike,
 
         // Sync success.
-        function(activities) {
+        function (activities) {
           logger.info('Activities synced manually.', JSON.stringify(activities), user.stravaUserId);
 
           res.render('sync-dosync', {
@@ -104,7 +104,7 @@ var SyncController = {
         },
 
         // Sync failed.
-        function(error) {
+        function (error) {
           logger.warn('Manual activity sync failed!', user.stravaUserId, error);
 
           res.render('sync-dosync', {
@@ -122,10 +122,10 @@ var SyncController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  enableAutosync: function(req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+  enableAutosync: function (req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       user.set('autosync', true);
-      user.save(function() {
+      user.save(function () {
         res.redirect('/account');
       });
     });
@@ -138,10 +138,10 @@ var SyncController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  disableAutosync: function(req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+  disableAutosync: function (req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       user.set('autosync', false);
-      user.save(function() {
+      user.save(function () {
         res.redirect('/account');
       });
     });
@@ -153,10 +153,10 @@ var SyncController = {
    * @param {*} res
    * @param {*} next
    */
-  enableEBikeSync: function(req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+  enableEBikeSync: function (req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       user.set('ebike', true);
-      user.save(function() {
+      user.save(function () {
         res.redirect('/account');
       });
     });
@@ -168,10 +168,10 @@ var SyncController = {
    * @param {*} res
    * @param {*} next
    */
-  disableEBikeSync: function(req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+  disableEBikeSync: function (req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       user.set('ebike', false);
-      user.save(function() {
+      user.save(function () {
         res.redirect('/account');
       });
     });
@@ -180,17 +180,17 @@ var SyncController = {
   /**
    * Check is user is logged in to kilometrikisa.
    */
-  isAuthenticated: function(req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function(err, user) {
+  isAuthenticated: function (req, res, next) {
+    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
       if (user) {
         res.setHeader('Content-Type', 'application/json');
         Kilometrikisa.isLoggedIn(
           user.kilometrikisaToken,
           user.kilometrikisaSessionId,
-          function() {
+          function () {
             res.send(JSON.stringify({ kilometrikisa: true }));
           },
-          function() {
+          function () {
             res.send(JSON.stringify({ kilometrikisa: false }));
           },
         );

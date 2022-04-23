@@ -14,7 +14,7 @@ var StravaAuthController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  auth: function(req, res, next) {
+  auth: function (req, res, next) {
     // Get strava authorize url.
     var url = strava.oauth.getRequestAccessURL({
       scope: 'activity:read_all',
@@ -29,9 +29,9 @@ var StravaAuthController = {
    * @param res
    * @param next
    */
-  authComplete: function(req, res, next) {
+  authComplete: function (req, res, next) {
     // Not get access token from Strava.
-    strava.oauth.getToken(req.query.code, function(err, payload) {
+    strava.oauth.getToken(req.query.code, function (err, payload) {
       // If error is set, show error message.
       if (typeof req.query.error != 'undefined' || typeof payload.body.athlete == 'undefined') {
         res.render('strava-autherror', {});
@@ -44,7 +44,7 @@ var StravaAuthController = {
 
         // Create user object, if id doesn't exists.
 
-        User.find({ stravaUserId: req.session.stravaUserId }, 'stravaUserId', function(err, u) {
+        User.find({ stravaUserId: req.session.stravaUserId }, 'stravaUserId', function (err, u) {
           if (err) {
             res.redirect('/error?code=DATABASE_CONNECTION_FAILED');
             return;
@@ -64,7 +64,7 @@ var StravaAuthController = {
           user.set('tokenExpire', payload.body.expires_at * 1000);
           user.set('refreshToken', payload.body.refresh_token);
 
-          user.save(function() {
+          user.save(function () {
             // Redirect to Kilometrikisa login.
             res.redirect('/kilometrikisa/auth');
           });
