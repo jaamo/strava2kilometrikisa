@@ -1,5 +1,6 @@
 import path from 'path';
 import express, { Request, Response, NextFunction } from 'express';
+import 'express-async-errors';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
