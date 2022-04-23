@@ -5,4 +5,3 @@ export default createLogger({
   format: format.combine(format.colorize(), format.simple()),
   transports: [new transports.Console()],
 });
-
