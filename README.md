@@ -1,8 +1,7 @@
-# Strava2kilometrikisa
+# Strava2kilometrikisa-2
+A fork from original Strava2Kilometrikisa app. Goal is to modernize the code and port the project to Typescript.
 
 An application to fill the gap between [Strava](https://strava.com/) and [Kilometrikisa](https://www.kilometrikisa.fi/).
-
-Live at [https://www.strava2kilometrikisa.com](https://www.strava2kilometrikisa.com)
 
 ## Development
 
@@ -16,17 +15,13 @@ Live at [https://www.strava2kilometrikisa.com](https://www.strava2kilometrikisa.
 
 ## Database
 
-This app uses a MongoDB database hosted on MongoDB Atlas. Mongoose is used as a database driver.
-
-## Production on Heroku
-
-Production application is hosted on Heroku.
+This app uses a MongoDB database.
 
 ## How to contribute
 
 We would love your input! Check out how to contribute [here](./.github/CONTRIBUTING.md).
 
 ## Contributors
-
+- Tuomas Salmi
 - Jaakko Alajoki
 - Paul Stewart
