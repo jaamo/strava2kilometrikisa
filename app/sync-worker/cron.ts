@@ -1,8 +1,8 @@
 import * as kilometrikisa from 'kilometrikisa-client';
-import { doSync } from '../models/SyncModel';
+import { doSync } from '../services/sync/sync';
 import { User, UserModel } from '../models/UserModel';
 import logger from '../helpers/logger';
-import { getDbConnection, disconnectDb } from '../services/database';
+import { getDbConnection, disconnectDb } from '../services/database/database';
 
 function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

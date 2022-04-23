@@ -1,5 +1,5 @@
 import * as kilometrikisa from 'kilometrikisa-client';
-import { getStravaActivities, KilometrikisaActivityByDate } from '../services/strava';
+import { getStravaActivities, KilometrikisaActivityByDate } from '../strava/strava';
 
 /**
  * Sync items from Strava to Kilometrikisa.

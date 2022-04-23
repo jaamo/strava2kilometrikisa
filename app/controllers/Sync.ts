@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as kilometrikisa from 'kilometrikisa-client';
-import { getStravaActivities } from '../services/strava';
-import { doSync } from '../models/SyncModel';
+import { getStravaActivities } from '../services/strava/strava';
+import { doSync } from '../services/sync/sync';
 import { findUser } from '../models/UserModel';
 import logger from '../helpers/logger';
 
