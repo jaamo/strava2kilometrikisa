@@ -6,7 +6,7 @@ import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import HttpException from './helpers/exceptions';
 import logger from './helpers/logger';
-import { isDev } from './helpers/Helpers';
+import { isDev } from './helpers/helpers';
 import { getDbConnection } from './services/database/database';
 
 const app = express();

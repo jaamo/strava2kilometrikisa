@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { isLoggedIn } from '../helpers/Helpers';
+import { isLoggedIn } from '../helpers/helpers';
 
 export default {
   Home: function (req: Request, res: Response) {

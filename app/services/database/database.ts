@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { isDev } from '../../helpers/Helpers';
+import { isDev } from '../../helpers/helpers';
 
 export function getDbConnection() {
   // Connect to MongoDB.
