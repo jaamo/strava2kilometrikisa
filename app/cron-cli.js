@@ -3,4 +3,4 @@
  */
 
 const Cron = require('./cron');
-Cron.run();
+Cron.syncAllUsers();

@@ -21,7 +21,7 @@ export interface User extends mongoose.Document {
 
   updateToken: () => Promise<void>;
   setPassword: (password: string) => Promise<void>;
-  getPassword: () => Promise<string>;
+  getPassword: () => string;
 }
 
 const UserSchema = new mongoose.Schema<User>({

@@ -6,16 +6,16 @@ import connectMongo from 'connect-mongo';
 import HttpException from './helpers/exceptions';
 import logger from './helpers/logger';
 import { isDev } from './helpers/Helpers';
+import { getDbConnection } from './services/database';
 
 const app = express();
 const MongoStore = connectMongo(session);
 
 // Controllers
-import Home from  './controllers/Home';
+import Home from './controllers/Home';
 import Kilometrikisa from './controllers/Kilometrikisa';
 import StravaAuth from './controllers/StravaAuth';
 import Sync from './controllers/Sync';
-
 
 // Extend Express request typings with session data
 declare module 'express-session' {
@@ -27,19 +27,7 @@ declare module 'express-session' {
   }
 }
 
-// Connect to MongoDB.
-mongoose.connect(
-  `${isDev() ? 'mongodb://' : 'mongodb+srv://'}` +
-    process.env.KILOMETRIKISA_DBUSER +
-    ':' +
-    process.env.KILOMETRIKISA_DBPASSWORD +
-    '@' +
-    process.env.KILOMETRIKISA_DBHOST +
-    '/' +
-    process.env.KILOMETRIKISA_DB +
-    '?retryWrites=true&w=majority',
-  { useNewUrlParser: true, useUnifiedTopology: true, authSource: isDev() ? 'admin' : undefined },
-);
+getDbConnection();
 
 // Serve static files.
 app.use('/img', express.static(path.join(__dirname, '../app/assets/img')));
