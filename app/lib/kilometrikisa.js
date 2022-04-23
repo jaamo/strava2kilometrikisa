@@ -34,7 +34,7 @@ var kilometrikisa = {
    * @param  {Function} successCallback Called on success. Token and sessio id are passed as parameters.
    * @param  {Function} errorCallback   Called on failure.
    */
-  login: function(username, password, successCallback, errorCallback) {
+  login: function (username, password, successCallback, errorCallback) {
     var token = '';
 
     // First request a login page to get CSRF token.
@@ -46,7 +46,7 @@ var kilometrikisa = {
     };
     curl.request(
       options,
-      function(err, stdout, meta) {
+      function (err, stdout, meta) {
         // Get CSRF value from cookie header.
         var rows = stdout.split('\n');
         for (var i in rows) {
@@ -66,7 +66,7 @@ var kilometrikisa = {
   /**
    * Submit username and password.
    */
-  loginStep2: function(username, password, token, successCallback, errorCallback) {
+  loginStep2: function (username, password, token, successCallback, errorCallback) {
     var sessionId;
 
     // curl
@@ -97,7 +97,7 @@ var kilometrikisa = {
     };
     curl.request(
       options,
-      function(err, stdout, meta) {
+      function (err, stdout, meta) {
         // // Get CSRF value from cookie header.
         var rows = stdout.split('\n');
         for (var i in rows) {
@@ -131,7 +131,7 @@ var kilometrikisa = {
    * @param  {Function} successCallback     Called if user is logged in.
    * @param  {Function} errorCallback       Called if user is not logged in.
    */
-  isLoggedIn: function(token, sessionId, successCallback, errorCallback) {
+  isLoggedIn: function (token, sessionId, successCallback, errorCallback) {
     // Request account page and check if it redirects to login form.
     var options = {
       url: 'https://www.kilometrikisa.fi/accounts/index/',
@@ -147,7 +147,7 @@ var kilometrikisa = {
     };
     curl.request(
       options,
-      function(err, stdout, meta) {
+      function (err, stdout, meta) {
         // Get session value from cookies.
         var rows = stdout.split('\n');
         var loggedIn = true;
@@ -183,7 +183,7 @@ var kilometrikisa = {
    * @param  {String}   date      Date. YYYY-MM-DD, example: 2016-04-05
    * @param  {Function} callback  Called on success.
    */
-  updateLog: function(token, sessionId, contestId, distance, ebike, date, successCallback, errorCallback) {
+  updateLog: function (token, sessionId, contestId, distance, ebike, date, successCallback, errorCallback) {
     // curl -X POST
     // -e https://www.kilometrikisa.fi/contest/log/
     // -d "contest_id=17&km_amount=10&km_date=2016-04-05&csrfmiddlewaretoken=9Jw5rFmg4LGYr9sT23oOZNQtzFFluWWF"
@@ -212,7 +212,7 @@ var kilometrikisa = {
     };
     curl.request(
       options,
-      function(err, stdout, meta) {
+      function (err, stdout, meta) {
         // Check for header location header. If header exists, user is not
         // logged in.
         var rows = stdout.split('\n');
@@ -224,7 +224,7 @@ var kilometrikisa = {
         }
 
         if (loggedIn) {
-          setTimeout(function() {
+          setTimeout(function () {
             successCallback();
           }, 500);
         } else {
@@ -246,7 +246,7 @@ var kilometrikisa = {
    * @param  {String}   date      Date. YYYY-MM-DD, example: 2016-04-05
    * @param  {Function} callback  Called on success.
    */
-  updateMinuteLog: function(token, sessionId, contestId, hours, minutes, ebike, date, successCallback, errorCallback) {
+  updateMinuteLog: function (token, sessionId, contestId, hours, minutes, ebike, date, successCallback, errorCallback) {
     // curl -X POST
     // -e https://www.kilometrikisa.fi/contest/log/
     // -d "contest_id=17&km_amount=10&km_date=2016-04-05&csrfmiddlewaretoken=9Jw5rFmg4LGYr9sT23oOZNQtzFFluWWF"
@@ -276,7 +276,7 @@ var kilometrikisa = {
     };
     curl.request(
       options,
-      function(err, stdout, meta) {
+      function (err, stdout, meta) {
         // Check for header location header. If header exists, user is not
         // logged in.
         var rows = stdout.split('\n');
@@ -288,7 +288,7 @@ var kilometrikisa = {
         }
 
         if (loggedIn) {
-          setTimeout(function() {
+          setTimeout(function () {
             successCallback();
           }, 500);
         } else {
@@ -306,7 +306,7 @@ var kilometrikisa = {
    * @param startDate
    * @param endDate
    */
-  getLog: function(token, sessionId, startDate, endDate) {
+  getLog: function (token, sessionId, startDate, endDate) {
     // Submit username, password and CSFR token to login form.
     var options = {
       url: 'https://www.kilometrikisa.fi/contest/log_list_json/17/?start=1459112400&end=1462136400&_=1461005550108',
@@ -322,7 +322,7 @@ var kilometrikisa = {
     };
     curl.request(
       options,
-      function(err, stdout, meta) {
+      function (err, stdout, meta) {
         //            callback();
       }.bind(this),
     );

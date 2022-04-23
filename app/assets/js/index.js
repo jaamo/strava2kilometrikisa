@@ -1,7 +1,7 @@
 import '../scss/main.scss';
 
-$(document).ready(function() {
-  $('#cmn-toggle-1').change(function(e) {
+$(document).ready(function () {
+  $('#cmn-toggle-1').change(function (e) {
     var value = $(e.target).is(':checked');
     var url = '';
     var status = '';
@@ -14,15 +14,15 @@ $(document).ready(function() {
     }
     $.ajax({
       url: url,
-      success: function() {
+      success: function () {
         $('.js-autosync-status').html(status);
       },
-      error: function() {
+      error: function () {
         alert("Couldn't save status!");
       },
     });
   });
-  $('#cmn-toggle-2').change(function(e) {
+  $('#cmn-toggle-2').change(function (e) {
     var value = $(e.target).is(':checked');
     var url = '';
     var status = '';
@@ -35,10 +35,10 @@ $(document).ready(function() {
     }
     $.ajax({
       url: url,
-      success: function() {
+      success: function () {
         $('.js-ebike-status').html(status);
       },
-      error: function() {
+      error: function () {
         alert("Couldn't save status!");
       },
     });
@@ -48,12 +48,12 @@ $(document).ready(function() {
     $.ajax({
       url: '/isauthenticated',
       dataType: 'json',
-      success: function(data) {
+      success: function (data) {
         if (!data.kilometrikisa) {
           $('.js-isauthenticated').removeClass('hidden');
         }
       },
-      error: function() {},
+      error: function () {},
     });
   }
 });
