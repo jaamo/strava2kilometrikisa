@@ -18,10 +18,10 @@ var SyncModel = {
    *
    * Date format: YYYY-MM-DD, example: 2016-04-05
    *
-   * @param Function Callback.
-   * @return {[type]} [description]
+   * @param stravaToken
+   * @param syncEBike
    */
-  getStravaActivities: function (stravaToken, syncEBike, successCallback, errorCallback) {
+  getStravaActivities: async function (stravaToken, syncEBike) {
     // Example input:
     // var activities = [ { id: 540164876,
     //     resource_state: 2,
@@ -77,57 +77,53 @@ var SyncModel = {
     var earliestTime = 1462060800; // 1st of may
     if (after < earliestTime) after = earliestTime;
 
-    strava.athlete.listActivities({ access_token: stravaToken, after: after }, function (err, activities) {
-      if (!err && activities) {
-        var response = {};
-        for (var i in activities) {
-          if (
-            (activities[i]['type'] == 'Ride' || (syncEBike && activities[i]['type'] == 'EBikeRide')) &&
-            activities[i]['trainer'] == false
-          ) {
-            // Format date.
-            var date = new Date(activities[i]['start_date_local']);
-            var dateFormatted =
-              date.getFullYear() + '-' + ('0' + date.getMonth()).slice(-2) + '-' + ('0' + date.getDay()).slice(-2);
+    const activities = await strava.athlete.listActivities({ access_token: stravaToken, after: after });
+    var response = {};
+    if (activities) {
+      for (var i in activities) {
+        if (
+          (activities[i]['type'] == 'Ride' || (syncEBike && activities[i]['type'] == 'EBikeRide')) &&
+          activities[i]['trainer'] == false
+        ) {
+          // Format date.
+          var date = new Date(activities[i]['start_date_local']);
+          var dateFormatted =
+            date.getFullYear() + '-' + ('0' + date.getMonth()).slice(-2) + '-' + ('0' + date.getDay()).slice(-2);
 
-            dateFormatted = activities[i]['start_date_local'].replace(/T.*/, '');
+          dateFormatted = activities[i]['start_date_local'].replace(/T.*/, '');
 
-            // Init date.
-            if (typeof response[dateFormatted] == 'undefined') {
-              response[dateFormatted] = {
-                distance: 0,
-                seconds: 0,
-                isEBike: false,
-              };
-            }
+          // Init date.
+          if (typeof response[dateFormatted] == 'undefined') {
+            response[dateFormatted] = {
+              distance: 0,
+              seconds: 0,
+              isEBike: false,
+            };
+          }
 
-            // Append kilometers.
-            response[dateFormatted].distance += parseFloat(activities[i]['distance']) / 1000;
+          // Append kilometers.
+          response[dateFormatted].distance += parseFloat(activities[i]['distance']) / 1000;
 
-            // Append time in seconds.
-            response[dateFormatted].seconds += activities[i]['moving_time'];
+          // Append time in seconds.
+          response[dateFormatted].seconds += activities[i]['moving_time'];
 
-            // There is no possibility to add 'acoustic' and e-bike rides for same day so if there is e-bike ride for a day,
-            // all rides are marked as e-bike ride
-            if (activities[i]['type'] == 'EBikeRide') {
-              response[dateFormatted].isEBike = true;
-            }
+          // There is no possibility to add 'acoustic' and e-bike rides for same day so if there is e-bike ride for a day,
+          // all rides are marked as e-bike ride
+          if (activities[i]['type'] == 'EBikeRide') {
+            response[dateFormatted].isEBike = true;
           }
         }
-
-        // Round distance to 2 decimals and
-        // convert seconds into hours and minutes.
-        for (var date in response) {
-          response[date].distance = Math.round(response[date].distance * 100) / 100;
-          response[date].hours = Math.floor(response[date].seconds / 3600);
-          response[date].minutes = Math.floor((response[date].seconds - response[date].hours * 3600) / 60);
-        }
-
-        successCallback(response);
-      } else {
-        errorCallback(JSON.stringify(activities));
       }
-    });
+
+      // Round distance to 2 decimals and
+      // convert seconds into hours and minutes.
+      for (var date in response) {
+        response[date].distance = Math.round(response[date].distance * 100) / 100;
+        response[date].hours = Math.floor(response[date].seconds / 3600);
+        response[date].minutes = Math.floor((response[date].seconds - response[date].hours * 3600) / 60);
+      }
+    }
+    return response;
   },
 
   /**
@@ -138,111 +134,102 @@ var SyncModel = {
    * @param  {[type]} stravaToken            Kilometrikisa token.
    * @param  {[type]} kilometrikisaToken     Kilometrikisa token.
    * @param  {[type]} kilometrikisaSessionId Kilometrikisa session id.
-   * @param  {[type]} successCallback        Success callback.
-   * @param  {[type]} errorCallback          Connection to Strava failed.
+   * @param syncEBike
    */
-  doSync: function (
-    stravaUserId,
-    stravaToken,
-    kilometrikisaToken,
-    kilometrikisaSessionId,
-    syncEBike,
-    successCallback,
-    errorCallback,
-  ) {
-    // Check that tokens are set.
-    if (!stravaToken) {
-      errorCallback('SyncModel.doSync: stravaToken is not set');
-      return;
-    }
-    if (!kilometrikisaToken) {
-      errorCallback('SyncModel.doSync: kilometrikisaToken is not set');
-      return;
-    }
-    if (!kilometrikisaSessionId) {
-      errorCallback('SyncModel.doSync: kilometrikisaSessionId is not set');
-      return;
-    }
+  doSync: async function (stravaUserId, stravaToken, kilometrikisaToken, kilometrikisaSessionId, syncEBike) {
+    // TODO: refactor this to real async-await
+    return new Promise(function (resolve, reject) {
+      // Check that tokens are set.
+      if (!stravaToken) {
+        reject('SyncModel.doSync: stravaToken is not set');
+        return;
+      }
+      if (!kilometrikisaToken) {
+        reject('SyncModel.doSync: kilometrikisaToken is not set');
+        return;
+      }
+      if (!kilometrikisaSessionId) {
+        reject('SyncModel.doSync: kilometrikisaSessionId is not set');
+        return;
+      }
 
-    // Get activities from Strava.
-    SyncModel.getStravaActivities(
-      stravaToken,
-      syncEBike,
-      function (activities) {
-        // Counters. We do two requests per each activity. One for distance
-        // and one for time.
-        var amount = Object.keys(activities).length * 2;
-        var count = 0;
+      // Get activities from Strava.
+      SyncModel.getStravaActivities(
+        stravaToken,
+        syncEBike,
+        async function (activities) {
+          // Counters. We do two requests per each activity. One for distance
+          // and one for time.
+          var amount = Object.keys(activities).length * 2;
+          var count = 0;
 
-        // List of failed activities.
-        var failedActivities = {};
+          // List of failed activities.
+          var failedActivities = {};
 
-        // No activities, just quit.
+          // No activities, just quit.
+          if (Object.keys(activities).length == 0) {
+            resolve(activities);
+          }
 
-        if (Object.keys(activities).length == 0) {
-          successCallback(activities);
-        }
+          // Add each activity to Kilometrikisa.
+          for (var date in activities) {
+            // Update distance to kilometrikisa.
+            Kilometrikisa.updateLog(
+              kilometrikisaToken,
+              kilometrikisaSessionId,
+              process.env.KILOMETRIKISA_COMPETITION_ID,
+              activities[date].distance,
+              activities[date].isEBike ? 1 : 0,
+              date,
+              function () {
+                cb();
+              },
+              function (error) {
+                failedActivities[date] = activities[date];
+                cb();
+              },
+            );
 
-        // Add each activity to Kilometrikisa.
-        for (var date in activities) {
-          // Update distance to kilometrikisa.
-          Kilometrikisa.updateLog(
-            kilometrikisaToken,
-            kilometrikisaSessionId,
-            process.env.KILOMETRIKISA_COMPETITION_ID,
-            activities[date].distance,
-            activities[date].isEBike ? 1 : 0,
-            date,
-            function () {
-              cb();
-            },
-            function (error) {
-              failedActivities[date] = activities[date];
-              cb();
-            },
-          );
+            // Update duration to kilometrikisa.
+            Kilometrikisa.updateMinuteLog(
+              kilometrikisaToken,
+              kilometrikisaSessionId,
+              process.env.KILOMETRIKISA_COMPETITION_ID,
+              activities[date].hours,
+              activities[date].minutes,
+              activities[date].isEBike ? 1 : 0,
+              date,
+              function () {
+                cb();
+              },
+              function (error) {
+                failedActivities[date] = activities[date];
+                cb();
+              },
+            );
 
-          // Update duration to kilometrikisa.
-          Kilometrikisa.updateMinuteLog(
-            kilometrikisaToken,
-            kilometrikisaSessionId,
-            process.env.KILOMETRIKISA_COMPETITION_ID,
-            activities[date].hours,
-            activities[date].minutes,
-            activities[date].isEBike ? 1 : 0,
-            date,
-            function () {
-              cb();
-            },
-            function (error) {
-              failedActivities[date] = activities[date];
-              cb();
-            },
-          );
+            // Inline callback function to handle kilometrikisa response.
+            function cb() {
+              // Increase counter.
+              count++;
 
-          // Inline callback function to handle kilometrikisa response.
-          function cb() {
-            // Increase counter.
-            count++;
-
-            // All activities synced.
-            if (count == amount) {
-              // No errors!
-              if (Object.keys(failedActivities).length == 0) {
-                successCallback(activities);
-              } else {
-                errorCallback(
-                  'SyncModel.doSync: Failed to sync following activities: ' + JSON.stringify(failedActivities),
-                );
+              // All activities synced.
+              if (count == amount) {
+                // No errors!
+                if (Object.keys(failedActivities).length == 0) {
+                  resolve(activities);
+                } else {
+                  reject('SyncModel.doSync: Failed to sync following activities: ' + JSON.stringify(failedActivities));
+                }
               }
             }
           }
-        }
-      },
-      function (error) {
-        errorCallback('SyncModel.doSync: Cannot get activities: ' + error);
-      },
-    );
+        },
+        function (error) {
+          reject('SyncModel.doSync: Cannot get activities: ' + error);
+        },
+      );
+    });
   },
 };
 module.exports = SyncModel;

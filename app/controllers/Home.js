@@ -1,15 +1,14 @@
-var Helpers = require('../helpers/Helpers.js');
+const Helpers = require('../helpers/Helpers.js');
 
-var HomeController = {
+const HomeController = {
   /**
    * Render home page.
    *
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  index: function (req, res, next) {
+  index: function (req, res) {
     if (Helpers.isLoggedIn(req)) {
       res.redirect('/account');
     } else {
@@ -17,7 +16,7 @@ var HomeController = {
     }
   },
 
-  faq: function (req, res, next) {
+  faq: function (req, res) {
     //need to put these behind http auth or something
     res.render('faq', {});
   },
@@ -27,10 +26,9 @@ var HomeController = {
    *
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  logout: function (req, res, next) {
+  logout: function (req, res) {
     req.session.stravaUserId = false;
     req.session.stravaToken = false;
     req.session.kilometrikisaToken = false;

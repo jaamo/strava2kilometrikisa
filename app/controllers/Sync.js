@@ -13,60 +13,49 @@ var SyncController = {
    *
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  index: function (req, res, next) {
+  index: async function (req, res) {
     // Load user.
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      if (!user) {
-        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
-        res.redirect('/?error=usernotfound');
-        return;
-      }
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    if (!user) {
+      logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+      res.redirect('/?error=usernotfound');
+      return;
+    }
 
-      // Render template.
-      res.render('sync-index', {
-        autosync: user.autosync,
-        ebike: user.ebike,
-      });
+    // Render template.
+    res.render('sync-index', {
+      autosync: user.autosync,
+      ebike: user.ebike,
     });
   },
-
   /**
    * Display a preview.
    *
    * @return {[type]} [description]
    */
-  manualSyncPreview: function (req, res, next) {
-    // Cron.run();
+  manualSyncPreview: async function (req, res, next) {
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    if (!user) {
+      logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+      res.redirect('/?error=usernotfound');
+      return;
+    }
 
-    // Load user.
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      if (!user) {
-        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
-        res.redirect('/?error=usernotfound');
-        return;
-      }
+    await user.updateToken();
 
-      user.updateToken().then(() => {
-        // Get activities.
-        SyncModel.getStravaActivities(
-          user.stravaToken,
-          user.ebike,
-          function (activities) {
-            res.render('sync-preview', {
-              activities: activities,
-            });
-          },
-          function () {
-            res.render('sync-preview', {
-              activities: [],
-            });
-          },
-        );
+    // Get activities.
+    try {
+      const activities = await SyncModel.getStravaActivities(user.stravaToken, user.ebike);
+      res.render('sync-preview', {
+        activities: activities,
       });
-    });
+    } catch (err) {
+      res.render('sync-preview', {
+        activities: [],
+      });
+    }
   },
 
   /**
@@ -77,42 +66,38 @@ var SyncController = {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  doSync: function (req, res, next) {
+  doSync: async function (req, res) {
     // Load user.
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      if (!user) {
-        logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
-        res.redirect('/?error=usernotfound');
-        return;
-      }
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    if (!user) {
+      logger.info('SyncController.isAuthenticated: No user for Strava ID ' + req.session.stravaUserId);
+      res.redirect('/?error=usernotfound');
+      return;
+    }
 
-      // Sync all activities.
-      SyncModel.doSync(
+    // Sync all activities.
+    try {
+      const activities = await SyncModel.doSync(
         req.session.stravaUserId,
         user.stravaToken,
         user.kilometrikisaToken,
         user.kilometrikisaSessionId,
         user.ebike,
-
-        // Sync success.
-        function (activities) {
-          logger.info('Activities synced manually.', JSON.stringify(activities), user.stravaUserId);
-
-          res.render('sync-dosync', {
-            success: true,
-          });
-        },
-
-        // Sync failed.
-        function (error) {
-          logger.warn('Manual activity sync failed!', user.stravaUserId, error);
-
-          res.render('sync-dosync', {
-            success: false,
-          });
-        },
       );
-    });
+
+      // Sync success.
+      logger.info('Activities synced manually.', JSON.stringify(activities), user.stravaUserId);
+
+      res.render('sync-dosync', {
+        success: true,
+      });
+    } catch (err) {
+      logger.warn('Manual activity sync failed!', user.stravaUserId, err);
+
+      res.render('sync-dosync', {
+        success: false,
+      });
+    }
   },
 
   /**
@@ -120,61 +105,48 @@ var SyncController = {
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
    * @param  {Function} next [description]
-   * @return {[type]}        [description]
    */
-  enableAutosync: function (req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      user.set('autosync', true);
-      user.save(function () {
-        res.redirect('/account');
-      });
-    });
+  enableAutosync: async function (req, res, next) {
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    user.set('autosync', true);
+    await user.save();
+    res.redirect('/account');
   },
 
   /**
    * Set autosync to false and redirect to account page.
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
-   * @param  {Function} next [description]
-   * @return {[type]}        [description]
    */
-  disableAutosync: function (req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      user.set('autosync', false);
-      user.save(function () {
-        res.redirect('/account');
-      });
-    });
+  disableAutosync: async function (req, res) {
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    user.set('autosync', false);
+    await user.save();
+    res.redirect('/account');
   },
 
   /**
    * Set e-bike sync to true and redirect to account page
    * @param {*} req
    * @param {*} res
-   * @param {*} next
    */
-  enableEBikeSync: function (req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      user.set('ebike', true);
-      user.save(function () {
-        res.redirect('/account');
-      });
-    });
+  enableEBikeSync: async function (req, res) {
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    user.set('ebike', true);
+    await user.save();
+    res.redirect('/account');
   },
 
   /**
    * Set e-bike sync to false and redirect to account page
    * @param {*} req
    * @param {*} res
-   * @param {*} next
    */
-  disableEBikeSync: function (req, res, next) {
-    User.findOne({ stravaUserId: req.session.stravaUserId }, function (err, user) {
-      user.set('ebike', false);
-      user.save(function () {
-        res.redirect('/account');
-      });
-    });
+  disableEBikeSync: async function (req, res) {
+    const user = await User.findOne({ stravaUserId: req.session.stravaUserId });
+    user.set('ebike', false);
+    user.save();
+    res.redirect('/account');
   },
 
   /**

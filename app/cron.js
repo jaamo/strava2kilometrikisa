@@ -86,7 +86,8 @@ var cron = {
   /**
    * Sync given user.
    */
-  syncUser: function (user, callback) {
+  // TODO: Remove callbacks
+  syncUser: async function (user, callback) {
     logger.info('!! Syncing for user ' + user.kilometrikisaUsername);
 
     // Login.

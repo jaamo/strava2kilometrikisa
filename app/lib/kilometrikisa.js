@@ -297,36 +297,6 @@ var kilometrikisa = {
       }.bind(this),
     );
   },
-
-  /**
-   * Get monthy entries from Kilometrikisa as an object.
-   *
-   * @param token
-   * @param sessionId
-   * @param startDate
-   * @param endDate
-   */
-  getLog: function (token, sessionId, startDate, endDate) {
-    // Submit username, password and CSFR token to login form.
-    var options = {
-      url: 'https://www.kilometrikisa.fi/contest/log_list_json/17/?start=1459112400&end=1462136400&_=1461005550108',
-      method: 'GET',
-      referer: 'https://www.kilometrikisa.fi/contest/log/',
-      headers: {
-        Cookie: 'csrftoken=' + token + '; sessionid=' + sessionId + ';',
-      },
-      verbose: true,
-      include: true,
-      useragent: 'strava2kilometrikisa-agen',
-      location: false, // do not follow header location
-    };
-    curl.request(
-      options,
-      function (err, stdout, meta) {
-        //            callback();
-      }.bind(this),
-    );
-  },
 };
 
 module.exports = kilometrikisa;
