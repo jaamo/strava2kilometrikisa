@@ -19,8 +19,8 @@
     "lint": "eslint ./app --ext .ts",
     "prettier-fix": "prettier --write 'app/**/*.{js,scss}'",
     "test": "jest",
-    "worker-watch": "nodemon dist/worker.js",
-    "worker": "node dist/worker.js"
+    "worker-watch": "nodemon dist/sync-worker/worker.js",
+    "worker": "node dist/sync-worker/worker.js"
   },
   "author": "Jaakko Alajoki and Paul Stewart",
   "license": "ISC",
