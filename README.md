@@ -20,8 +20,3 @@ This app uses a MongoDB database.
 ## How to contribute
 
 We would love your input! Check out how to contribute [here](./.github/CONTRIBUTING.md).
-
-## Contributors
-- Tuomas Salmi
-- Jaakko Alajoki
-- Paul Stewart
